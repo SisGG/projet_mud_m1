@@ -1,0 +1,51 @@
+Etape 1 : Multi User Dungeon simple
+- Plusieurs utilisateur se connecte simultanément.
+- Le serveur gère un Donjon.
+- L'utilisateur fourni le nom de son personnage lors de la première connexion.
+- Un Donjon est composé de Pièces.
+- Une pièce doit être l'entrée du labyrinthe
+- Un Donjon est composé de Portes.
+- Les pièces sont connectées en damier.
+- On a au plus une porte au nord, au sud, à l'est et à l'ouest.
+- Utiliser les commandes textuelles N,S,E,O pour se déplacer.
+- Lorsqu'un joueur rentre dans un pièce, le serveur préviens tous les autres joueur de la pièce
+ d'un nouvel arrivant et préviens le nouvel arrivant des autres joueurs présent dans la pièce.
+- Discuter avec les joueurs de la pièce en tapant "Bonjour, par exemple.
+- La discussion se passe sur un autre serveur différent de celui du labyrinthe.
+
+Etape 2 : Introduction des Monstres et des Combats dans le Donjon.
+- A chaque fois qu'un joueur rentre dans une pièce, un monstre apparait et attaque le joueur,
+ il engendre un combat entre les deux entités.
+- [Chaque tour dure 1s.]
+- Un personnage peut à chaque tour de combat continuer le combat.
+- Un personnage peut à chaque tour de combat fuir le combat.
+- A chaque tour, le monstre OU le joueur perd 1 point de vie, aléatoirement.
+- Un Joueur a 10 points de vie.
+- Un Monstre a 5 points de vie.
+- Un combat se termine si le joueur fuis ou si un participant n'a plus de point de vie (point de vie = 0).
+- Quand le combat se termine le vainqueur gagne 1 points de vie supplémentaire.
+- Dès qu'il n'y a plus de combat dans une pièce,
+ tous les personnages OU monstres de cette pièce regagnent leur maximum de point de vie.
+- Le combat fonctionnera sur un 3ème serveur(ou plus) (différent de connexion et discussion).
+- [A la fin d'un combat, les entités survivantes (Vainqueurs, fuyards) reste sur la pièce.
+ Il garde le nombre de point de vie qu'il avait a la fin du combat. Un personnage peut donc discuter
+ avec eux (personnages) ou les combattre (monstres {ou personnages dans les étapes suivantes}).]
+
+Etape 3 : Combats simultanée et entre joueurs
+- Si pendant un combat, d'autres personnages sont dans la même pièce, ils peuvent rejoindre un combat. 
+On considère qu'il a alors deux combats en parallèle.
+- Si plusieurs personnages se trouvent dans la même pièce, un peut attaquer un autre personnage.
+- On peux rejoindres un Combat en cours, ce qui crée un autre Combat (en parallèle).
+- Un Joueur peut attaquer un autre Joueur.
+
+Etape 4 : Labyrinthe Multi-Serveurs
+- Le labyrinthe est répartie sur plusieurs serveur.
+- Lorsqu'un Joueur va dans une pièce géré par un serveur différent, il change de serveur. Le client arrête 
+donc de dialoguer avec l'ancien serveur et dialogue maintenant avec le nouveau.
+
+Etape 5 : Persistence
+- Un Joueur quittant le jeu, peut revenir et doit apparaitre au même
+endroit avec le même nombre de points de vie et le même nom.
+- [Lors de la connexion l'utilisateur entre son nom de personnage {Unique}, après avoir vérifié qu'il n'est
+pas déjà connecté, on récupère les informations utiles (en communicant avec le serveur de persistance)
+ et on commence à dialoguer avec le serveur qui gère la pièce dans laquelle on se trouvait.]
