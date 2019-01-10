@@ -1,37 +1,9 @@
-public class ServeurDonjon {
-    private Piece pieceDepart;
-    private int tailleDonjon;
+import java.rmi.Remote;
 
-    public ServeurDonjon(int tailleDonjon) {
-    }
+public interface ServeurDonjon extends Remote {
+    Personnage seConnecter(String nomPersonnage);
 
-    public Personnage seConnecter(String nomPersonnage) {
-        return null;
-    }
+    Personnage seDeplacer(Personnage personnage, String direction);
 
-    public void seDeplacer(Personnage personnage, Piece piece) {
-    }
 
-    public Piece getPieceDepart() {
-        return null;
-    }
-
-    public void genererDonjon(int taille) {
-    }
-
-    public Piece getPieceNord(Piece piece) {
-        return null;
-    }
-
-    public Piece getPieceEst(Piece piece) {
-        return null;
-    }
-
-    public Piece getPieceSud(Piece Piece) {
-        return null;
-    }
-
-    public Piece getPieceOuest(Piece piece) {
-        return null;
-    }
 }

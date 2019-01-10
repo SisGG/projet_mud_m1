@@ -4,7 +4,7 @@ public class Systeme {
         return null;
     }
 
-    public ServeurDonjon lancerServeurDonjon() {
+    public ServeurDonjonImpl lancerServeurDonjon() {
         return null;
     }
 }
