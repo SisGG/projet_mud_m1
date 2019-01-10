@@ -4,12 +4,12 @@
   <OriginalElement />
   <nodes>
     <node x="104.5" y="0.0">java.rmi.Remote</node>
-    <node x="0.0" y="542.0">ServeurDiscussion</node>
-    <node x="605.0" y="0.0">Piece</node>
+    <node x="0.0" y="543.0">ServeurDiscussion</node>
+    <node x="578.0" y="0.0">Piece</node>
     <node x="343.0" y="0.0">Personnage</node>
     <node x="0.0" y="202.0">ServeurDonjonImpl</node>
-    <node x="0.0" y="660.0">Client</node>
-    <node x="442.0" y="542.0">Systeme</node>
+    <node x="347.0" y="661.0">Client</node>
+    <node x="0.0" y="661.0">Systeme</node>
     <node x="0.0" y="79.0">ServeurDonjon</node>
   </nodes>
   <notes />
@@ -19,17 +19,18 @@
       <point x="0.0" y="14.5" />
     </edge>
     <edge source="ServeurDonjonImpl" target="ServeurDonjon">
-      <point x="0.0" y="-147.5" />
+      <point x="0.0" y="-148.0" />
       <point x="0.0" y="36.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="373.5" y="424.5" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="374.0" y="425.0" />
   <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>
     <Category>Methods</Category>
     <Category>Inner Classes</Category>
+    <Category>Properties</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

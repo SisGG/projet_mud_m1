@@ -3,15 +3,13 @@ public class ServeurDonjonImpl implements ServeurDonjon {
     private int tailleDonjon;
     private java.util.ArrayList listeJoueurs;
 
-    public ServeurDonjonImpl(int tailleDonjon) {
-    }
+    public ServeurDonjonImpl(int tailleDonjon) { }
 
     public Personnage seConnecter(String nomPersonnage) {
         return null;
     }
 
-    public Personnage seDeplacer(Personnage personnage, String direction) {
-        return null;
+    public Personnage seDeplacer(Personnage personnage, String direction) { return null;
     }
 
     public Piece getPieceDepart() {
