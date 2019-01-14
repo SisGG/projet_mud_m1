@@ -1,0 +1,8 @@
+- Mettre diagramme au propre (Thomas)
+- Questions:
+    - Vérifier schéma utilisation 2ème joueur
+    - Qu'est-ce qu'on doit rendre exactement (PDF v1)
+    - Déconnexion intempestive
+    - Notifications (Callback)
+    - Obligé de mettre portes ?
+- Liste joueur dans serveur discussion ? => Soit serveur discussion se connecte à serveur Donjon

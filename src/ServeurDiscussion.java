@@ -1,7 +1,8 @@
-public class ServeurDiscussion {
-    public void discuter(Personnage personnageEmetteur, String message) {
-    }
+import java.rmi.Remote;
 
-    public void prevenirEntrerPersonnageMemePiece(Piece piece, Personnage personnage) {
-    }
+public interface ServeurDiscussion extends Remote {
+
+    void discuter(Personnage personnageEmetteur, String message);
+
+
 }

@@ -7,4 +7,6 @@ public class Systeme {
     public ServeurDonjonImpl lancerServeurDonjon() {
         return null;
     }
+
+    public static void main(String[] args) { }
 }
