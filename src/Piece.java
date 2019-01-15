@@ -3,13 +3,15 @@ public class Piece {
     private int coordonneeY;
 
     public Piece(int coordonneX, int coordonneeY) {
+        this.coordonneeX = coordonneX;
+        this.coordonneeY = coordonneeY;
     }
 
     public int getCoordonneeX() {
-        return 0;
+        return this.coordonneeX;
     }
 
     public int getCoordonneeY() {
-        return 0;
+        return this.coordonneeY;
     }
 }
