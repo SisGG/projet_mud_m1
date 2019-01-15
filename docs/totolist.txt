@@ -1,8 +1,4 @@
-- Mettre diagramme au propre (Thomas)
+- Faire une V1 du dossier (Sylvain)
+- Déconnexion intempestive résolu par exception par RMI
+
 - Questions:
-    - Vérifier schéma utilisation 2ème joueur
-    - Qu'est-ce qu'on doit rendre exactement (PDF v1)
-    - Déconnexion intempestive
-    - Notifications (Callback)
-    - Obligé de mettre portes ?
-- Liste joueur dans serveur discussion ? => Soit serveur discussion se connecte à serveur Donjon

@@ -6,6 +6,6 @@ public interface ServeurDonjon extends Remote {
 
     Personnage seDeplacer(Personnage personnage, String direction) throws RemoteException;
 
-    void seDeconnecter() throws  RemoteException;
+    void seDeconnecter(Personnage personnage) throws  RemoteException;
 
 }

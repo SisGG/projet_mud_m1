@@ -16,7 +16,7 @@ public class ServeurDonjonImpl implements ServeurDonjon {
         return null;
     }
 
-    public synchronized void seDeconnecter(){}
+    public synchronized void seDeconnecter(Personnage personnage){}
 
     public Piece getPieceDepart() {
         return null;
