@@ -10,13 +10,13 @@ public class Client {
     public static void main(String[] args) {
         try {
 
-            //ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/serveurDonjon");
+            ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             ServeurDiscussion serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/serveurDiscussion");
 
-            //Personnage personnage = serveurDonjon.seConnecter("Reda");
-            //System.out.println("Personnage " + personnage.getNomPersonnage() +" connecté au serveur de jeu");
-            //serveurDiscussion.seConnecter(personnage);
-            //System.out.println("Personnage " + personnage.getNomPersonnage() +" connecté au serveur de discussion");
+            Personnage personnage = serveurDonjon.seConnecter("Reda");
+            System.out.println("Personnage " + personnage.getNomPersonnage() +" connecté au serveur de jeu");
+            serveurDiscussion.seConnecter(personnage);
+            System.out.println("Personnage " + personnage.getNomPersonnage() +" connecté au serveur de discussion");
 
             System.out.println("Veuillez entrer la direction dans laquelle vous souhaitez vous diriger");
 
@@ -44,7 +44,8 @@ public class Client {
 
 
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println();
+            e.printStackTrace();
         }
     }
 }
