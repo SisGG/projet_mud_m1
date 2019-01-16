@@ -1,4 +1,7 @@
-public class Piece {
+import java.io.Serializable;
+
+public class Piece implements Serializable {
+
     private int coordonneeX;
     private int coordonneeY;
 
@@ -13,5 +16,9 @@ public class Piece {
 
     public int getCoordonneeY() {
         return this.coordonneeY;
+    }
+
+    public String toString() {
+        return "Piece[" + this.coordonneeX + ":" + this.coordonneeY + "]";
     }
 }

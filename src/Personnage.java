@@ -1,4 +1,7 @@
-public class Personnage {
+import java.io.Serializable;
+
+public class Personnage implements Serializable {
+
     private String nomPersonnage;
     private Piece pieceActuelle;
 
@@ -17,5 +20,9 @@ public class Personnage {
 
     public String getNomPersonnage() {
         return this.nomPersonnage;
+    }
+
+    public String toString() {
+        return "Personnage[" + this.nomPersonnage + "]";
     }
 }
