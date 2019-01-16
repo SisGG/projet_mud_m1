@@ -1,6 +1,10 @@
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
-public class ServeurDonjonImpl implements ServeurDonjon {
+public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDonjon {
+
+    private  static final long serialVersionUID = 1L;
     private int tailleDonjon;
     private HashMap<String,Personnage> listePersonnage;
     private Piece[][] donjon;
@@ -9,7 +13,8 @@ public class ServeurDonjonImpl implements ServeurDonjon {
      * Constructeur de la classe ServeurDonjonImpl.
      * @param tailleDonjon Taille du donjon.
      */
-    public ServeurDonjonImpl(int tailleDonjon) {
+    public ServeurDonjonImpl(int tailleDonjon) throws RemoteException {
+        super();
         this.tailleDonjon = tailleDonjon;
         this.listePersonnage = new HashMap<>();
         this.donjon = new Piece[tailleDonjon][tailleDonjon];
