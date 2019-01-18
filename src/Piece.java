@@ -2,6 +2,7 @@ import java.io.Serializable;
 
 public class Piece implements Serializable {
 
+
     private int coordonneeX;
     private int coordonneeY;
 

@@ -71,16 +71,30 @@
       <point x="396.08333333333337" y="69.0" />
       <point x="-7.416666666666629" y="14.5" />
     </edge>
+    <edge source="ServeurDonjonImpl" target="java.rmi.Remote">
+      <point x="99.25" y="-180.5" />
+      <point x="328.0" y="199.0" />
+      <point x="308.5" y="199.0" />
+      <point x="308.5" y="59.0" />
+      <point x="382.25" y="59.0" />
+      <point x="-11.125" y="14.5" />
+    </edge>
+    <edge source="ServeurDiscussion" target="java.rmi.Remote">
+      <point x="0.0" y="-47.5" />
+      <point x="503.0" y="59.0" />
+      <point x="404.5" y="59.0" />
+      <point x="11.125" y="14.5" />
+    </edge>
     <edge source="ServeurDiscussionImpl" target="ServeurDiscussion">
-      <point x="-60.75" y="-81.5" />
-      <point x="342.75" y="231.0" />
-      <point x="337.5" y="231.0" />
+      <point x="-61.0" y="-81.5" />
+      <point x="508.25" y="199.0" />
+      <point x="503.0" y="199.0" />
       <point x="0.0" y="47.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6001727115716753" x="527.0" y="569.0" />
+  <settings layout="Hierarchic Group" zoom="0.8567425569176879" x="394.83974815438296" y="494.61505260748856" />
   <SelectedNodes>
-    <node>ServeurDiscussion</node>
+    <node>ServeurDonjonImpl</node>
   </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
