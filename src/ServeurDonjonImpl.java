@@ -2,7 +2,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
-
 public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDonjon {
 
     private  static final long serialVersionUID = 1L;
@@ -149,5 +148,25 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         return null;
     }
 
-    private void prevenirEntrerPersonnageMemePiece(Piece piece, Personnage personnage) { }
+    /**
+     * Quand un personnage entre dans une pìèce, envoie une notification
+     * a tous les personnages deja present et le nom de tous les personnage
+     * deja present au personnage entrant, sinon envoie qu'il n'y a personne
+     * @param piece Piece dans laquelle le personnage entre
+     * @param personnage Personnage entrant dans la piece
+     */
+    private void prevenirEntrerPersonnageMemePiece(Piece piece, Personnage personnage) {
+        String joueurDansPiece = "Il y a ";
+        for(Personnage personnage1 : listePersonnage.values()){
+            if (personnage1.getPieceActuelle() == piece){
+                personnage1.notifier(personnage.getNomPersonnage()+" est entré dans la pièce: "+piece);
+                joueurDansPiece += personnage1.getNomPersonnage()+ " ";
+            }
+        }
+        if (joueurDansPiece.equals("Il y a "))
+            joueurDansPiece = "Il n'y a pas d'autre joueur dans la pièce.";
+        else
+            joueurDansPiece += "dans la pièce.";
+        personnage.notifier(joueurDansPiece);
+    }
 }
