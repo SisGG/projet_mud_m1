@@ -9,4 +9,8 @@ public interface ServeurDonjon extends Remote {
 
     void seDeconnecter(Personnage personnage) throws  RemoteException;
 
+    void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException;
+
+    void enleverNotification(Personnage personnage) throws RemoteException;
+
 }

@@ -178,4 +178,14 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             e.printStackTrace();
         }
     }
+
+    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
+        Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
+        personnageListe.setServeurNotification(serveurNotification);
+    }
+
+    public void enleverNotification(Personnage personnage) throws RemoteException {
+        Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
+        personnageListe.setServeurNotification(null);
+    }
 }
