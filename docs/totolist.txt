@@ -1,4 +1,3 @@
-- Faire une V1 du dossier (Sylvain)
 - Déconnexion intempestive résolu par exception par RMI
 
 - Questions:
