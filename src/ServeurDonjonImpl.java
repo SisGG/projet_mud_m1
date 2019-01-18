@@ -159,7 +159,12 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         String joueurDansPiece = "Il y a ";
         for(Personnage personnage1 : listePersonnage.values()){
             if (personnage1.getPieceActuelle() == piece){
-                personnage1.notifier(personnage.getNomPersonnage()+" est entré dans la pièce: "+piece);
+                ServeurNotification serveurNotification = personnage1.getServeurNotification();
+                try {
+                    serveurNotification.notifier(personnage.getNomPersonnage() + " est entré dans la pièce: " + piece);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
                 joueurDansPiece += personnage1.getNomPersonnage()+ " ";
             }
         }
@@ -167,6 +172,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             joueurDansPiece = "Il n'y a pas d'autre joueur dans la pièce.";
         else
             joueurDansPiece += "dans la pièce.";
-        personnage.notifier(joueurDansPiece);
+        try {
+            personnage.getServeurNotification().notifier(joueurDansPiece);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
