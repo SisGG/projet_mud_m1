@@ -1,18 +1,28 @@
-public class Personnage {
+import java.io.Serializable;
+
+public class Personnage implements Serializable {
+
     private String nomPersonnage;
     private Piece pieceActuelle;
 
     public Personnage(String nomPersonnage) {
+        this.nomPersonnage = nomPersonnage;
+        this.pieceActuelle = null;
     }
 
     public void setPieceActuelle(Piece pieceActuelle) {
+        this.pieceActuelle = pieceActuelle;
     }
 
     public Piece getPieceActuelle() {
-        return null;
+        return this.pieceActuelle;
     }
 
     public String getNomPersonnage() {
-        return null;
+        return this.nomPersonnage;
+    }
+
+    public String toString() {
+        return "Personnage[" + this.nomPersonnage + "]";
     }
 }

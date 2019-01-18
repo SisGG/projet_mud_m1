@@ -1,12 +1,26 @@
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+
 public class Systeme {
 
-    public ServeurDiscussion lancerServeurDiscussion() {
-        return null;
+    private int tailleDonjon = 5;
+    private ServeurDonjonImpl serveurDonjon;
+
+    public void lancerServeurDiscussion() { }
+
+    private void lancerServeurDonjon() {
+        try {
+            LocateRegistry.createRegistry(1099);
+            this.serveurDonjon = new ServeurDonjonImpl(this.tailleDonjon);
+            Naming.rebind("ServeurDonjon", this.serveurDonjon);
+            System.out.println("Serveur donjon déclaré.");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public ServeurDonjonImpl lancerServeurDonjon() {
-        return null;
+    public static void main(String[] args) {
+        Systeme systeme = new Systeme();
+        systeme.lancerServeurDonjon();
     }
-
-    public static void main(String[] args) { }
 }
