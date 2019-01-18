@@ -25,4 +25,6 @@ public class Personnage implements Serializable {
     public String toString() {
         return "Personnage[" + this.nomPersonnage + "]";
     }
+
+    public void notifier(String message){};
 }
