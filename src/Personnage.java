@@ -4,6 +4,7 @@ public class Personnage implements Serializable {
 
     private String nomPersonnage;
     private Piece pieceActuelle;
+    private ServeurNotification serveurNotification;
 
     /**
      * Constructeur de la classe Personnage.
@@ -32,6 +33,14 @@ public class Personnage implements Serializable {
      */
     public String getNomPersonnage() {
         return this.nomPersonnage;
+    }
+
+    public void setServeurNotification(ServeurNotification serveurNotification) {
+        this.serveurNotification = serveurNotification;
+    }
+
+    public ServeurNotification getServeurNotification() {
+        return this.serveurNotification;
     }
 
     /**
