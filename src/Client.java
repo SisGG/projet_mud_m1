@@ -1,4 +1,8 @@
 import java.rmi.Naming;
+import java.sql.Time;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class Client {
 
@@ -11,14 +15,14 @@ public class Client {
     }
 
     public void seConnecter(String nomPersonnage) {
-        try {
+       /* try {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
             this.serveurNotification = new ServeurNotificationImpl();
             this.serveurDonjon.enregistrerNotification(this.personnage, this.serveurNotification);
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void seDeplacer(String direction) {
@@ -38,7 +42,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Client client = new Client();
+       /* Client client = new Client();
         client.seConnecter("Thomas");
         //client.seDeplacer("N");
         try {
@@ -47,5 +51,36 @@ public class Client {
             e.printStackTrace();
         }
         client.seDeconnecter();
+*/
+        try {
+
+            ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
+
+            Scanner scannerNomPersonnage = new Scanner(System.in);
+
+            String nomPersonnage = scannerNomPersonnage.next();
+            Personnage personnage = serveurDonjon.seConnecter(nomPersonnage);
+
+            ServeurDiscussion serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
+
+            ServeurNotification serveurNotification = new ServeurNotificationImpl();
+
+            System.out.println("Le personnage " + personnage.getNomPersonnage() + " est connecté");
+
+            serveurDiscussion.seConnecter(personnage,serveurNotification);
+
+            serveurDonjon.enregistrerNotification(personnage,serveurNotification);
+            serveurDiscussion.enregistrerNotification(personnage,serveurNotification);
+
+
+
+                TimeUnit.SECONDS.sleep(20);
+
+            serveurDiscussion.discuter(personnage,"et salut");
+            serveurDonjon.seDeplacer(personnage,"N");
+            //serveurDonjon.enregistrerNotification(personnage, serveurNotification);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
