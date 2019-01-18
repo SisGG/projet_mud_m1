@@ -59,6 +59,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
         if ( pieceDirection != null ) {
             personnageListe.setPieceActuelle(pieceDirection);
+            this.prevenirEntrerPersonnageMemePiece(personnageListe);
         }
         return personnageListe;
     }
@@ -155,13 +156,13 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param piece Piece dans laquelle le personnage entre
      * @param personnage Personnage entrant dans la piece
      */
-    private void prevenirEntrerPersonnageMemePiece(Piece piece, Personnage personnage) {
+    private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         String joueurDansPiece = "Il y a ";
         for(Personnage personnage1 : listePersonnage.values()){
-            if (personnage1.getPieceActuelle() == piece){
+            if (personnage1.getPieceActuelle() == personnage.getPieceActuelle()){
                 ServeurNotification serveurNotification = personnage1.getServeurNotification();
                 try {
-                    serveurNotification.notifier(personnage.getNomPersonnage() + " est entré dans la pièce: " + piece);
+                    serveurNotification.notifier(personnage.getNomPersonnage() + " est entré dans la pièce: " + personnage.getPieceActuelle());
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
