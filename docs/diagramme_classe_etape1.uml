@@ -3,48 +3,82 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="66.25000000000003" y="345.5">ServeurDiscussionImpl</node>
-    <node x="210.00000000000003" y="0.0">java.rmi.Remote</node>
-    <node x="0.0" y="90.0">ServeurDiscussion</node>
-    <node x="0.0" y="631.0">Piece</node>
-    <node x="772.25" y="0.0">Personnage</node>
-    <node x="330.25" y="224.0">ServeurDonjonImpl</node>
-    <node x="508.0" y="631.0">Systeme</node>
-    <node x="202.0" y="631.0">Client</node>
-    <node x="379.75" y="79.0">ServeurDonjon</node>
+    <node x="282.0" y="366.0">ServeurDiscussionImpl</node>
+    <node x="622.0" y="684.0">Piece</node>
+    <node x="319.0" y="684.0">Personnage</node>
+    <node x="0.0" y="914.0">Systeme</node>
+    <node x="0.0" y="684.0">Client</node>
+    <node x="480.0" y="89.0">ServeurDonjon</node>
+    <node x="359.0" y="0.0">java.rmi.Remote</node>
+    <node x="216.0" y="100.0">ServeurDiscussion</node>
+    <node x="0.0" y="122.0">ServeurNotification</node>
+    <node x="48.5" y="410.5">ServeurNotificationImpl</node>
+    <node x="581.75" y="256.0">ServeurDonjonImpl</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="ServeurDiscussion" target="java.rmi.Remote">
-      <point x="0.0" y="-36.5" />
-      <point x="122.0" y="54.0" />
-      <point x="224.83333333333334" y="54.0" />
-      <point x="-29.666666666666686" y="14.5" />
+    <edge source="ServeurNotificationImpl" target="java.rmi.Remote">
+      <point x="51.5" y="-37.0" />
+      <point x="203.0" y="231.0" />
+      <point x="205.5" y="231.0" />
+      <point x="205.5" y="59.0" />
+      <point x="381.25" y="59.0" />
+      <point x="-22.25" y="14.5" />
+    </edge>
+    <edge source="ServeurNotificationImpl" target="ServeurNotification">
+      <point x="-51.5" y="-37.0" />
+      <point x="100.0" y="231.0" />
+      <point x="97.5" y="231.0" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="ServeurNotification" target="java.rmi.Remote">
+      <point x="0.0" y="-25.5" />
+      <point x="97.5" y="49.0" />
+      <point x="366.41666666666663" y="49.0" />
+      <point x="-37.08333333333337" y="14.5" />
     </edge>
     <edge source="ServeurDonjon" target="java.rmi.Remote">
-      <point x="0.0" y="-47.5" />
-      <point x="528.75" y="54.0" />
-      <point x="284.16666666666663" y="54.0" />
-      <point x="29.66666666666663" y="14.5" />
+      <point x="0.0" y="-58.5" />
+      <point x="676.0" y="59.0" />
+      <point x="425.75" y="59.0" />
+      <point x="22.25" y="14.5" />
     </edge>
     <edge source="ServeurDiscussionImpl" target="java.rmi.Remote">
-      <point x="61.0" y="-59.5" />
-      <point x="249.25000000000003" y="199.0" />
-      <point x="254.50000000000003" y="199.0" />
-      <point x="0.0" y="14.5" />
+      <point x="60.75" y="-81.5" />
+      <point x="464.25" y="231.0" />
+      <point x="469.5" y="231.0" />
+      <point x="469.5" y="69.0" />
+      <point x="410.91666666666663" y="69.0" />
+      <point x="7.416666666666629" y="14.5" />
     </edge>
     <edge source="ServeurDonjonImpl" target="ServeurDonjon">
-      <point x="0.0" y="-181.0" />
-      <point x="0.0" y="47.5" />
+      <point x="-98.75" y="-191.5" />
+      <point x="680.5" y="231.0" />
+      <point x="676.0" y="231.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="ServeurDonjonImpl" target="java.rmi.Remote">
+      <point x="98.75" y="-191.5" />
+      <point x="878.0" y="231.0" />
+      <point x="882.5" y="231.0" />
+      <point x="882.5" y="49.0" />
+      <point x="440.58333333333337" y="49.0" />
+      <point x="37.08333333333337" y="14.5" />
+    </edge>
+    <edge source="ServeurDiscussion" target="java.rmi.Remote">
+      <point x="0.0" y="-47.5" />
+      <point x="337.5" y="69.0" />
+      <point x="396.08333333333337" y="69.0" />
+      <point x="-7.416666666666629" y="14.5" />
     </edge>
     <edge source="ServeurDiscussionImpl" target="ServeurDiscussion">
-      <point x="-61.0" y="-59.5" />
-      <point x="127.25000000000003" y="199.0" />
-      <point x="122.0" y="199.0" />
-      <point x="0.0" y="36.5" />
+      <point x="-60.75" y="-81.5" />
+      <point x="342.75" y="231.0" />
+      <point x="337.5" y="231.0" />
+      <point x="0.0" y="47.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="724.5" y="417.0" />
+  <settings layout="Hierarchic Group" zoom="0.6001727115716753" x="527.0" y="569.0" />
   <SelectedNodes>
     <node>ServeurDiscussion</node>
   </SelectedNodes>
