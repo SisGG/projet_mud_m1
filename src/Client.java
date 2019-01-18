@@ -1,51 +1,51 @@
-import jdk.internal.org.objectweb.asm.TypeReference;
-
 import java.rmi.Naming;
-import java.util.Scanner;
 
 public class Client {
+
+    private Personnage personnage;
     private ServeurDonjon serveurDonjon;
-    private ServeurDiscussion serveurDiscussion;
+    private ServeurNotification serveurNotification;
 
-    public static void main(String[] args) {
+    public void setServeurDonjon(ServeurDonjon serveurDonjon) {
+        this.serveurDonjon = serveurDonjon;
+    }
+
+    public void seConnecter(String nomPersonnage) {
         try {
-
-            ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
-            ServeurDiscussion serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/serveurDiscussion");
-
-            Personnage personnage = serveurDonjon.seConnecter("Reda");
-            System.out.println("Personnage " + personnage.getNomPersonnage() +" connecté au serveur de jeu");
-            serveurDiscussion.seConnecter(personnage);
-            System.out.println("Personnage " + personnage.getNomPersonnage() +" connecté au serveur de discussion");
-
-            System.out.println("Veuillez entrer la direction dans laquelle vous souhaitez vous diriger");
-
-            Scanner scanner = new Scanner(System.in);
-            String texteClient;
-
-            boolean outOfLoop;
-
-            do {
-                texteClient = scanner.next();
-                outOfLoop = true;
-                if (texteClient.startsWith("\"") && texteClient.endsWith("\"")) {
-                    //serveurDiscussion.discuter(personnage, texteClient);
-                    System.out.println("Good entry");
-                    outOfLoop = false;
-                } else if (texteClient.equals("N") || texteClient.equals("S") || texteClient.equals("O") || texteClient.equals("E")) {
-                    //serveurDonjon.seDeplacer(personnage, texteClient);
-                    System.out.println("Also good entry");
-                    outOfLoop = false;
-                } else
-                    System.out.println("Veuillez entrer une direction ou un message");
-            }
-            while( outOfLoop == true );
-
-
-
-        }catch (Exception e){
-            System.out.println();
+            this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
+            this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
+            this.serveurNotification = new ServeurNotificationImpl();
+            this.serveurDonjon.enregistrerNotification(this.personnage, this.serveurNotification);
+        } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void seDeplacer(String direction) {
+        try {
+            this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void seDeconnecter() {
+        try {
+            this.serveurDonjon.seDeconnecter(this.personnage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.seConnecter("Thomas");
+        //client.seDeplacer("N");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        client.seDeconnecter();
     }
 }
