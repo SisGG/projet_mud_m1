@@ -1,17 +1,19 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.util.HashMap;
 
 public interface ServeurDiscussion extends Remote {
 
 
     void discuter(Personnage personnageEmetteur, String message) throws RemoteException;
 
-    void seConnecter(Personnage personnage,ServeurNotification serveurNotification) throws RemoteException;
+    void seConnecter(Personnage personnage) throws RemoteException;
 
     void seDeconnecter(Personnage personnage) throws RemoteException;
 
-    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException;
+    void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException;
 
+    void enleverNotification(Personnage personnage) throws RemoteException;
+
+    void majListe(HashMap<String,Personnage> listePersonnage)throws RemoteException;
 }

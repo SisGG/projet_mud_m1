@@ -1,25 +1,20 @@
-import javax.sound.midi.Soundbank;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 
 public class Systeme {
 
     private int tailleDonjon = 5;
-    private ServeurDonjonImpl serveurDonjon;
-    private ServeurDiscussionImpl serveurDiscussion;
 
-    public void lancerServeurDiscussion() { }
-
-    private void lancerServeurDonjon() {
+    private void lancerSysteme() {
         try {
             LocateRegistry.createRegistry(1099);
-            this.serveurDonjon = new ServeurDonjonImpl(this.tailleDonjon);
-            Naming.rebind("ServeurDonjon", this.serveurDonjon);
-            System.out.println("Serveur donjon déclaré.");
+            ServeurDonjon serveurDonjon = new ServeurDonjonImpl(this.tailleDonjon);
+            Naming.rebind("ServeurDonjon", serveurDonjon);
+            System.out.println("Le serveur donjon est démarré.");
 
-            this.serveurDiscussion = new ServeurDiscussionImpl();
-            Naming.rebind("ServeurDiscussion",this.serveurDiscussion);
-            System.out.println("Serveur discussion déclaré");
+            ServeurDiscussion serveurDiscussion = new ServeurDiscussionImpl();
+            Naming.rebind("ServeurDiscussion", serveurDiscussion);
+            System.out.println("Le serveur discussion est démarré.");
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -28,6 +23,6 @@ public class Systeme {
 
     public static void main(String[] args) {
         Systeme systeme = new Systeme();
-        systeme.lancerServeurDonjon();
+        systeme.lancerSysteme();
     }
 }

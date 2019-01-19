@@ -24,7 +24,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     /**
      * Crée un personnage, l'enregistre dans le serveur et renvoie le personnage.
      * @param nomPersonnage Nom du personnage.
-     * @return Renvoie le nouveau personnage créer.
+     * @return Renvoie le nouveau personnage crée.
      */
     public synchronized Personnage seConnecter(String nomPersonnage) {
         Personnage personnage = new Personnage(nomPersonnage);
@@ -43,7 +43,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
         Piece pieceActuelle = personnageListe.getPieceActuelle();
         Piece pieceDirection = null;
-        switch( direction ) {
+        switch( direction.toUpperCase() ) {
             case "N":
                 pieceDirection = this.getPieceNord(pieceActuelle);
                 break;
@@ -59,7 +59,17 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
         if ( pieceDirection != null ) {
             personnageListe.setPieceActuelle(pieceDirection);
-            this.prevenirEntrerPersonnageMemePiece(personnageListe);
+            try {
+                this.prevenirEntrerPersonnageMemePiece(personnageListe);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                personnage.getServeurNotification().notifier("Impossible d'aller dans cette direction.");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return personnageListe;
     }
@@ -70,6 +80,11 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     public synchronized void seDeconnecter(Personnage personnage){
         this.listePersonnage.remove(personnage.getNomPersonnage());
+        try{
+            this.enleverNotification(personnage);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -129,7 +144,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     private Piece getPieceSud(Piece piece) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
-        if ( coordonneeX - 1 < 0 ) {
+        if ( coordonneeX - 1 >= 0 ) {
             return this.donjon[coordonneeX-1][coordonneeY];
         }
         return null;
@@ -143,7 +158,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     private Piece getPieceOuest(Piece piece) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
-        if ( coordonneeY - 1 < 0 ) {
+        if ( coordonneeY - 1 >= 0 ) {
             return this.donjon[coordonneeX][coordonneeY-1];
         }
         return null;
@@ -153,28 +168,29 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Quand un personnage entre dans une pìèce, envoie une notification
      * a tous les personnages deja present et le nom de tous les personnage
      * deja present au personnage entrant, sinon envoie qu'il n'y a personne
-     * @param piece Piece dans laquelle le personnage entre
      * @param personnage Personnage entrant dans la piece
      */
-    private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
-        String joueurDansPiece = "Il y a ";
+     public void prevenirEntrerPersonnageMemePiece(Personnage personnage) throws RemoteException {
+        String notification = "Il y a ";
         for(Personnage personnage1 : listePersonnage.values()){
-            if (personnage1.getPieceActuelle() == personnage.getPieceActuelle()){
-                ServeurNotification serveurNotification = personnage1.getServeurNotification();
+            if (personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
+                && !personnage1.toString().equals(personnage.toString())){
                 try {
-                    serveurNotification.notifier(personnage.getNomPersonnage() + " est entré dans la pièce: " + personnage.getPieceActuelle());
+                    personnage1.getServeurNotification().notifier(personnage.getNomPersonnage()
+                            + " est entré dans la pièce: " + personnage.getPieceActuelle());
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
-                joueurDansPiece += personnage1.getNomPersonnage()+ " ";
+                if(!personnage1.equals(personnage))
+                    notification += personnage1.getNomPersonnage()+ " ";
             }
         }
-        if (joueurDansPiece.equals("Il y a "))
-            joueurDansPiece = "Il n'y a pas d'autre joueur dans la pièce.";
+        if (notification.equals("Il y a "))
+            notification = "Il n'y a pas d'autre joueur dans la pièce.";
         else
-            joueurDansPiece += "dans la pièce.";
+            notification += "dans la pièce.";
         try {
-            personnage.getServeurNotification().notifier(joueurDansPiece);
+            personnage.getServeurNotification().notifier(notification);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -188,5 +204,13 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     public void enleverNotification(Personnage personnage) throws RemoteException {
         Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
         personnageListe.setServeurNotification(null);
+    }
+
+    public Personnage getPersonnage(String nomPersonnage) throws RemoteException{
+        return listePersonnage.get(nomPersonnage);
+    }
+
+    public HashMap<String, Personnage> getListePersonnage() {
+        return listePersonnage;
     }
 }
