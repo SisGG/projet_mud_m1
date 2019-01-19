@@ -19,6 +19,10 @@ public class Piece implements Serializable {
         return this.coordonneeY;
     }
 
+    public boolean equals(Piece piece) {
+        return this.coordonneeX == piece.coordonneeX && this.coordonneeY == piece.coordonneeY;
+    }
+
     public String toString() {
         return "Piece[" + this.coordonneeX + ":" + this.coordonneeY + "]";
     }

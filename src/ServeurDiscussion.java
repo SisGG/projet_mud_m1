@@ -15,5 +15,4 @@ public interface ServeurDiscussion extends Remote {
 
     void enleverNotification(Personnage personnage) throws RemoteException;
 
-    void majListe(HashMap<String,Personnage> listePersonnage)throws RemoteException;
 }

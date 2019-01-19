@@ -15,11 +15,10 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
 
     public void discuter(Personnage personnage, String message) throws RemoteException{
         for (Personnage personnage1 : this.listePersonnage.values() ){
-            if(personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
-                && !personnage1.toString().equals(personnage.toString())){
+            if ( personnage1.getPieceActuelle().equals(personnage.getPieceActuelle()) ) {
                 try {
                     personnage1.getServeurNotification().notifier(personnage.getNomPersonnage() + ": "
-                            + message.substring(1));
+                            + message);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -31,27 +30,23 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
         this.listePersonnage.put(personnage.getNomPersonnage(),personnage);
     }
 
-    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
+    public synchronized void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
         Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
         personnageListe.setServeurNotification(serveurNotification);
     }
 
-    public void enleverNotification(Personnage personnage) throws RemoteException {
+    public synchronized void enleverNotification(Personnage personnage) throws RemoteException {
         Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
         personnageListe.setServeurNotification(null);
     }
 
     public synchronized void seDeconnecter(Personnage personnage) {
-        this.listePersonnage.remove(personnage.getNomPersonnage());
         try{
             this.enleverNotification(personnage);
+            this.listePersonnage.remove(personnage.getNomPersonnage());
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void  majListe(HashMap<String,Personnage> listePersonnage)throws RemoteException{
-        this.listePersonnage = listePersonnage;
     }
 
 }

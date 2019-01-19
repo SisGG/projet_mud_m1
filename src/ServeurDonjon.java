@@ -14,9 +14,4 @@ public interface ServeurDonjon extends Remote {
 
     void enleverNotification(Personnage personnage) throws RemoteException;
 
-    Personnage getPersonnage(String nomPersonnage) throws RemoteException;
-
-    void prevenirEntrerPersonnageMemePiece(Personnage personnage) throws RemoteException;
-
-    HashMap<String,Personnage> getListePersonnage() throws RemoteException;
-    }
+}
