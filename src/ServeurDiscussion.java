@@ -15,4 +15,6 @@ public interface ServeurDiscussion extends Remote {
 
     void enleverNotification(Personnage personnage) throws RemoteException;
 
+    void miseAJourPersonnage(Personnage personnage) throws RemoteException;
+
 }

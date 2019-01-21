@@ -8,6 +8,6 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
     }
 
     public void notifier(String notication){
-        System.out.println(notication);
+        System.out.println("\r" + notication);
     }
 }

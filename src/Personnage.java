@@ -50,4 +50,8 @@ public class Personnage implements Serializable {
     public String toString() {
         return "Personnage[" + this.nomPersonnage + "]";
     }
+
+    public boolean equals(Personnage personnage) {
+        return this.nomPersonnage.equals(personnage.getNomPersonnage());
+    }
 }

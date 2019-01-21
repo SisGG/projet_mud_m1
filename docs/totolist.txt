@@ -1,3 +1,15 @@
-- Déconnexion intempestive résolu par exception par RMI
+- Commenter les fonctions.
+- Clean les warnings.
+- Finir le compte rendu étape 1.
+
+- Choisir méthodes diagrammes séquences.
+- Générer diagrammes séquences.
+- Montrer scénario Torguet.
+- Revoir diagramme de cas.
 
 - Questions:
+    Question étape 2.
+    Diagramme de cas.
+    Scénario.
+    Conclusion rendu ?
+    Montrer le client.

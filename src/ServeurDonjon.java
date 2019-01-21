@@ -14,4 +14,6 @@ public interface ServeurDonjon extends Remote {
 
     void enleverNotification(Personnage personnage) throws RemoteException;
 
+    boolean existeNomPersonnage(String nomPersonnage) throws RemoteException;
+
 }
