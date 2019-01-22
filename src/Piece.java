@@ -1,3 +1,19 @@
+/* ****************************************************************************
+ *
+ * Name File : src/Piece.java
+ * Authors   : OLIVIER Thomas
+ *             BOURAKADI Reda
+ *             LAPEYRADE Sylvain
+ *
+ * Location  : UPSSITECH - University Paul Sabatier
+ * Date      : Janvier 2019
+ *
+ *                        This work is licensed under a
+ *              Creative Commons Attribution 4.0 International License.
+ *                                    (CC BY)
+ *
+ * ***************************************************************************/
+
 import java.io.Serializable;
 
 public class Piece implements Serializable {
@@ -6,23 +22,44 @@ public class Piece implements Serializable {
     private int coordonneeX;
     private int coordonneeY;
 
-    Piece(int coordonneX, int coordonneeY) {
+    /**
+     * Constructeur de la classe Piece
+     * @param coordonneX entier correspendant à la coordonnée X de la piece
+     * @param coordonneeY entier correspendant à la coordonnée Y de la piece
+     */
+    public Piece(int coordonneX, int coordonneeY) {
         this.coordonneeX = coordonneX;
         this.coordonneeY = coordonneeY;
     }
 
-    int getCoordonneeX() {
+    /**
+     * Récupérer la coordonnée X de la pièce
+     * @return renvoie l'entier qui représente la coordonnée X
+     */
+    public int getCoordonneeX() {
         return this.coordonneeX;
     }
 
-    int getCoordonneeY() {
+    /**
+     * Récupérer la coordonnée Y de la pièce
+     * @returnrenvoie l'entier qui représente la coordonnée Y
+     */
+    public int getCoordonneeY() {
         return this.coordonneeY;
     }
 
-    boolean equals(Piece piece) {
+    /**
+     * @param piece l'objet piece que l'on veut comparer
+     * @return vrai ou faux pour savoir si les deux pièces ont les mêmes coordonnées
+     */
+    public boolean equals(Piece piece) {
         return this.coordonneeX == piece.coordonneeX && this.coordonneeY == piece.coordonneeY;
     }
 
+    /**
+     * Afficher les détails de l'instance de Piece
+     * @return chaine de caractère représentant la pièce et ses coordonnées
+     */
     public String toString() {
         return "Piece[" + this.coordonneeX + ":" + this.coordonneeY + "]";
     }

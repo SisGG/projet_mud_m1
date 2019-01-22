@@ -1,3 +1,19 @@
+/* ****************************************************************************
+ *
+ * Name File : src/Client.java
+ * Authors   : OLIVIER Thomas
+ *             BOURAKADI Reda
+ *             LAPEYRADE Sylvain
+ *
+ * Location  : UPSSITECH - University Paul Sabatier
+ * Date      : Janvier 2019
+ *
+ *                        This work is licensed under a
+ *              Creative Commons Attribution 4.0 International License.
+ *                                    (CC BY)
+ *
+ * ***************************************************************************/
+
 import java.rmi.Naming;
 import java.util.Scanner;
 
@@ -9,6 +25,9 @@ public class Client {
     private ServeurDonjon serveurDonjon;
     private ServeurDiscussion serveurDiscussion;
 
+    /**
+     * Constructeur de la classe Client.
+     */
     private Client(){
         try {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
@@ -18,6 +37,10 @@ public class Client {
         }
     }
 
+    /**
+     * Permet de se connecter sur les différents serveur de jeu en créant un nouveau joueur.
+     * @param nomPersonnage Nom du personnage créer.
+     */
     private void seConnecter(String nomPersonnage) {
         try {
             this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
@@ -34,6 +57,9 @@ public class Client {
         }
     }
 
+    /**
+     * Permet de se déconnecter sur les différents serveur de jeu.
+     */
     private void seDeconnecter() {
         try {
             this.serveurDonjon.seDeconnecter(this.personnage);
@@ -45,6 +71,10 @@ public class Client {
         }
     }
 
+    /**
+     * Permet de déplacer son personnage dans une direction.
+     * @param direction Chaine de caractère désignant la direction de déplacement.
+     */
     private void seDeplacer(String direction) {
         try {
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
@@ -54,6 +84,10 @@ public class Client {
         }
     }
 
+    /**
+     * Envoie un message de discution à tout les joueurs présent dans la même pièce.
+     * @param message Chaine de caractère du message à envoyer.
+     */
     private void discuter(String message) {
         try {
             this.serveurDiscussion.discuter(this.personnage, message.substring(1));
@@ -62,6 +96,11 @@ public class Client {
         }
     }
 
+    /**
+     * Vérifie si le nom d'un personnage est présent en jeu.
+     * @param nomPersonnage Nom du personnage à vérifier.
+     * @return Renvoie la valeur True si le joueur existe, False sinon.
+     */
     private static boolean existeNomPersonnage(String nomPersonnage) {
         try {
             ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
@@ -72,6 +111,11 @@ public class Client {
         return false;
     }
 
+    /**
+     * Permet de créer un nouveau client en demandant à l'utilisateur un nom de personnage
+     * et se connecte ensuite avec se nom d'utilisateur.
+     * @return Renvoie un nouveau client connecter aux serveurs de jeux.
+     */
     private static Client inscrirePersonnage() {
         Scanner scanner = new Scanner(System.in);
         Client client = new Client();
@@ -91,6 +135,14 @@ public class Client {
         return client;
     }
 
+    /**
+     * Permet d'interpréter les commandes de l'utilisateur.
+     * Demande à l'utilisateur de saisir une commande.
+     * L'utilisateur peut discuter en commançant la chaine de caractère par le caractère ".
+     * L'utilisateur peut se déplacer en indiquant les lettres N, E, S, O.
+     * Effectue ensuite l'action souhaité.
+     * @param client Client sur lequel les actions sont effectuer.
+     */
     private static void interpreterCommande(Client client) {
         Scanner scanner = new Scanner(System.in);
         Client.afficherCommande();
@@ -112,6 +164,9 @@ public class Client {
         }
     }
 
+    /**
+     * Afficher le message d'aide des commandes.
+     */
     private static void afficherCommande() {
         System.out.println("\nEntrer \'N\', \'E\', \'S\' ou \'O\' pour "
                 + "vous déplacer ou \'\"\' pour communiquer avec d'autres joueurs ou "
