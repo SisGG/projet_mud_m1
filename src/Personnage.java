@@ -1,21 +1,17 @@
-/* ****************************************************************************
- *
- * Name File : src/Personnage.java
- * Authors   : OLIVIER Thomas
- *             BOURAKADI Reda
- *             LAPEYRADE Sylvain
- *
- * Location  : UPSSITECH - University Paul Sabatier
- * Date      : Janvier 2019
- *
- *                        This work is licensed under a
- *              Creative Commons Attribution 4.0 International License.
- *                                    (CC BY)
- *
- * ***************************************************************************/
-
 import java.io.Serializable;
 
+/******************************************************************************
+ * file     : src/Personnage.java
+ * @author  : OLIVIER Thomas
+ *            BOURAKADI Reda
+ *            LAPEYRADE Sylvain
+ * @version : 1.0
+ * location : UPSSITECH - University Paul Sabatier
+ * date     : 30 Janvier 2019
+ * licence  :              This work is licensed under a
+ *              Creative Commons Attribution 4.0 International License.
+ *                                    (CC BY)
+ *****************************************************************************/
 public class Personnage implements Serializable {
 
     private String nomPersonnage;

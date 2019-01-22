@@ -1,23 +1,19 @@
-/* ****************************************************************************
- *
- * Name File : src/ServeurDiscussionImpl.java
- * Authors   : OLIVIER Thomas
- *             BOURAKADI Reda
- *             LAPEYRADE Sylvain
- *
- * Location  : UPSSITECH - University Paul Sabatier
- * Date      : Janvier 2019
- *
- *                        This work is licensed under a
- *              Creative Commons Attribution 4.0 International License.
- *                                    (CC BY)
- *
- * ***************************************************************************/
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
+/******************************************************************************
+ * file     : src/ServeurDiscussionImpl.java
+ * @author  : OLIVIER Thomas
+ *            BOURAKADI Reda
+ *            LAPEYRADE Sylvain
+ * @version : 1.0
+ * location : UPSSITECH - University Paul Sabatier
+ * date     : 30 Janvier 2019
+ * licence  :              This work is licensed under a
+ *              Creative Commons Attribution 4.0 International License.
+ *                                    (CC BY)
+ *****************************************************************************/
 public class ServeurDiscussionImpl extends UnicastRemoteObject implements ServeurDiscussion {
 
     private static long serialVersionUID = 0L;
