@@ -101,7 +101,7 @@ public class Client {
      * @param nomPersonnage Nom du personnage à vérifier.
      * @return Renvoie la valeur True si le joueur existe, False sinon.
      */
-    private static boolean existeNomPersonnage(String nomPersonnage) {
+    private boolean existeNomPersonnage(String nomPersonnage) {
         try {
             ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             return serveurDonjon.existeNomPersonnage(nomPersonnage);
@@ -114,11 +114,9 @@ public class Client {
     /**
      * Permet de créer un nouveau client en demandant à l'utilisateur un nom de personnage
      * et se connecte ensuite avec se nom d'utilisateur.
-     * @return Renvoie un nouveau client connecter aux serveurs de jeux.
      */
-    private static Client inscrirePersonnage() {
+    private void inscrirePersonnage() {
         Scanner scanner = new Scanner(System.in);
-        Client client = new Client();
         String nomPersonnage = null;
         while ( nomPersonnage == null ) {
             System.out.print("Entrer votre nom de personnage : ");
@@ -126,13 +124,12 @@ public class Client {
             if ( nomPersonnage.equals("") ) {
                 System.out.println("Ce nom n'est pas valide.");
                 nomPersonnage = null;
-            } else if ( Client.existeNomPersonnage(nomPersonnage) ) {
+            } else if ( this.existeNomPersonnage(nomPersonnage) ) {
                 System.out.println("Ce nom existe déjà.");
                 nomPersonnage = null;
             }
         }
-        client.seConnecter(nomPersonnage);
-        return client;
+        this.seConnecter(nomPersonnage);
     }
 
     /**
@@ -141,23 +138,22 @@ public class Client {
      * L'utilisateur peut discuter en commançant la chaine de caractère par le caractère ".
      * L'utilisateur peut se déplacer en indiquant les lettres N, E, S, O.
      * Effectue ensuite l'action souhaité.
-     * @param client Client sur lequel les actions sont effectuer.
      */
-    private static void interpreterCommande(Client client) {
+    private void interpreterCommande() {
         Scanner scanner = new Scanner(System.in);
-        Client.afficherCommande();
+        this.afficherCommande();
         while ( true ) {
             String commande = scanner.nextLine();
             if ( commande.substring(0, 1).equals("\"") ) {
-                client.discuter(commande);
+                this.discuter(commande);
             } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
-                client.seDeplacer(commande);
+                this.seDeplacer(commande);
             } else if ( commande.toLowerCase().equals("quitter") ) {
                 System.out.println("Déconnexion.");
-                client.seDeconnecter();
+                this.seDeconnecter();
                 exit(0);
             } else if ( commande.toLowerCase().equals("help") ) {
-                Client.afficherCommande();
+                this.afficherCommande();
             } else {
                 System.out.println("Cette commande n'est pas reconnue.");
             }
@@ -167,17 +163,15 @@ public class Client {
     /**
      * Afficher le message d'aide des commandes.
      */
-    private static void afficherCommande() {
+    private void afficherCommande() {
         System.out.println("\nEntrer \'N\', \'E\', \'S\' ou \'O\' pour "
                 + "vous déplacer ou \'\"\' pour communiquer avec d'autres joueurs ou "
                 + "\'quitter\' pour vous déconnecter ou \'help\' pour voir les instructions.\n");
     }
 
     public static void main(String[] args) {
-
-        Client client = Client.inscrirePersonnage();
-
-        Client.interpreterCommande(client);
-
+        Client client = new Client();
+        client.inscrirePersonnage();
+        client.interpreterCommande();
     }
 }
