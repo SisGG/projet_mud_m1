@@ -10,12 +10,12 @@ public class Personnage implements Serializable {
      * Constructeur de la classe Personnage.
      * @param nomPersonnage Nom du personnage.
      */
-    public Personnage(String nomPersonnage) {
+    Personnage(String nomPersonnage) {
         this.nomPersonnage = nomPersonnage;
         this.pieceActuelle = null;
     }
 
-    public void setPieceActuelle(Piece pieceActuelle) {
+    void setPieceActuelle(Piece pieceActuelle) {
         this.pieceActuelle = pieceActuelle;
     }
 
@@ -23,7 +23,7 @@ public class Personnage implements Serializable {
      * Récupère la piece actuelle du personnage.
      * @return Renvoie la piece du personnage.
      */
-    public Piece getPieceActuelle() {
+    Piece getPieceActuelle() {
         return this.pieceActuelle;
     }
 
@@ -31,15 +31,15 @@ public class Personnage implements Serializable {
      * Récupère le nom du personnage.
      * @return Renvoie la chaine de caractère du nom de personnage.
      */
-    public String getNomPersonnage() {
+    String getNomPersonnage() {
         return this.nomPersonnage;
     }
 
-    public void setServeurNotification(ServeurNotification serveurNotification) {
+    void setServeurNotification(ServeurNotification serveurNotification) {
         this.serveurNotification = serveurNotification;
     }
 
-    public ServeurNotification getServeurNotification() {
+    ServeurNotification getServeurNotification() {
         return this.serveurNotification;
     }
 
@@ -51,7 +51,7 @@ public class Personnage implements Serializable {
         return "Personnage[" + this.nomPersonnage + "]";
     }
 
-    public boolean equals(Personnage personnage) {
+    boolean equals(Personnage personnage) {
         return this.nomPersonnage.equals(personnage.getNomPersonnage());
     }
 }

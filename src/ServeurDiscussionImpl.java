@@ -8,7 +8,7 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
 
     private HashMap<String,Personnage> listePersonnage;
 
-    public ServeurDiscussionImpl() throws RemoteException {
+    ServeurDiscussionImpl() throws RemoteException {
         super();
         this.listePersonnage = new HashMap<>();
     }

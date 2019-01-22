@@ -1,9 +1,7 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
 public interface ServeurDiscussion extends Remote {
-
 
     void discuter(Personnage personnageEmetteur, String message) throws RemoteException;
 

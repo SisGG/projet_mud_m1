@@ -13,7 +13,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Constructeur de la classe ServeurDonjonImpl.
      * @param tailleDonjon Taille du donjon.
      */
-    public ServeurDonjonImpl(int tailleDonjon) throws RemoteException {
+    ServeurDonjonImpl(int tailleDonjon) throws RemoteException {
         super();
         this.tailleDonjon = tailleDonjon;
         this.listePersonnage = new HashMap<>();
@@ -176,7 +176,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * deja present au personnage entrant, sinon envoie qu'il n'y a personne
      * @param personnage Personnage entrant dans la piece
      */
-    public void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
+    private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         String notification = "Il y a ";
         for(Personnage personnage1 : listePersonnage.values()){
             if (personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())

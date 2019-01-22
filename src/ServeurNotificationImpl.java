@@ -3,7 +3,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ServeurNotificationImpl extends UnicastRemoteObject implements ServeurNotification {
 
-    protected ServeurNotificationImpl() throws RemoteException {
+    ServeurNotificationImpl() throws RemoteException {
         super();
     }
 
