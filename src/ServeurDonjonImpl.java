@@ -73,8 +73,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             default:
                 break;
         }
-        if ( pieceDirection != null ) {
-            personnageListe.setPieceActuelle(pieceDirection);
+        if ( pieceDirection != null) {
+                if (!direction.equals(""))
+                    this.prevenirJoueurQuitterPiece(personnageListe);
+                personnageListe.setPieceActuelle(pieceDirection);
             try {
                 personnageListe.getServeurNotification().notifier("\rVous arrivez dans la piece " + pieceDirection);
                 this.prevenirEntrerPersonnageMemePiece(personnageListe);
@@ -190,7 +192,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         String notification = "Il y a ";
-        for(Personnage personnage1 : listePersonnage.values()){
+        for(Personnage personnage1 : this.listePersonnage.values()){
             if (personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
                     && !personnage1.toString().equals(personnage.toString())){
                 try {
@@ -211,6 +213,24 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             personnage.getServeurNotification().notifier(notification);
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Quand un personnage quitte une pièce, en notifie les autres personnages encore dedans
+     * @param personnage quittant la pièce
+     */
+    private void prevenirJoueurQuitterPiece(Personnage personnage){
+        for(Personnage personnage1 : this.listePersonnage.values()){
+            if(personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
+                && !personnage1.toString().equals(personnage.toString())){
+                try{
+                    personnage1.getServeurNotification().notifier(personnage.getNomPersonnage()
+                    + " a quitté la pièce.");
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
