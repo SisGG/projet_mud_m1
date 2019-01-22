@@ -259,7 +259,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Vérifie si un personnage est dans la liste de personnage du donjon
      * @param nomPersonnage que l'on cherche dans la liste
      * @return vrai si le personnage existe dans la liste de personnage, faux sinon
-     * @throws RemoteException
+     * @throws RemoteException  si l'appel de méthode distant rencontre un problème
      */
     public boolean existeNomPersonnage(String nomPersonnage) throws RemoteException {
         return this.listePersonnage.containsKey(nomPersonnage);
