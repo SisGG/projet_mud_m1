@@ -5,6 +5,10 @@ public class Systeme {
 
     private int tailleDonjon = 5;
 
+    /**
+     * Démarre les serveurs Donjon et Discussion en les créant après leur avoir
+     * attribué un nom avec "naming.rebind"
+     */
     private void lancerSysteme() {
         try {
             LocateRegistry.createRegistry(1099);
