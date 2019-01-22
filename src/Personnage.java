@@ -35,10 +35,17 @@ public class Personnage implements Serializable {
         return this.nomPersonnage;
     }
 
+    /***
+     * Associe un Serveur Notification au personnage
+     * @param serveurNotification que l'on associe au personnage
+     */
     void setServeurNotification(ServeurNotification serveurNotification) {
         this.serveurNotification = serveurNotification;
     }
 
+    /***
+     * @return Serveur notification associé au personnage
+     */
     ServeurNotification getServeurNotification() {
         return this.serveurNotification;
     }
@@ -51,6 +58,11 @@ public class Personnage implements Serializable {
         return "Personnage[" + this.nomPersonnage + "]";
     }
 
+    /**
+     * Redéfinition de la méthode equals pour comparer deux personnages
+     * @param personnage Personnage que l'on compare avec celui courant
+     * @return Boolean : True si les deux sont identiques, faux sinon
+     */
     boolean equals(Personnage personnage) {
         return this.nomPersonnage.equals(personnage.getNomPersonnage());
     }
