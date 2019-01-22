@@ -202,16 +202,33 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
     }
 
+    /**
+     * Associe un serveur de notification à un personnage
+     * @param personnage auquel on associe un serveur notification
+     * @param serveurNotification qui sera associé au personnage
+     * @throws RemoteException si l'appel de méthode distant rencontre un problème
+     */
     public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
         Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
         personnageListe.setServeurNotification(serveurNotification);
     }
 
+    /**
+     * Supprime le serveur de notification d'un personnage
+     * @param personnage auquel on enlève un serveur notification
+     * @throws RemoteException si l'appel de méthode distant rencontre un problème
+     */
     public void enleverNotification(Personnage personnage) throws RemoteException {
         Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
         personnageListe.setServeurNotification(null);
     }
 
+    /**
+     * Vérifie si un personnage est dans la liste de personnage du donjon
+     * @param nomPersonnage que l'on cherche dans la liste
+     * @return vrai si le personnage existe dans la liste de personnage, faux sinon
+     * @throws RemoteException
+     */
     public boolean existeNomPersonnage(String nomPersonnage) throws RemoteException {
         return this.listePersonnage.containsKey(nomPersonnage);
     }
