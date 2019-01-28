@@ -1,9 +1,6 @@
 - Finir le compte rendu étape 1.
-    - Choisir méthodes diagrammes séquences.
-    - Générer diagrammes séquences.
-    - Revoir diagramme de cas.
+    +Résultat prendre des captures d'un scénario
 
 - Questions:
     Question étape 2.
     Diagramme de cas.
-    Scénario.
