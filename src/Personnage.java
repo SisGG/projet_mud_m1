@@ -1,5 +1,3 @@
-import java.io.Serializable;
-
 /******************************************************************************
  * file     : src/Personnage.java
  * @author  : OLIVIER Thomas
@@ -14,15 +12,15 @@ import java.io.Serializable;
  *****************************************************************************/
 public class Personnage extends EtreVivant {
 
+    private static final int pointDeVieMax = 10;
     private ServeurNotification serveurNotification;
-    private static final int pointDevieMax= 10;
 
     /**
      * Constructeur de la classe Personnage.
      * @param nomPersonnage Nom du personnage.
      */
     Personnage(String nomPersonnage) {
-        super(nomPersonnage, pointDevieMax, null);
+        super(nomPersonnage, pointDeVieMax);
     }
 
     /**
