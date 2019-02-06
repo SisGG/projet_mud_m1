@@ -13,8 +13,10 @@
 public class Monstre extends EtreVivant {
 
     private static final int pointDeVieMax= 5;
+    private static int numeroMonstre = 0;
 
-    public Monstre(String nomMonstre, Piece piece) {
-        super(nomMonstre, pointDeVieMax, piece);
+    public Monstre(Piece piece) {
+        super("Monstre" + numeroMonstre, pointDeVieMax, piece);
+        numeroMonstre++;
     }
 }
