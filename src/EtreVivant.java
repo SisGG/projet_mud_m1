@@ -43,7 +43,7 @@ abstract class EtreVivant implements Serializable {
         this.pointDeVieActuel = this.pointDeVieMax;
     }
 
-    public int getPointDeVieActuel() {
+    int getPointDeVieActuel() {
         return pointDeVieActuel;
     }
 
