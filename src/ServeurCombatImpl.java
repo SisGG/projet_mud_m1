@@ -25,7 +25,9 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.listeEtreVivant = new HashMap<>();
     }
 
-    public synchronized void lancerCombat(Personnage personnage) {
+    public synchronized void lancerCombat(Personnage personnage) throws RemoteException {
+        System.out.println("[ServeurCombat] Lancement combat.");
+        //personnage.getServeurNotification().notifier("Un monstre vous attaque.");
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
         this.listeEtreVivant.put(monstre.getNom(), monstre);
         int resultatTour = 0;
@@ -34,17 +36,22 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }
     }
 
-    private int effectuerTour(Personnage personnage, Monstre monstre) {
-        int ciblePerdant1PDV = new Random().nextInt(1);
+    private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
+        int ciblePerdant1PDV = new Random().nextInt(2);
+        //System.out.println("[ServeurCombat] " + ciblePerdant1PDV);
         if ( ciblePerdant1PDV == 0 ) {
+            //personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
             personnage.perdrePointDeVie();
         } else {
+            //personnage.getServeurNotification().notifier("Le monstre perds 1 point de vie.");
             monstre.perdrePointDeVie();
         }
 
         if ( personnage.getPointDeVie() == 0 ) {
+            //personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
             return 1;
         } else if ( monstre.getPointDeVie() == 0 ) {
+            //personnage.getServeurNotification().notifier("Vous tuez le monstre.");
             return 2;
         } else {
             //personnage.getServeurNotification().notifier("");
