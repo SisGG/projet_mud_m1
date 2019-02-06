@@ -2,11 +2,13 @@ import java.io.Serializable;
 
 public abstract class EtreVivant implements Serializable {
 
-    protected int pointDeVieMax;
-    protected int pointDeVieActuel;
-    protected Piece pieceActuelle;
+    private int pointDeVieMax;
+    private int pointDeVieActuel;
+    private Piece pieceActuelle;
+    private String nomEtreVivant;
 
-    public EtreVivant(int pointDeVieMax, Piece piece) {
+    EtreVivant(String nomEtreVivant, int pointDeVieMax, Piece piece) {
+        this.nomEtreVivant = nomEtreVivant;
         this.pointDeVieMax = pointDeVieMax;
         this.pointDeVieActuel = pointDeVieMax;
         this.pieceActuelle = piece;
@@ -37,7 +39,8 @@ public abstract class EtreVivant implements Serializable {
             pointDeVieMax = pointDeVieActuel;
     }
 
-     public void regagnerPointDeVieMax(){
+    public void regagnerPointDeVieMax(){
         this.pointDeVieActuel = this.pointDeVieMax;
     }
+    
 }

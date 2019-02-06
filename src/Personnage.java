@@ -1,5 +1,3 @@
-import java.io.Serializable;
-
 /******************************************************************************
  * file     : src/Personnage.java
  * @author  : OLIVIER Thomas
@@ -23,8 +21,7 @@ public class Personnage extends EtreVivant {
      * @param nomPersonnage Nom du personnage.
      */
     Personnage(String nomPersonnage) {
-        super(pointDevieMax, null);
-        this.nomPersonnage = nomPersonnage;
+        super(nomPersonnage, pointDevieMax, null);
     }
 
     /**
