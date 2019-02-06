@@ -25,14 +25,13 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.listeEtreVivant = new HashMap<>();
     }
 
-    public synchronized HashMap<String, EtreVivant> LancerCombat(Personnage personnage) {
+    public synchronized void lancerCombat(Personnage personnage) {
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
         this.listeEtreVivant.put(monstre.getNom(), monstre);
         int resultatTour = 0;
         while ( resultatTour == 0 ) {
             resultatTour = this.effectuerTour(personnage, monstre);
         }
-        return null;
     }
 
     private int effectuerTour(Personnage personnage, Monstre monstre) {
@@ -66,43 +65,5 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }
         return this.listeEtreVivant;
     }
-
-    /**
-     * Enregistre un etre vivant dans le serveur de combat.
-     * @param etreVivant que l'on veut ajouter.
-     */
-    public synchronized void seConnecter(EtreVivant etreVivant) throws RemoteException {
-        this.listeEtreVivant.put(etreVivant.getNom(), etreVivant);
-    }
-
-    /**
-     * Enleve un etre vivant du serveur de combat lors de sa mort ou déconnexion.
-     * @param etreVivant etreVivant que l'on veut enlever.
-     */
-    public synchronized void seDeconnecter(EtreVivant etreVivant) throws RemoteException{
-        this.listeEtreVivant.remove(etreVivant.getNom(), etreVivant);
-    }
-
-    /**
-     * Associe un serveur de notification à un personnage
-     * @param personnage auquel on associe un serveur notification
-     * @param serveurNotification qui sera associé au personnage
-     * @throws RemoteException si l'appel de méthode distante rencontre un problème
-     */
-    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
-        Personnage personnageListe = (Personnage) this.listeEtreVivant.get(personnage.getNomPersonnage());
-        personnageListe.setServeurNotification(serveurNotification);
-    }
-
-    /**
-     * Supprime le serveur de notification d'un personnage
-     * @param personnage auquel on enlève un serveur notification
-     * @throws RemoteException si l'appel de méthode distante rencontre un problème
-     */
-    public void enleverNotification(Personnage personnage) throws RemoteException {
-        Personnage personnageListe = (Personnage) this.listeEtreVivant.get(personnage.getNomPersonnage());
-        personnageListe.setServeurNotification(null);
-    }
-
 
 }
