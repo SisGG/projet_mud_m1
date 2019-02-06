@@ -29,18 +29,17 @@ public abstract class EtreVivant implements Serializable {
         return this.pieceActuelle;
     }
 
-    public int getPointDeVieActuel() {
-        return pointDeVieActuel;
-    }
-
-    private void augmenterPointDeVieActuel(int pointDevieEnPlus) {
+    void augmenterPointDeVieActuel(int pointDevieEnPlus) {
         this.pointDeVieActuel += pointDeVieActuel;
         if (this.pointDeVieActuel > pointDeVieMax)
             pointDeVieMax = pointDeVieActuel;
     }
 
-    public void regagnerPointDeVieMax(){
+    void regagnerPointDeVieMax(){
         this.pointDeVieActuel = this.pointDeVieMax;
     }
-    
+
+    String getNomEtreVivant() {
+        return nomEtreVivant;
+    }
 }
