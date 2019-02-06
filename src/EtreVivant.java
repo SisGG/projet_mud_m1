@@ -1,4 +1,6 @@
-public abstract class EtreVivant {
+import java.io.Serializable;
+
+public abstract class EtreVivant implements Serializable {
 
     protected int pointDeVieMax;
     protected int pointDeVieActuel;
