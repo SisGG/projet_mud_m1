@@ -12,7 +12,7 @@ import java.io.Serializable;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class Personnage extends EtreVivant implements Serializable {
+public class Personnage extends EtreVivant {
 
     private String nomPersonnage;
     private ServeurNotification serveurNotification;
