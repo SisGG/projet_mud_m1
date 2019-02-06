@@ -17,7 +17,7 @@ public class Systeme {
 
     private static final int tailleDonjon = 5;
 
-    public Systeme() {
+    private Systeme() {
         try {
             LocateRegistry.createRegistry(1099);
         } catch(Exception e) {
