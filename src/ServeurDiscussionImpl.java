@@ -17,9 +17,7 @@ import java.util.HashMap;
 public class ServeurDiscussionImpl extends UnicastRemoteObject implements ServeurDiscussion {
 
     private static long serialVersionUID = 0L;
-
     private HashMap<String,Personnage> listePersonnage;
-
 
     /**
      * Instanciation de la listepersonnage
@@ -37,11 +35,11 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
      * @throws RemoteException
      */
     public void discuter(Personnage personnage, String message) throws RemoteException{
-        for (Personnage personnage1 : this.listePersonnage.values() ){
+        for ( Personnage personnage1 : this.listePersonnage.values() ) {
             if ( personnage1.getPieceActuelle().equals(personnage.getPieceActuelle()) ) {
                 try {
                     personnage1.getServeurNotification().notifier(personnage.getNomPersonnage() + ": " + message);
-                } catch (Exception e) {
+                } catch ( Exception e ) {
                     e.printStackTrace();
                 }
             }
@@ -83,10 +81,10 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
      * @param personnage personnage à déconnecter
      */
     public void seDeconnecter(Personnage personnage) {
-        try{
+        try {
             this.enleverNotification(personnage);
             this.listePersonnage.remove(personnage.getNomPersonnage());
-        }catch(Exception e){
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
