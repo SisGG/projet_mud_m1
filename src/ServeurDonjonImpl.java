@@ -16,7 +16,7 @@ import java.util.HashMap;
  *****************************************************************************/
 public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDonjon {
 
-    private  static final long serialVersionUID = 1L;
+    private  static final long serialVersionUID = 0L;
     private int tailleDonjon;
     private HashMap<String,Personnage> listePersonnage;
     private Piece[][] donjon;
