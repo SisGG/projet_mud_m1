@@ -1,22 +1,54 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.Random;
 
 public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCombat {
 
     private static long serialVersionUID = 2L;
     private HashMap<String, EtreVivant> listeEtreVivant;
+    private int nbMonstre;
 
     ServeurCombatImpl() throws RemoteException {
         super();
         this.listeEtreVivant = new HashMap<>();
+        this.nbMonstre = 0;
     }
 
-    public void LancerCombat(Personnage personnage) {
+    public synchronized HashMap<String, EtreVivant> LancerCombat(Personnage personnage) {
+        Monstre monstre = new Monstre("Montre "+ this.nbMonstre,
+                personnage.getPieceActuelle());
+        this.nbMonstre++;
+        try {
+            this.seConnecter(monstre);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        int resultatTour = 0;
+        while(resultatTour == 0){
+            resultatTour = this.effectuerTour(personnage, monstre);
+        }
+        return null;
     }
 
-    public EtreVivant faireGagnerPointDeVie(EtreVivant etreVivant, int pointDeVieEnPlus) {
-         etreVivant.augmenterPointDeVieActuel(pointDeVieEnPlus);
+    private int effectuerTour(Personnage personnage, Monstre monstre) {
+        int ciblePerdant1PDV = new Random().nextInt();
+        if (ciblePerdant1PDV == 0)
+            personnage.perdrePointDeVieActuel(1);
+        else monstre.perdrePointDeVieActuel(1);
+
+        if (personnage.getPointDeVieActuel() == 0)
+            return 1;
+        else if(monstre.getPointDeVieActuel() == 0)
+            return 2;
+        else{
+            //personnage.getServeurNotification().notifier("");
+            return 0;
+        }
+    }
+
+    public EtreVivant faireGagnerPointDeVie(EtreVivant etreVivant, int nbPointDevieEnPlus) {
+         etreVivant.augmenterPointDeVieActuel(nbPointDevieEnPlus);
          return  etreVivant;
     }
 

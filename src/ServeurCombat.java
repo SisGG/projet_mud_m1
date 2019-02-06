@@ -1,9 +1,10 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 public interface ServeurCombat extends Remote {
 
-    void LancerCombat(Personnage personnage) throws RemoteException;
+    HashMap<String, EtreVivant> LancerCombat(Personnage personnage) throws RemoteException;
 
     void seConnecter(EtreVivant etreVivant) throws RemoteException;
 

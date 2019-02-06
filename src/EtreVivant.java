@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class EtreVivant implements Serializable {
+abstract class EtreVivant implements Serializable {
 
     private int pointDeVieMax;
     private int pointDeVieActuel;
@@ -29,14 +29,22 @@ public abstract class EtreVivant implements Serializable {
         return this.pieceActuelle;
     }
 
-    void augmenterPointDeVieActuel(int pointDevieEnPlus) {
-        this.pointDeVieActuel += pointDeVieActuel;
+    void augmenterPointDeVieActuel(int nbPointDevieEnPlus) {
+        this.pointDeVieActuel += nbPointDevieEnPlus;
         if (this.pointDeVieActuel > pointDeVieMax)
             pointDeVieMax = pointDeVieActuel;
     }
 
+    void perdrePointDeVieActuel(int nbPointDeVieEnMoins){
+        this.pointDeVieActuel -= nbPointDeVieEnMoins;
+    }
+
     void regagnerPointDeVieMax(){
         this.pointDeVieActuel = this.pointDeVieMax;
+    }
+
+    public int getPointDeVieActuel() {
+        return pointDeVieActuel;
     }
 
     String getNomEtreVivant() {
