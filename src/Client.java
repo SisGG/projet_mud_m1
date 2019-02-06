@@ -20,6 +20,7 @@ public class Client {
     private Personnage personnage;
     private ServeurDonjon serveurDonjon;
     private ServeurDiscussion serveurDiscussion;
+    private ServeurCombat serveurCombat;
 
     /**
      * Constructeur de la classe Client.
@@ -28,6 +29,7 @@ public class Client {
         try {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
+            this.serveurCombat = (ServeurCombat) Naming.lookup("//localhost/ServeurCombat");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
@@ -96,6 +98,10 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void LancerCombat() {
     }
 
     /**
@@ -178,6 +184,4 @@ public class Client {
         client.interpreterCommande();
     }
 
-    public void LancerCombat() {
-    }
 }

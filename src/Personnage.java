@@ -14,7 +14,6 @@ import java.io.Serializable;
  *****************************************************************************/
 public class Personnage extends EtreVivant {
 
-    private String nomPersonnage;
     private ServeurNotification serveurNotification;
     private static final int pointDevieMax= 10;
 
@@ -23,8 +22,7 @@ public class Personnage extends EtreVivant {
      * @param nomPersonnage Nom du personnage.
      */
     Personnage(String nomPersonnage) {
-        super(pointDevieMax, null);
-        this.nomPersonnage = nomPersonnage;
+        super(nomPersonnage, pointDevieMax, null);
     }
 
     /**
@@ -32,7 +30,7 @@ public class Personnage extends EtreVivant {
      * @return Renvoie la chaine de caractère du nom de personnage.
      */
     String getNomPersonnage() {
-        return this.nomPersonnage;
+        return this.nomEtreVivant;
     }
 
     /***
@@ -55,7 +53,7 @@ public class Personnage extends EtreVivant {
      * @return Renvoie une chaine de caractère.
      */
     public String toString() {
-        return "Personnage[" + this.nomPersonnage + "]";
+        return "Personnage[" + this.nomEtreVivant + "]";
     }
 
     /**
@@ -64,6 +62,6 @@ public class Personnage extends EtreVivant {
      * @return Boolean : True si les deux sont identiques, faux sinon
      */
     boolean equals(Personnage personnage) {
-        return this.nomPersonnage.equals(personnage.getNomPersonnage());
+        return this.nomEtreVivant.equals(personnage.getNomPersonnage());
     }
 }
