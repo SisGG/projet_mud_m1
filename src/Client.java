@@ -40,11 +40,9 @@ public class Client {
     private void seConnecter(String nomPersonnage) {
         try {
             this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
-            this.serveurDiscussion.seConnecter(this.personnage);
 
             ServeurNotification serveurNotification = new ServeurNotificationImpl();
             this.serveurDonjon.enregistrerNotification(this.personnage, serveurNotification);
-            this.serveurDiscussion.enregistrerNotification(this.personnage, serveurNotification);
 
             System.out.println("Le personnage " + this.personnage.getNomPersonnage() + " vient de se connecter.");
             this.seDeplacer("");
@@ -62,7 +60,6 @@ public class Client {
         try {
             this.serveurDonjon.seDeconnecter(this.personnage);
             this.serveurDonjon = null;
-            this.serveurDiscussion.seDeconnecter(this.personnage);
             this.serveurDiscussion = null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +73,6 @@ public class Client {
     private void seDeplacer(String direction) {
         try {
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
-            this.serveurDiscussion.miseAJourPersonnage(this.personnage);
         } catch(Exception e) {
             e.printStackTrace();
         }

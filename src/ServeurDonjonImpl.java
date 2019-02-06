@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 
 /******************************************************************************
  * file     : src/ServeurDonjonImpl.java
@@ -17,20 +16,15 @@ import java.util.HashMap;
 public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDonjon {
 
     private  static final long serialVersionUID = 1L;
-    private int tailleDonjon;
-    private HashMap<String,Personnage> listePersonnage;
-    private Piece[][] donjon;
+    private Donjon donjon;
 
     /**
      * Constructeur de la classe ServeurDonjonImpl.
-     * @param tailleDonjon Taille du donjon.
+     * @param donjon Taille du donjon.
      */
-    ServeurDonjonImpl(int tailleDonjon) throws RemoteException {
+    ServeurDonjonImpl(Donjon donjon) throws RemoteException {
         super();
-        this.tailleDonjon = tailleDonjon;
-        this.listePersonnage = new HashMap<>();
-        this.donjon = new Piece[tailleDonjon][tailleDonjon];
-        this.genererDonjon(tailleDonjon);
+        this.donjon = donjon;
     }
 
     /**
@@ -41,7 +35,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     public synchronized Personnage seConnecter(String nomPersonnage) {
         Personnage personnage = new Personnage(nomPersonnage);
         System.out.println("Connexion de " + personnage + ".");
-        this.listePersonnage.put(nomPersonnage, personnage);
+        this.donjon.ajouterPersonnage(personnage);
         return personnage;
     }
 
@@ -52,23 +46,23 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @return Renvoie le personnage mis à jour.
      */
     public Personnage seDeplacer(Personnage personnage, String direction) {
-        Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
-        Piece pieceDirection = this.getPieceDepart();
+        Personnage personnageListe = this.donjon.recuperePersonnage(personnage.getNomPersonnage());
+        Piece pieceDirection = this.donjon.getPieceDepart();
         if ( personnageListe.getPieceActuelle() == null ) {
             personnageListe.setPieceActuelle(pieceDirection);
         }
         switch ( direction.toUpperCase() ) {
             case "N":
-                pieceDirection = this.getPieceNord(personnageListe.getPieceActuelle());
+                pieceDirection = this.donjon.getPiece(personnageListe.getPieceActuelle(), "Nord");
                 break;
             case "E":
-                pieceDirection = this.getPieceEst(personnageListe.getPieceActuelle());
+                pieceDirection = this.donjon.getPiece(personnageListe.getPieceActuelle(), "Est");
                 break;
             case "S":
-                pieceDirection = this.getPieceSud(personnageListe.getPieceActuelle());
+                pieceDirection = this.donjon.getPiece(personnageListe.getPieceActuelle(), "Sud");
                 break;
             case "O":
-                pieceDirection = this.getPieceOuest(personnageListe.getPieceActuelle());
+                pieceDirection = this.donjon.getPiece(personnageListe.getPieceActuelle(), "Ouest");
                 break;
             default:
                 break;
@@ -99,89 +93,11 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     public void seDeconnecter(Personnage personnage){
         try {
-            this.enleverNotification(personnage);
-            this.listePersonnage.remove(personnage.getNomPersonnage());
+            this.donjon.supprimerPersonnage(personnage);
             System.out.println("Déconnexion de " + personnage);
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Récupère la pièce de départ du donjon.
-     * @return Renvoie une pièce.
-     */
-    private Piece getPieceDepart() {
-        return this.donjon[0][0];
-    }
-
-    /**
-     * Génère les pièces du donjon en fonction de la taille du donjon.
-     * @param taille Taille du donjon.
-     */
-    private void genererDonjon(int taille) {
-        for ( int i = 0; i < taille; i++ ) {
-            for ( int j = 0; j < taille; j++ ) {
-                Piece piece = new Piece(i,j);
-                this.donjon[i][j] = piece;
-            }
-        }
-    }
-
-    /**
-     * Récupère la pièce au Nord de celle passé en paramètre.
-     * @param piece Piece sur lequel on récupère la pièce au Nord.
-     * @return Renvoie une pièce si elle existe, null sinon.
-     */
-    private Piece getPieceNord(Piece piece) {
-        int coordonneeX = piece.getCoordonneeX();
-        int coordonneeY = piece.getCoordonneeY();
-        if ( coordonneeX + 1 < this.tailleDonjon ) {
-            return this.donjon[coordonneeX+1][coordonneeY];
-        }
-        return null;
-    }
-
-    /**
-     * Récupère la pièce à l'Est de celle passé en paramètre.
-     * @param piece Piece sur lequel on récupère la pièce à l'Est.
-     * @return Renvoie une pièce si elle existe, null sinon.
-     */
-    private Piece getPieceEst(Piece piece) {
-        int coordonneeX = piece.getCoordonneeX();
-        int coordonneeY = piece.getCoordonneeY();
-        if ( coordonneeY + 1 < this.tailleDonjon ) {
-            return this.donjon[coordonneeX][coordonneeY+1];
-        }
-        return null;
-    }
-
-    /**
-     * Récupère la pièce au Sud de celle passé en paramètre.
-     * @param piece Piece sur lequel on récupère la pièce au Sud.
-     * @return Renvoie une pièce si elle existe, null sinon.
-     */
-    private Piece getPieceSud(Piece piece) {
-        int coordonneeX = piece.getCoordonneeX();
-        int coordonneeY = piece.getCoordonneeY();
-        if ( coordonneeX - 1 >= 0 ) {
-            return this.donjon[coordonneeX-1][coordonneeY];
-        }
-        return null;
-    }
-
-    /**
-     * Récupère la pièce à l'Ouest de celle passé en paramètre.
-     * @param piece Piece sur lequel on récupère la pièce à l'Ouest.
-     * @return Renvoie une pièce si elle existe, null sinon.
-     */
-    private Piece getPieceOuest(Piece piece) {
-        int coordonneeX = piece.getCoordonneeX();
-        int coordonneeY = piece.getCoordonneeY();
-        if ( coordonneeY - 1 >= 0 ) {
-            return this.donjon[coordonneeX][coordonneeY-1];
-        }
-        return null;
     }
 
     /**
@@ -192,17 +108,17 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         String notification = "Il y a ";
-        for(Personnage personnage1 : this.listePersonnage.values()){
-            if (personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
-                    && !personnage1.toString().equals(personnage.toString())){
+        for ( Personnage personnageCourant : this.donjon.getPersonnageMemePiece(personnage) ) {
+            if ( !personnageCourant.equals(personnage) ) {
                 try {
-                    personnage1.getServeurNotification().notifier(personnage.getNomPersonnage()
+                    personnageCourant.getServeurNotification().notifier(personnage.getNomPersonnage()
                             + " est entré dans la pièce: " + personnage.getPieceActuelle());
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
-                if(!personnage1.equals(personnage))
-                    notification += personnage1.getNomPersonnage()+ " ";
+                if ( !personnageCourant.equals(personnage) ) {
+                    notification += personnageCourant.getNomPersonnage() + " ";
+                }
             }
         }
         if (notification.equals("Il y a "))
@@ -221,13 +137,12 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage quittant la pièce
      */
     private void prevenirJoueurQuitterPiece(Personnage personnage){
-        for(Personnage personnage1 : this.listePersonnage.values()){
-            if(personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
-                && !personnage1.toString().equals(personnage.toString())){
-                try{
-                    personnage1.getServeurNotification().notifier(personnage.getNomPersonnage()
+        for(Personnage personnageCourant : this.donjon.getPersonnageMemePiece(personnage) ) {
+            if ( !personnageCourant.equals(personnage) ) {
+                try {
+                    personnageCourant.getServeurNotification().notifier(personnage.getNomPersonnage()
                     + " a quitté la pièce.");
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -241,18 +156,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @throws RemoteException si l'appel de méthode distant rencontre un problème
      */
     public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
-        Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
-        personnageListe.setServeurNotification(serveurNotification);
-    }
-
-    /**
-     * Supprime le serveur de notification d'un personnage
-     * @param personnage auquel on enlève un serveur notification
-     * @throws RemoteException si l'appel de méthode distant rencontre un problème
-     */
-    public void enleverNotification(Personnage personnage) throws RemoteException {
-        Personnage personnageListe = this.listePersonnage.get(personnage.getNomPersonnage());
-        personnageListe.setServeurNotification(null);
+        this.donjon.associerServeurNotificationPersonnage(personnage, serveurNotification);
     }
 
     /**
@@ -262,7 +166,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @throws RemoteException  si l'appel de méthode distant rencontre un problème
      */
     public boolean existeNomPersonnage(String nomPersonnage) throws RemoteException {
-        return this.listePersonnage.containsKey(nomPersonnage);
+        return this.donjon.recuperePersonnage(nomPersonnage) != null;
     }
 
 }
