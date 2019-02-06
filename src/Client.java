@@ -29,6 +29,7 @@ public class Client {
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
         } catch ( Exception e ) {
             e.printStackTrace();
+            System.exit(-1);
         }
     }
 
@@ -49,6 +50,8 @@ public class Client {
             this.seDeplacer("");
         } catch(Exception e) {
             e.printStackTrace();
+            this.seDeconnecter();
+            System.exit(-1);
         }
     }
 
