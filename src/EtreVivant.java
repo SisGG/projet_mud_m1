@@ -14,10 +14,17 @@ import java.io.Serializable;
  *****************************************************************************/
 abstract class EtreVivant implements Serializable {
 
+    protected String nomEtreVivant;
+    private Piece pieceActuelle;
     private int pointDeVieMax;
     private int pointDeVieActuel;
-    private Piece pieceActuelle;
-    protected String nomEtreVivant;
+
+    EtreVivant(String nomEtreVivant, int pointDeVie) {
+        this.nomEtreVivant = nomEtreVivant;
+        this.pointDeVieMax = pointDeVie;
+        this.pointDeVieActuel = pointDeVie;
+        this.pieceActuelle = null;
+    }
 
     EtreVivant(String nomEtreVivant, int pointDeVieMax, Piece piece) {
         this.nomEtreVivant = nomEtreVivant;
@@ -41,25 +48,25 @@ abstract class EtreVivant implements Serializable {
         return this.pieceActuelle;
     }
 
-    void augmenterPointDeVieActuel(int nbPointDevieEnPlus) {
-        this.pointDeVieActuel += nbPointDevieEnPlus;
+    void augmenterPointDeVie() {
+        this.pointDeVieActuel += 1;
         if (this.pointDeVieActuel > pointDeVieMax)
             pointDeVieMax = pointDeVieActuel;
     }
 
-    void perdrePointDeVieActuel(int nbPointDeVieEnMoins){
-        this.pointDeVieActuel -= nbPointDeVieEnMoins;
+    void perdrePointDeVie() {
+        this.pointDeVieActuel -= 1;
     }
 
-    void regagnerPointDeVieMax(){
+    void regagnerPointDeVieMax() {
         this.pointDeVieActuel = this.pointDeVieMax;
     }
 
-    int getPointDeVieActuel() {
+    int getPointDeVie() {
         return pointDeVieActuel;
     }
 
-    String getNomEtreVivant() {
+    String getNom() {
         return nomEtreVivant;
     }
 }
