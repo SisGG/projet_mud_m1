@@ -1,3 +1,6 @@
-﻿- Questions:
+- Finir le compte rendu étape 1.
+    +Résultat prendre des captures d'un scénario
+
+- Questions:
     Question étape 2.
     Diagramme de cas.
