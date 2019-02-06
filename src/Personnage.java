@@ -12,31 +12,19 @@ import java.io.Serializable;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class Personnage implements Serializable {
+public class Personnage extends EtreVivant implements Serializable {
 
     private String nomPersonnage;
-    private Piece pieceActuelle;
     private ServeurNotification serveurNotification;
+    private static final int pointDevieMax= 10;
 
     /**
      * Constructeur de la classe Personnage.
      * @param nomPersonnage Nom du personnage.
      */
     Personnage(String nomPersonnage) {
+        super(pointDevieMax, null);
         this.nomPersonnage = nomPersonnage;
-        this.pieceActuelle = null;
-    }
-
-    void setPieceActuelle(Piece pieceActuelle) {
-        this.pieceActuelle = pieceActuelle;
-    }
-
-    /**
-     * Récupère la piece actuelle du personnage.
-     * @return Renvoie la piece du personnage.
-     */
-    Piece getPieceActuelle() {
-        return this.pieceActuelle;
     }
 
     /**

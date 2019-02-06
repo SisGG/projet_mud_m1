@@ -1,5 +1,6 @@
 import java.rmi.Naming;
 import java.util.Scanner;
+
 import static java.lang.System.exit;
 
 /******************************************************************************
@@ -23,11 +24,11 @@ public class Client {
     /**
      * Constructeur de la classe Client.
      */
-    private Client(){
+    private Client() {
         try {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -35,6 +36,7 @@ public class Client {
 
     /**
      * Permet de se connecter sur les différents serveur de jeu en créant un nouveau joueur.
+     *
      * @param nomPersonnage Nom du personnage créer.
      */
     private void seConnecter(String nomPersonnage) {
@@ -48,7 +50,7 @@ public class Client {
 
             System.out.println("Le personnage " + this.personnage.getNomPersonnage() + " vient de se connecter.");
             this.seDeplacer("");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             this.seDeconnecter();
             System.exit(-1);
@@ -71,19 +73,21 @@ public class Client {
 
     /**
      * Permet de déplacer son personnage dans une direction.
+     *
      * @param direction Chaine de caractère désignant la direction de déplacement.
      */
     private void seDeplacer(String direction) {
         try {
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             this.serveurDiscussion.miseAJourPersonnage(this.personnage);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Envoie un message de discution à tout les joueurs présent dans la même pièce.
+     *
      * @param message Chaine de caractère du message à envoyer.
      */
     private void discuter(String message) {
@@ -96,6 +100,7 @@ public class Client {
 
     /**
      * Vérifie si le nom d'un personnage est présent en jeu.
+     *
      * @param nomPersonnage Nom du personnage à vérifier.
      * @return Renvoie la valeur True si le joueur existe, False sinon.
      */
@@ -103,7 +108,7 @@ public class Client {
         try {
             ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             return serveurDonjon.existeNomPersonnage(nomPersonnage);
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -116,13 +121,13 @@ public class Client {
     private void inscrirePersonnage() {
         Scanner scanner = new Scanner(System.in);
         String nomPersonnage = null;
-        while ( nomPersonnage == null ) {
+        while (nomPersonnage == null) {
             System.out.print("Entrer votre nom de personnage : ");
             nomPersonnage = scanner.nextLine();
-            if ( nomPersonnage.equals("") ) {
+            if (nomPersonnage.equals("")) {
                 System.out.println("Ce nom n'est pas valide.");
                 nomPersonnage = null;
-            } else if ( this.existeNomPersonnage(nomPersonnage) ) {
+            } else if (this.existeNomPersonnage(nomPersonnage)) {
                 System.out.println("Ce nom existe déjà.");
                 nomPersonnage = null;
             }
@@ -140,17 +145,17 @@ public class Client {
     private void interpreterCommande() {
         Scanner scanner = new Scanner(System.in);
         this.afficherCommande();
-        while ( true ) {
+        while (true) {
             String commande = scanner.nextLine();
-            if ( commande.substring(0, 1).equals("\"") ) {
+            if (commande.substring(0, 1).equals("\"")) {
                 this.discuter(commande);
-            } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
+            } else if (commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O")) {
                 this.seDeplacer(commande);
-            } else if ( commande.toLowerCase().equals("quitter") ) {
+            } else if (commande.toLowerCase().equals("quitter")) {
                 System.out.println("Déconnexion.");
                 this.seDeconnecter();
                 exit(0);
-            } else if ( commande.toLowerCase().equals("help") ) {
+            } else if (commande.toLowerCase().equals("help")) {
                 this.afficherCommande();
             } else {
                 System.out.println("Cette commande n'est pas reconnue.");
@@ -171,5 +176,8 @@ public class Client {
         Client client = new Client();
         client.inscrirePersonnage();
         client.interpreterCommande();
+    }
+
+    public void LancerCombat() {
     }
 }

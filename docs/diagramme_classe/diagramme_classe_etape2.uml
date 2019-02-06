@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="214.0">Personnage</node>
+    <node x="0.0" y="589.0">ServeurCombatImpl</node>
+    <node x="552.0" y="0.0">Client</node>
+    <node x="342.0" y="291.5">Monstre</node>
+    <node x="184.25" y="0.0">EtreVivant</node>
+    <node x="23.5" y="488.0">ServeurCombat</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Monstre" target="EtreVivant">
+      <point x="0.0" y="-37.0" />
+      <point x="424.5" y="189.0" />
+      <point x="347.0" y="189.0" />
+      <point x="54.25" y="82.0" />
+    </edge>
+    <edge source="ServeurCombatImpl" target="ServeurCombat">
+      <point x="0.0" y="-59.0" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="Personnage" target="EtreVivant">
+      <point x="0.0" y="-114.5" />
+      <point x="161.0" y="189.0" />
+      <point x="238.5" y="189.0" />
+      <point x="-54.25" y="82.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="266.0" y="281.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

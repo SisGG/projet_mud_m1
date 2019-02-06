@@ -1,3 +1,2 @@
-- Diagramme de cas étape 2
-    *Poser questions prof pour extends/include ?
-- Mettre à jour Diagramme de cas étape 1 du rendu (Sylvain)
+- Diagramme classe etape 2
+- Implementation classe etape 2
