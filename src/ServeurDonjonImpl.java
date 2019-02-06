@@ -73,9 +73,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             default:
                 break;
         }
-        if ( pieceDirection != null) {
-                if (!direction.equals(""))
+        if ( pieceDirection != null ) {
+                if ( !direction.equals("") ) {
                     this.prevenirJoueurQuitterPiece(personnageListe);
+                }
                 personnageListe.setPieceActuelle(pieceDirection);
             try {
                 personnageListe.getServeurNotification().notifier("\rVous arrivez dans la piece " + pieceDirection);
@@ -192,26 +193,28 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         String notification = "Il y a ";
-        for(Personnage personnage1 : this.listePersonnage.values()){
-            if (personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
-                    && !personnage1.toString().equals(personnage.toString())){
+        for ( Personnage personnage1 : this.listePersonnage.values() ) {
+            if ( personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
+                    && !personnage1.toString().equals(personnage.toString()) ) {
                 try {
                     personnage1.getServeurNotification().notifier(personnage.getNomPersonnage()
                             + " est entré dans la pièce: " + personnage.getPieceActuelle());
-                } catch(Exception e) {
+                } catch( Exception e ) {
                     e.printStackTrace();
                 }
-                if(!personnage1.equals(personnage))
-                    notification += personnage1.getNomPersonnage()+ " ";
+                if ( !personnage1.equals(personnage) ) {
+                    notification += personnage1.getNomPersonnage() + " ";
+                }
             }
         }
-        if (notification.equals("Il y a "))
+        if ( notification.equals("Il y a ") ) {
             notification = "Il n'y a pas d'autre joueur dans la pièce.";
-        else
+        } else {
             notification += "dans la pièce.";
+        }
         try {
             personnage.getServeurNotification().notifier(notification);
-        }catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -221,13 +224,13 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage quittant la pièce
      */
     private void prevenirJoueurQuitterPiece(Personnage personnage){
-        for(Personnage personnage1 : this.listePersonnage.values()){
-            if(personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
-                && !personnage1.toString().equals(personnage.toString())){
-                try{
+        for ( Personnage personnage1 : this.listePersonnage.values() ) {
+            if ( personnage1.getPieceActuelle().toString().equals(personnage.getPieceActuelle().toString())
+                && !personnage1.toString().equals(personnage.toString()) ) {
+                try {
                     personnage1.getServeurNotification().notifier(personnage.getNomPersonnage()
                     + " a quitté la pièce.");
-                }catch(Exception e){
+                } catch ( Exception e ) {
                     e.printStackTrace();
                 }
             }
