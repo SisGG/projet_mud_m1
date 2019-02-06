@@ -80,8 +80,12 @@ public class Client {
      */
     private void seDeplacer(String direction) {
         try {
+            Piece pieceActuelle = this.personnage.getPieceActuelle();
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             this.serveurDiscussion.miseAJourPersonnage(this.personnage);
+            if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
+                this.serveurCombat.lancerCombat(this.personnage);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
