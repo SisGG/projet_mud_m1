@@ -1,6 +1,2 @@
-- Finir le compte rendu étape 1.
-    +Résultat prendre des captures d'un scénario
-
-- Questions:
-    Question étape 2.
-    Diagramme de cas.
+- Diagramme classe etape 2
+- Implementation classe etape 2
