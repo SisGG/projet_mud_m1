@@ -16,8 +16,10 @@ import java.rmi.registry.LocateRegistry;
 public class Systeme {
 
     private static final int tailleDonjon = 5;
+    private Donjon donjon;
 
-    private Systeme() {
+    private Systeme(Donjon donjon) {
+        this.donjon = donjon;
         try {
             LocateRegistry.createRegistry(1099);
         } catch(Exception e) {
@@ -31,7 +33,7 @@ public class Systeme {
      */
     private void lancerServeurDonjon() {
         try {
-            ServeurDonjon serveurDonjon = new ServeurDonjonImpl(tailleDonjon);
+            ServeurDonjon serveurDonjon = new ServeurDonjonImpl(this.donjon);
             Naming.rebind("ServeurDonjon", serveurDonjon);
             System.out.println("Le serveur donjon est démarré.");
         } catch(Exception e) {
@@ -44,7 +46,7 @@ public class Systeme {
      */
     private void lancerServeurDiscussion() {
         try {
-            ServeurDiscussion serveurDiscussion = new ServeurDiscussionImpl();
+            ServeurDiscussion serveurDiscussion = new ServeurDiscussionImpl(this.donjon);
             Naming.rebind("ServeurDiscussion", serveurDiscussion);
             System.out.println("Le serveur discussion est démarré.");
         } catch (Exception e) {
@@ -58,18 +60,18 @@ public class Systeme {
      */
     private void lancerServeurCombat() {
         try {
-            ServeurCombat serveurCombat = new ServeurCombatImpl();
+            ServeurCombat serveurCombat = new ServeurCombatImpl(this.donjon);
             Naming.rebind("ServeurCombat", serveurCombat);
             System.out.println("Le serveur combat est démarré.");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
-
     }
 
     public static void main(String[] args) {
-        Systeme systeme = new Systeme();
+        Donjon donjon = new Donjon(tailleDonjon);
+        Systeme systeme = new Systeme(donjon);
         systeme.lancerServeurDonjon();
         systeme.lancerServeurDiscussion();
         systeme.lancerServeurCombat();

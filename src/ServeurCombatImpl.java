@@ -3,100 +3,73 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Random;
 
+/******************************************************************************
+ * file     : src/ServeurCombatImpl.java
+ * @author  : OLIVIER Thomas
+ *            BOURAKADI Reda
+ *            LAPEYRADE Sylvain
+ * @version : 1.0
+ * location : UPSSITECH - University Paul Sabatier
+ * date     : 30 Janvier 2019
+ * licence  :              This work is licensed under a
+ *              Creative Commons Attribution 4.0 International License.
+ *                                    (CC BY)
+ *****************************************************************************/
 public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCombat {
 
     private static long serialVersionUID = 2L;
-    private HashMap<String, EtreVivant> listeEtreVivant;
-    private int nbMonstre;
+    private Donjon donjon;
 
-    ServeurCombatImpl() throws RemoteException {
+    public ServeurCombatImpl(Donjon donjon) throws RemoteException {
         super();
-        this.listeEtreVivant = new HashMap<>();
-        this.nbMonstre = 0;
+        this.donjon = donjon;
     }
 
-    public synchronized HashMap<String, EtreVivant> LancerCombat(Personnage personnage) {
-        Monstre monstre = new Monstre("Montre "+ this.nbMonstre,
-                personnage.getPieceActuelle());
-        this.nbMonstre++;
-        try {
-            this.seConnecter(monstre);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public synchronized void lancerCombat(Personnage personnage) throws RemoteException {
+        System.out.println("[ServeurCombat] Lancement combat.");
+        personnage.getServeurNotification().notifier("Un monstre vous attaque.");
+        Monstre monstre = new Monstre(personnage.getPieceActuelle());
+        this.donjon.ajouterEtreVivant(monstre);
         int resultatTour = 0;
-        while(resultatTour == 0){
+        while ( resultatTour == 0 ) {
             resultatTour = this.effectuerTour(personnage, monstre);
         }
-        return null;
     }
 
-    private int effectuerTour(Personnage personnage, Monstre monstre) {
-        int ciblePerdant1PDV = new Random().nextInt();
-        if (ciblePerdant1PDV == 0)
-            personnage.perdrePointDeVieActuel(1);
-        else monstre.perdrePointDeVieActuel(1);
+    private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
+        int ciblePerdant1PDV = new Random().nextInt(2);
+        if ( ciblePerdant1PDV == 0 ) {
+            personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
+            personnage.perdrePointDeVie();
+        } else {
+            personnage.getServeurNotification().notifier("Le monstre perds 1 point de vie.");
+            monstre.perdrePointDeVie();
+        }
 
-        if (personnage.getPointDeVieActuel() == 0)
+        if ( personnage.getPointDeVie() == 0 ) {
+            personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
             return 1;
-        else if(monstre.getPointDeVieActuel() == 0)
+        } else if ( monstre.getPointDeVie() == 0 ) {
+            personnage.getServeurNotification().notifier("Vous tuez le monstre.\n" +
+                    "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
             return 2;
-        else{
-            //personnage.getServeurNotification().notifier("");
+        } else {
             return 0;
         }
     }
-
-    public EtreVivant faireGagnerPointDeVie(EtreVivant etreVivant, int nbPointDevieEnPlus) {
-         etreVivant.augmenterPointDeVieActuel(nbPointDevieEnPlus);
-         return  etreVivant;
+    
+    /*
+    public EtreVivant faireGagnerPointDeVie(EtreVivant etreVivant) {
+        etreVivant.augmenterPointDeVie();
+        return etreVivant;
     }
 
-    public HashMap<String, EtreVivant> faireRegagnerPointDeVieMaxPiece(EtreVivant etreVivant){
-        for(EtreVivant etreVivant1 : this.listeEtreVivant.values()){
-            if (etreVivant1.getPieceActuelle().equals(etreVivant.getPieceActuelle())){
-                etreVivant1.regagnerPointDeVieMax();
-            }
+
+    private HashMap<String, EtreVivant> faireRegagnerPointDeVieMaxPiece(EtreVivant etreVivant){
+        for ( EtreVivant etreVivantCurrent : this.donjon.getPersonnageMemePiece(etreVivant) ) {
+            etreVivantCurrent.regagnerPointDeVieMax();
         }
-        return this.listeEtreVivant;
-    }
-
-    /**
-     * Enregistre un etre vivant dans le serveur de combat.
-     * @param etreVivant que l'on veut ajouter.
-     */
-    public synchronized void seConnecter(EtreVivant etreVivant) throws RemoteException {
-        this.listeEtreVivant.put(etreVivant.getNomEtreVivant(), etreVivant);
-    }
-
-    /**
-     * Enleve un etre vivant du serveur de combat lors de sa mort ou déconnexion.
-     * @param etreVivant etreVivant que l'on veut enlever.
-     */
-    public synchronized void seDeconnecter(EtreVivant etreVivant) throws RemoteException{
-        this.listeEtreVivant.remove(etreVivant.getNomEtreVivant(), etreVivant);
-    }
-
-    /**
-     * Associe un serveur de notification à un personnage
-     * @param personnage auquel on associe un serveur notification
-     * @param serveurNotification qui sera associé au personnage
-     * @throws RemoteException si l'appel de méthode distante rencontre un problème
-     */
-    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
-        Personnage personnageListe = (Personnage) this.listeEtreVivant.get(personnage.getNomPersonnage());
-        personnageListe.setServeurNotification(serveurNotification);
-    }
-
-    /**
-     * Supprime le serveur de notification d'un personnage
-     * @param personnage auquel on enlève un serveur notification
-     * @throws RemoteException si l'appel de méthode distante rencontre un problème
-     */
-    public void enleverNotification(Personnage personnage) throws RemoteException {
-        Personnage personnageListe = (Personnage) this.listeEtreVivant.get(personnage.getNomPersonnage());
-        personnageListe.setServeurNotification(null);
-    }
-
+        return null;
+    }*/
 
 }

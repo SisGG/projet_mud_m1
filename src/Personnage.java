@@ -12,24 +12,15 @@
  *****************************************************************************/
 public class Personnage extends EtreVivant {
 
-    private String nomPersonnage;
+    private static final int pointDeVieMax = 10;
     private ServeurNotification serveurNotification;
-    private static final int pointDevieMax= 10;
 
     /**
      * Constructeur de la classe Personnage.
      * @param nomPersonnage Nom du personnage.
      */
     Personnage(String nomPersonnage) {
-        super(nomPersonnage, pointDevieMax, null);
-    }
-
-    /**
-     * Récupère le nom du personnage.
-     * @return Renvoie la chaine de caractère du nom de personnage.
-     */
-    String getNomPersonnage() {
-        return this.nomPersonnage;
+        super(nomPersonnage, pointDeVieMax);
     }
 
     /***
@@ -52,7 +43,7 @@ public class Personnage extends EtreVivant {
      * @return Renvoie une chaine de caractère.
      */
     public String toString() {
-        return "Personnage[" + this.nomPersonnage + "]";
+        return "Personnage[" + this.nomEtreVivant + "]";
     }
 
     /**
@@ -61,6 +52,6 @@ public class Personnage extends EtreVivant {
      * @return Boolean : True si les deux sont identiques, faux sinon
      */
     boolean equals(Personnage personnage) {
-        return this.nomPersonnage.equals(personnage.getNomPersonnage());
+        return this.nomEtreVivant.equals(personnage.getNom());
     }
 }
