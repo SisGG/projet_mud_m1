@@ -23,7 +23,7 @@ public class Piece implements Serializable {
      * @param coordonneX entier correspendant à la coordonnée X de la piece
      * @param coordonneeY entier correspendant à la coordonnée Y de la piece
      */
-    public Piece(int coordonneX, int coordonneeY) {
+    Piece(int coordonneX, int coordonneeY) {
         this.coordonneeX = coordonneX;
         this.coordonneeY = coordonneeY;
     }
@@ -32,7 +32,7 @@ public class Piece implements Serializable {
      * Récupérer la coordonnée X de la pièce
      * @return renvoie l'entier qui représente la coordonnée X
      */
-    public int getCoordonneeX() {
+    int getCoordonneeX() {
         return this.coordonneeX;
     }
 
@@ -40,7 +40,7 @@ public class Piece implements Serializable {
      * Récupérer la coordonnée Y de la pièce
      * @returnrenvoie l'entier qui représente la coordonnée Y
      */
-    public int getCoordonneeY() {
+    int getCoordonneeY() {
         return this.coordonneeY;
     }
 
@@ -48,7 +48,7 @@ public class Piece implements Serializable {
      * @param piece l'objet piece que l'on veut comparer
      * @return vrai ou faux pour savoir si les deux pièces ont les mêmes coordonnées
      */
-    public boolean equals(Piece piece) {
+    boolean equals(Piece piece) {
         return this.coordonneeX == piece.coordonneeX && this.coordonneeY == piece.coordonneeY;
     }
 

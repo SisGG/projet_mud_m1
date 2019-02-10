@@ -1,5 +1,3 @@
-import java.io.Serializable;
-
 /******************************************************************************
  * file     : src/Personnage.java
  * @author  : OLIVIER Thomas
@@ -12,10 +10,9 @@ import java.io.Serializable;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class Personnage implements Serializable {
+public class Personnage extends EtreVivant {
 
-    private String nomPersonnage;
-    private Piece pieceActuelle;
+    private static final int pointDeVieMax = 10;
     private ServeurNotification serveurNotification;
 
     /**
@@ -23,20 +20,7 @@ public class Personnage implements Serializable {
      * @param nomPersonnage Nom du personnage.
      */
     Personnage(String nomPersonnage) {
-        this.nomPersonnage = nomPersonnage;
-        this.pieceActuelle = null;
-    }
-
-    void setPieceActuelle(Piece pieceActuelle) {
-        this.pieceActuelle = pieceActuelle;
-    }
-
-    /**
-     * Récupère la piece actuelle du personnage.
-     * @return Renvoie la piece du personnage.
-     */
-    Piece getPieceActuelle() {
-        return this.pieceActuelle;
+        super(nomPersonnage, pointDeVieMax);
     }
 
     /**
@@ -44,7 +28,7 @@ public class Personnage implements Serializable {
      * @return Renvoie la chaine de caractère du nom de personnage.
      */
     String getNomPersonnage() {
-        return this.nomPersonnage;
+        return this.nomEtreVivant;
     }
 
     /***
@@ -67,7 +51,7 @@ public class Personnage implements Serializable {
      * @return Renvoie une chaine de caractère.
      */
     public String toString() {
-        return "Personnage[" + this.nomPersonnage + "]";
+        return "Personnage[" + this.nomEtreVivant + "]";
     }
 
     /**
@@ -76,6 +60,6 @@ public class Personnage implements Serializable {
      * @return Boolean : True si les deux sont identiques, faux sinon
      */
     boolean equals(Personnage personnage) {
-        return this.nomPersonnage.equals(personnage.getNomPersonnage());
+        return this.nomEtreVivant.equals(personnage.getNomPersonnage());
     }
 }

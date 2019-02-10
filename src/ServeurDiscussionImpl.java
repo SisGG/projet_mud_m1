@@ -20,7 +20,6 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
 
     private Donjon donjon;
 
-
     /**
      * Instanciation de la listepersonnage
      * @throws RemoteException

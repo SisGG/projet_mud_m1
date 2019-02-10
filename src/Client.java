@@ -1,5 +1,6 @@
 import java.rmi.Naming;
 import java.util.Scanner;
+
 import static java.lang.System.exit;
 
 /******************************************************************************
@@ -19,15 +20,17 @@ public class Client {
     private Personnage personnage;
     private ServeurDonjon serveurDonjon;
     private ServeurDiscussion serveurDiscussion;
+    private ServeurCombat serveurCombat;
 
     /**
      * Constructeur de la classe Client.
      */
-    private Client(){
+    private Client() {
         try {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
-        } catch ( Exception e ) {
+            this.serveurCombat = (ServeurCombat) Naming.lookup("//localhost/ServeurCombat");
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -46,7 +49,7 @@ public class Client {
 
             System.out.println("Le personnage " + this.personnage.getNomPersonnage() + " vient de se connecter.");
             this.seDeplacer("");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             this.seDeconnecter();
             System.exit(-1);
@@ -72,8 +75,12 @@ public class Client {
      */
     private void seDeplacer(String direction) {
         try {
+            Piece pieceActuelle = this.personnage.getPieceActuelle();
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
-        } catch(Exception e) {
+            if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
+                this.serveurCombat.lancerCombat(this.personnage);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -88,6 +95,10 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void LancerCombat() {
     }
 
     /**
@@ -168,4 +179,5 @@ public class Client {
         client.inscrirePersonnage();
         client.interpreterCommande();
     }
+
 }

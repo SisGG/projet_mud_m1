@@ -67,9 +67,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             default:
                 break;
         }
-        if ( pieceDirection != null) {
-                if (!direction.equals(""))
+        if ( pieceDirection != null ) {
+                if ( !direction.equals("") ) {
                     this.prevenirJoueurQuitterPiece(personnageListe);
+                }
                 personnageListe.setPieceActuelle(pieceDirection);
             try {
                 personnageListe.getServeurNotification().notifier("\rVous arrivez dans la piece " + pieceDirection);
@@ -113,7 +114,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
                 try {
                     personnageCourant.getServeurNotification().notifier(personnage.getNomPersonnage()
                             + " est entré dans la pièce: " + personnage.getPieceActuelle());
-                } catch(Exception e) {
+                } catch( Exception e ) {
                     e.printStackTrace();
                 }
                 if ( !personnageCourant.equals(personnage) ) {
@@ -121,13 +122,14 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
                 }
             }
         }
-        if (notification.equals("Il y a "))
+        if ( notification.equals("Il y a ") ) {
             notification = "Il n'y a pas d'autre joueur dans la pièce.";
-        else
+        } else {
             notification += "dans la pièce.";
+        }
         try {
             personnage.getServeurNotification().notifier(notification);
-        }catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }

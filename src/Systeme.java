@@ -53,7 +53,20 @@ public class Systeme {
             e.printStackTrace();
             System.exit(-1);
         }
+    }
 
+    /**
+     * Démarre un serveur combat en lui attribuant un nom spécifique.
+     */
+    private void lancerServeurCombat() {
+        try {
+            ServeurCombat serveurCombat = new ServeurCombatImpl();
+            Naming.rebind("ServeurCombat", serveurCombat);
+            System.out.println("Le serveur combat est démarré.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     public static void main(String[] args) {
@@ -61,5 +74,6 @@ public class Systeme {
         Systeme systeme = new Systeme(donjon);
         systeme.lancerServeurDonjon();
         systeme.lancerServeurDiscussion();
+        systeme.lancerServeurCombat();
     }
 }
