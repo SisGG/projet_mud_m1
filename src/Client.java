@@ -47,7 +47,7 @@ public class Client {
             ServeurNotification serveurNotification = new ServeurNotificationImpl();
             this.serveurDonjon.enregistrerNotification(this.personnage, serveurNotification);
 
-            System.out.println("Le personnage " + this.personnage.getNomPersonnage() + " vient de se connecter.");
+            System.out.println("Le personnage " + this.personnage.getNom() + " vient de se connecter.");
             this.seDeplacer("");
         } catch (Exception e) {
             e.printStackTrace();

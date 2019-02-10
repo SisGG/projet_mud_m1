@@ -60,7 +60,7 @@ public class Systeme {
      */
     private void lancerServeurCombat() {
         try {
-            ServeurCombat serveurCombat = new ServeurCombatImpl();
+            ServeurCombat serveurCombat = new ServeurCombatImpl(this.donjon);
             Naming.rebind("ServeurCombat", serveurCombat);
             System.out.println("Le serveur combat est démarré.");
         } catch (Exception e) {

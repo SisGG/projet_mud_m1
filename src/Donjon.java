@@ -4,12 +4,12 @@ import java.util.Vector;
 public class Donjon {
 
     private int tailleDonjon;
-    private HashMap<String,Personnage> listePersonnage;
+    private HashMap<String,EtreVivant> listeEtreVivant;
     private Piece[][] donjon;
 
     public Donjon(int tailleDonjon) {
         this.tailleDonjon = tailleDonjon;
-        this.listePersonnage = new HashMap<>();
+        this.listeEtreVivant = new HashMap<>();
         this.donjon = new Piece[tailleDonjon][tailleDonjon];
         this.genererDonjon(tailleDonjon);
     }
@@ -35,11 +35,11 @@ public class Donjon {
         return this.donjon[0][0];
     }
 
-    public Vector<Personnage> getPersonnageMemePiece(Personnage personnage) {
-        Vector<Personnage> listePersonnage = new Vector<>();
-        for (Personnage personnageCourant : this.listePersonnage.values() ) {
-            if ( personnage.getPieceActuelle().equals(personnageCourant.getPieceActuelle()) ) {
-                listePersonnage.add(personnageCourant);
+    public Vector<EtreVivant> getEtreVivantMemePiece(EtreVivant etreVivant) {
+        Vector<EtreVivant> listePersonnage = new Vector<>();
+        for (EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
+            if ( etreVivant.getPieceActuelle().equals(etreVivantCourant.getPieceActuelle()) ) {
+                listePersonnage.add(etreVivantCourant);
             }
         }
         return listePersonnage;
@@ -73,30 +73,34 @@ public class Donjon {
         return null;
     }
 
-    public boolean ajouterPersonnage(Personnage personnage) {
-        if ( !this.listePersonnage.containsKey(personnage.getNomPersonnage()) ) {
-            this.listePersonnage.put(personnage.getNomPersonnage(), personnage);
+    public boolean ajouterEtreVivant(EtreVivant etreVivant) {
+        if ( !this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
+            this.listeEtreVivant.put(etreVivant.getNom(), etreVivant);
             return true;
         }
         return false;
     }
 
-    public void supprimerPersonnage(Personnage personnage) {
-        if ( this.listePersonnage.containsKey(personnage.getNomPersonnage()) ) {
-            this.listePersonnage.remove(personnage.getNomPersonnage());
+    public void supprimerEtreVivant(EtreVivant etreVivant) {
+        if ( this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
+            this.listeEtreVivant.remove(etreVivant.getNom());
         }
     }
 
-    public Personnage recuperePersonnage(String nomPersonnage) {
-        if ( this.listePersonnage.containsKey(nomPersonnage) ) {
-            return this.listePersonnage.get(nomPersonnage);
+    public EtreVivant recupereEtreVivant(String nomEtreVivant) {
+        if ( this.listeEtreVivant.containsKey(nomEtreVivant) ) {
+            return this.listeEtreVivant.get(nomEtreVivant);
         }
         return null;
     }
 
-    public void associerServeurNotificationPersonnage(Personnage personnage, ServeurNotification serveurNotification) {
-        if ( this.listePersonnage.containsKey(personnage.getNomPersonnage()) ) {
-            this.listePersonnage.get(personnage.getNomPersonnage()).setServeurNotification(serveurNotification);
+    public void associerServeurNotificationPersonnage(EtreVivant etreVivant, ServeurNotification serveurNotification) {
+        if ( this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
+            EtreVivant etreVivantListe = this.listeEtreVivant.get(etreVivant.getNom());
+            if ( etreVivantListe instanceof Personnage ) {
+                Personnage personnageCourant = (Personnage) etreVivantListe;
+                personnageCourant.setServeurNotification(serveurNotification);
+            }
         }
     }
 }

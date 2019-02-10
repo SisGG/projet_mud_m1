@@ -18,18 +18,18 @@ import java.util.Random;
 public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCombat {
 
     private static long serialVersionUID = 2L;
-    private HashMap<String, EtreVivant> listeEtreVivant;
+    private Donjon donjon;
 
-    public ServeurCombatImpl() throws RemoteException {
+    public ServeurCombatImpl(Donjon donjon) throws RemoteException {
         super();
-        this.listeEtreVivant = new HashMap<>();
+        this.donjon = donjon;
     }
 
     public synchronized void lancerCombat(Personnage personnage) throws RemoteException {
         System.out.println("[ServeurCombat] Lancement combat.");
-        //personnage.getServeurNotification().notifier("Un monstre vous attaque.");
+        personnage.getServeurNotification().notifier("Un monstre vous attaque.");
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
-        this.listeEtreVivant.put(monstre.getNom(), monstre);
+        this.donjon.ajouterEtreVivant(monstre);
         int resultatTour = 0;
         while ( resultatTour == 0 ) {
             resultatTour = this.effectuerTour(personnage, monstre);
@@ -38,39 +38,38 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
 
     private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
         int ciblePerdant1PDV = new Random().nextInt(2);
-        //System.out.println("[ServeurCombat] " + ciblePerdant1PDV);
         if ( ciblePerdant1PDV == 0 ) {
-            //personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
+            personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
             personnage.perdrePointDeVie();
         } else {
-            //personnage.getServeurNotification().notifier("Le monstre perds 1 point de vie.");
+            personnage.getServeurNotification().notifier("Le monstre perds 1 point de vie.");
             monstre.perdrePointDeVie();
         }
 
         if ( personnage.getPointDeVie() == 0 ) {
-            //personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
+            personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
             return 1;
         } else if ( monstre.getPointDeVie() == 0 ) {
-            //personnage.getServeurNotification().notifier("Vous tuez le monstre.");
+            personnage.getServeurNotification().notifier("Vous tuez le monstre.\n" +
+                    "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
             return 2;
         } else {
-            //personnage.getServeurNotification().notifier("");
             return 0;
         }
     }
-
+    
+    /*
     public EtreVivant faireGagnerPointDeVie(EtreVivant etreVivant) {
         etreVivant.augmenterPointDeVie();
         return etreVivant;
     }
 
+
     private HashMap<String, EtreVivant> faireRegagnerPointDeVieMaxPiece(EtreVivant etreVivant){
-        for ( EtreVivant etreVivantCurrent : this.listeEtreVivant.values() ) {
-            if ( etreVivantCurrent.getPieceActuelle().equals(etreVivant.getPieceActuelle()) ) {
-                etreVivantCurrent.regagnerPointDeVieMax();
-            }
+        for ( EtreVivant etreVivantCurrent : this.donjon.getPersonnageMemePiece(etreVivant) ) {
+            etreVivantCurrent.regagnerPointDeVieMax();
         }
-        return this.listeEtreVivant;
-    }
+        return null;
+    }*/
 
 }

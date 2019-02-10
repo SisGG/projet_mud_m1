@@ -23,14 +23,6 @@ public class Personnage extends EtreVivant {
         super(nomPersonnage, pointDeVieMax);
     }
 
-    /**
-     * Récupère le nom du personnage.
-     * @return Renvoie la chaine de caractère du nom de personnage.
-     */
-    String getNomPersonnage() {
-        return this.nomEtreVivant;
-    }
-
     /***
      * Associe un Serveur Notification au personnage
      * @param serveurNotification que l'on associe au personnage
@@ -60,6 +52,6 @@ public class Personnage extends EtreVivant {
      * @return Boolean : True si les deux sont identiques, faux sinon
      */
     boolean equals(Personnage personnage) {
-        return this.nomEtreVivant.equals(personnage.getNomPersonnage());
+        return this.nomEtreVivant.equals(personnage.getNom());
     }
 }
