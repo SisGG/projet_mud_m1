@@ -48,17 +48,17 @@ abstract class EtreVivant implements Serializable {
         return this.pieceActuelle;
     }
 
-    void augmenterPointDeVie() {
+    synchronized void augmenterPointDeVie() {
         this.pointDeVieActuel += 1;
         if (this.pointDeVieActuel > pointDeVieMax)
             pointDeVieMax = pointDeVieActuel;
     }
 
-    void perdrePointDeVie() {
+    synchronized void perdrePointDeVie() {
         this.pointDeVieActuel -= 1;
     }
 
-    void regagnerPointDeVieMax() {
+    synchronized void regagnerPointDeVieMax() {
         this.pointDeVieActuel = this.pointDeVieMax;
     }
 
@@ -68,5 +68,9 @@ abstract class EtreVivant implements Serializable {
 
     String getNom() {
         return nomEtreVivant;
+    }
+
+    boolean equals(EtreVivant etreVivant) {
+        return this.nomEtreVivant.equals(etreVivant.getNom());
     }
 }

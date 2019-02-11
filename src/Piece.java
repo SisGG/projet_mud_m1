@@ -38,7 +38,7 @@ public class Piece implements Serializable {
 
     /**
      * Récupérer la coordonnée Y de la pièce
-     * @returnrenvoie l'entier qui représente la coordonnée Y
+     * @return renvoie l'entier qui représente la coordonnée Y
      */
     int getCoordonneeY() {
         return this.coordonneeY;

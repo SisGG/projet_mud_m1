@@ -79,8 +79,9 @@ public class Client {
             Piece pieceActuelle = this.personnage.getPieceActuelle();
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
-                if (this.serveurCombat.lancerCombat(this.personnage) == 1){
-                    this.seDeconnecter(0);
+                boolean personnageMort = this.serveurCombat.lancerCombatMonstre(this.personnage);
+                if ( personnageMort ) {
+                    System.exit(0);
                 }
                 this.afficherCommande();
             }

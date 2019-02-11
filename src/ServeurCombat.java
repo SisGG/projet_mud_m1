@@ -15,6 +15,6 @@ import java.rmi.RemoteException;
  *****************************************************************************/
 public interface ServeurCombat extends Remote {
 
-    int lancerCombat(Personnage personnage) throws RemoteException;
+    boolean lancerCombatMonstre(Personnage personnage) throws RemoteException;
 
 }

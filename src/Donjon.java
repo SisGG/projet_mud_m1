@@ -1,6 +1,18 @@
 import java.util.HashMap;
 import java.util.Vector;
 
+/******************************************************************************
+ * file     : src/Donjon.java
+ * @author  : OLIVIER Thomas
+ *            BOURAKADI Reda
+ *            LAPEYRADE Sylvain
+ * @version : 1.0
+ * location : UPSSITECH - University Paul Sabatier
+ * date     : 30 Janvier 2019
+ * licence  :              This work is licensed under a
+ *              Creative Commons Attribution 4.0 International License.
+ *                                    (CC BY)
+ *****************************************************************************/
 public class Donjon {
 
     private int tailleDonjon;
@@ -31,11 +43,11 @@ public class Donjon {
      * Récupère la pièce de départ du donjon.
      * @return Renvoie une pièce.
      */
-    public Piece getPieceDepart() {
+    Piece getPieceDepart() {
         return this.donjon[0][0];
     }
 
-    public Vector<EtreVivant> getEtreVivantMemePiece(EtreVivant etreVivant) {
+    Vector<EtreVivant> getEtreVivantMemePiece(EtreVivant etreVivant) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
         for (EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
             if ( etreVivant.getPieceActuelle().equals(etreVivantCourant.getPieceActuelle()) ) {
@@ -45,7 +57,7 @@ public class Donjon {
         return listePersonnage;
     }
 
-    public Piece getPiece(Piece piece, String direction) {
+    Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
         switch( direction ) {
@@ -73,28 +85,26 @@ public class Donjon {
         return null;
     }
 
-    public boolean ajouterEtreVivant(EtreVivant etreVivant) {
+    synchronized void ajouterEtreVivant(EtreVivant etreVivant) {
         if ( !this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
             this.listeEtreVivant.put(etreVivant.getNom(), etreVivant);
-            return true;
         }
-        return false;
     }
 
-    public void supprimerEtreVivant(EtreVivant etreVivant) {
-        if ( this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
+    synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
+        if ( etreVivant != null ) {
             this.listeEtreVivant.remove(etreVivant.getNom());
         }
     }
 
-    public EtreVivant recupereEtreVivant(String nomEtreVivant) {
+    EtreVivant recupereEtreVivant(String nomEtreVivant) {
         if ( this.listeEtreVivant.containsKey(nomEtreVivant) ) {
             return this.listeEtreVivant.get(nomEtreVivant);
         }
         return null;
     }
 
-    public void associerServeurNotificationPersonnage(EtreVivant etreVivant, ServeurNotification serveurNotification) {
+    void associerServeurNotificationPersonnage(EtreVivant etreVivant, ServeurNotification serveurNotification) {
         if ( this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
             EtreVivant etreVivantListe = this.listeEtreVivant.get(etreVivant.getNom());
             if ( etreVivantListe instanceof Personnage ) {
@@ -104,7 +114,7 @@ public class Donjon {
         }
     }
 
-    public boolean nomEtreVivantExist(String nomEtreVivant) {
+    boolean nomEtreVivantExist(String nomEtreVivant) {
         return this.listeEtreVivant.containsKey(nomEtreVivant);
     }
 }

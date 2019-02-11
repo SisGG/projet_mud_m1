@@ -34,7 +34,6 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     public synchronized Personnage seConnecter(String nomPersonnage) {
         Personnage personnage = new Personnage(nomPersonnage);
-        System.out.println("Connexion de " + personnage + ".");
         this.donjon.ajouterEtreVivant(personnage);
         return personnage;
     }
@@ -95,7 +94,6 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     public void seDeconnecter(Personnage personnage){
         try {
             this.donjon.supprimerEtreVivant(personnage);
-            System.out.println("Déconnexion de " + personnage);
         } catch ( Exception e ) {
             e.printStackTrace();
         }
