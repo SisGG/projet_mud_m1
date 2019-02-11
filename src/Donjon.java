@@ -103,4 +103,8 @@ public class Donjon {
             }
         }
     }
+
+    public boolean nomEtreVivantExist(String nomEtreVivant) {
+        return this.listeEtreVivant.containsKey(nomEtreVivant);
+    }
 }

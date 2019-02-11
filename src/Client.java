@@ -97,10 +97,6 @@ public class Client {
         }
     }
 
-
-    public void LancerCombat() {
-    }
-
     /**
      * Vérifie si le nom d'un personnage est présent en jeu.
      * @param nomPersonnage Nom du personnage à vérifier.
@@ -145,11 +141,11 @@ public class Client {
      * Effectue ensuite l'action souhaité.
      */
     private void interpreterCommande() {
-        Scanner scanner = new Scanner(System.in);
         this.afficherCommande();
         while ( true ) {
+            Scanner scanner = new Scanner(System.in);
             String commande = scanner.nextLine();
-            if ( commande.substring(0, 1).equals("\"") ) {
+            if ( commande.length() > 1 && commande.substring(0, 1).equals("\"") ) {
                 this.discuter(commande);
             } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
                 this.seDeplacer(commande);

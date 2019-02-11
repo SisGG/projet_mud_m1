@@ -1,5 +1,6 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 
 /******************************************************************************
  * file     : src/ServeurNotificationImpl.java
@@ -29,4 +30,12 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
     public void notifier(String notication){
         System.out.println("\r" + notication);
     }
+
+    public String demanderAction() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Voulez vous continuer ou fuir ? ");
+        String text = scanner.nextLine();
+        return text;
+    }
+
 }
