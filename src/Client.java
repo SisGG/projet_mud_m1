@@ -78,7 +78,8 @@ public class Client {
             Piece pieceActuelle = this.personnage.getPieceActuelle();
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
-                this.serveurCombat.lancerCombat(this.personnage);
+                if (this.serveurCombat.lancerCombat(this.personnage) == 1)
+                    this.serveurDonjon.seDeconnecter(this.personnage);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,10 +96,6 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void LancerCombat() {
     }
 
     /**

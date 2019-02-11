@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 import java.util.Random;
 
 /******************************************************************************
@@ -25,15 +24,16 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.donjon = donjon;
     }
 
-    public synchronized void lancerCombat(Personnage personnage) throws RemoteException {
+    public synchronized int lancerCombat(Personnage personnage) throws RemoteException {
         System.out.println("[ServeurCombat] Lancement combat.");
-        personnage.getServeurNotification().notifier("Un monstre vous attaque.");
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
+        personnage.getServeurNotification().notifier(monstre.getNom()+" vous attaque.");
         this.donjon.ajouterEtreVivant(monstre);
         int resultatTour = 0;
         while ( resultatTour == 0 ) {
             resultatTour = this.effectuerTour(personnage, monstre);
         }
+        return  resultatTour;
     }
 
     private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
@@ -42,7 +42,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
             personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
             personnage.perdrePointDeVie();
         } else {
-            personnage.getServeurNotification().notifier("Le monstre perds 1 point de vie.");
+            personnage.getServeurNotification().notifier(monstre.getNom()+" perds 1 point de vie.");
             monstre.perdrePointDeVie();
         }
 
@@ -50,7 +50,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
             personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
             return 1;
         } else if ( monstre.getPointDeVie() == 0 ) {
-            personnage.getServeurNotification().notifier("Vous tuez le monstre.\n" +
+            personnage.getServeurNotification().notifier("Vous tuez "+monstre.getNom()+ "! \n" +
                     "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
             return 2;
         } else {
