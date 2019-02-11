@@ -32,14 +32,16 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }
         personnage.getServeurNotification().notifier(monstre.getNom()+" vous attaque.");
         this.donjon.ajouterEtreVivant(monstre);
-        String action = "continuer";
+        String action = "";
         int resultatTour = 0;
         while ( resultatTour == 0 ) {
             resultatTour = this.effectuerTour(personnage, monstre);
-            if ( resultatTour == 0 ) {
-                action = personnage.getServeurNotification().demanderAction();
+            if (resultatTour == 0) {
+                action = personnage.getServeurNotification().demanderAction("Entre \"fuir\" pour quitter le combat" +
+                        " ou n'importe quelle autre commande pour continuer : ");
                 if (action.equals("fuir")) {
-                    personnage.getServeurNotification().notifier("Vous avez fuit le combat.");
+                    personnage.getServeurNotification().notifier("Vous avez fuit le combat. " +
+                            "Il vous reste " + personnage.getPointDeVie() + " point de vie.");
                     break;
                 }
             }
@@ -53,28 +55,31 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         Monstre monstreCourant = (Monstre) this.donjon.recupereEtreVivant(monstre.getNom());
 
         if ( ciblePerdant1PDV == 0 ) {
-            personnageCourant.getServeurNotification().notifier("Vous perdez 1 point de vie.");
+            personnageCourant.getServeurNotification().notifier(monstreCourant.getNom()
+                    + " vous attaque, vous perdez 1 point de vie.");
             personnageCourant.perdrePointDeVie();
         } else if (ciblePerdant1PDV == 1 ) {
-            personnageCourant.getServeurNotification().notifier(monstreCourant.getNom()+" perd 1 point de vie.");
+            personnageCourant.getServeurNotification().notifier("Vous attaquer "
+                    + monstreCourant.getNom() + " perd 1 point de vie.");
             monstreCourant.perdrePointDeVie();
         }
 
-        if ( personnage.getPointDeVie() == 0 ) {
+        if ( personnageCourant.getPointDeVie() == 0 ) {
             personnageCourant.getServeurNotification().notifier("Vous mourez... bye bye.");
             monstreCourant.augmenterPointDeVie();
             return 1;
-        } else if ( monstre.getPointDeVie() == 0 ) {
+        } else if ( monstreCourant.getPointDeVie() == 0 ) {
             personnageCourant.augmenterPointDeVie();
-            personnageCourant.getServeurNotification().notifier("Vous tuez "+monstreCourant.getNom()+
-                    ". Vous regagnez donc un point de vie.\n" +
-                    "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
-            this.donjon.supprimerEtreVivant(monstre);
-            personnage.augmenterPointDeVie();
+            personnageCourant.getServeurNotification().notifier("Vous tuez " + monstreCourant.getNom() +
+                    ". Fin du combat, vous regagnez donc un point de vie. " +
+                    "Il vous reste " + personnageCourant.getPointDeVie() + " points de vie.");
+            this.donjon.supprimerEtreVivant(monstreCourant);
+            personnageCourant.augmenterPointDeVie();
             return 2;
         } else {
-            personnage.getServeurNotification().notifier("Il vous reste " + personnage.getPointDeVie()
-                    + ". Le monstre a " + monstre.getPointDeVie() + ".");
+            personnageCourant.getServeurNotification().notifier("Il vous reste "
+                    + personnageCourant.getPointDeVie() + " pdv. " +
+                    "Le monstre a " + monstreCourant.getPointDeVie() + " pdv.");
         }
         return 0;
     }

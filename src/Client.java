@@ -82,6 +82,7 @@ public class Client {
                 if (this.serveurCombat.lancerCombat(this.personnage) == 1){
                     this.seDeconnecter(0);
                 }
+                this.afficherCommande();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,6 +153,7 @@ public class Client {
                 this.discuter(commande);
             } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
                 this.seDeplacer(commande);
+
             } else if ( commande.toLowerCase().equals("quitter") ) {
                 System.out.println("Déconnexion.");
                 this.seDeconnecter(0);

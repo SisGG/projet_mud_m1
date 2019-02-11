@@ -31,9 +31,9 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
         System.out.println("\r" + notication);
     }
 
-    public String demanderAction() {
+    public String demanderAction(String message) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Voulez vous continuer ou fuir ? ");
+        System.out.print(message);
         String text = scanner.nextLine();
         return text;
     }

@@ -17,6 +17,6 @@ public interface ServeurNotification extends Remote {
 
     void notifier(String notification) throws RemoteException;
 
-    String demanderAction() throws RemoteException;
+    String demanderAction(String message) throws RemoteException;
 
 }
