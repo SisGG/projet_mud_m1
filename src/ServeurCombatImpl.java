@@ -25,13 +25,13 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.donjon = donjon;
     }
 
-    public synchronized void lancerCombat(Personnage personnage) throws RemoteException {
+    public synchronized int lancerCombat(Personnage personnage) throws RemoteException {
         System.out.println("[ServeurCombat] Lancement combat.");
-        personnage.getServeurNotification().notifier("Un monstre vous attaque.");
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
         while ( this.donjon.nomEtreVivantExist(monstre.getNom()) ) {
             monstre = new Monstre(personnage.getPieceActuelle());
         }
+        personnage.getServeurNotification().notifier(monstre.getNom()+" vous attaque.");
         this.donjon.ajouterEtreVivant(monstre);
         String action = "continuer";
         int resultatTour = 0;
@@ -45,6 +45,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
                 }
             }
         }
+        return resultatTour;
     }
 
     private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
@@ -53,7 +54,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
             personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
             personnage.perdrePointDeVie();
         } else {
-            personnage.getServeurNotification().notifier("Le monstre perds 1 point de vie.");
+            personnage.getServeurNotification().notifier(monstre.getNom()+" perds 1 point de vie.");
             monstre.perdrePointDeVie();
         }
 
@@ -62,7 +63,9 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
             monstre.augmenterPointDeVie();
             return 1;
         } else if ( monstre.getPointDeVie() == 0 ) {
-            personnage.getServeurNotification().notifier("Vous tuez le monstre.\n" +
+            personnage.augmenterPointDeVie();
+            personnage.getServeurNotification().notifier("Vous tuez "+monstre.getNom()+
+                    ". Vous regagnez donc un point de vie.\n" +
                     "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
             this.donjon.supprimerEtreVivant(monstre);
             personnage.augmenterPointDeVie();

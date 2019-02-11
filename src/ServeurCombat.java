@@ -1,6 +1,5 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
 /******************************************************************************
  * file     : src/ServeurCombat.java
@@ -16,6 +15,6 @@ import java.util.HashMap;
  *****************************************************************************/
 public interface ServeurCombat extends Remote {
 
-    void lancerCombat(Personnage personnage) throws RemoteException;
+    int lancerCombat(Personnage personnage) throws RemoteException;
 
 }

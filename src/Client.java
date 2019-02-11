@@ -51,19 +51,20 @@ public class Client {
             this.seDeplacer("");
         } catch (Exception e) {
             e.printStackTrace();
-            this.seDeconnecter();
-            System.exit(-1);
+            this.seDeconnecter(-1);
         }
     }
 
     /**
      * Permet de se déconnecter sur les différents serveur de jeu.
+     * @param codeDeSortie correspond au code du processus renvoyé
      */
-    private void seDeconnecter() {
+    private void seDeconnecter(int codeDeSortie) {
         try {
             this.serveurDonjon.seDeconnecter(this.personnage);
             this.serveurDonjon = null;
             this.serveurDiscussion = null;
+            exit(codeDeSortie);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,7 +79,9 @@ public class Client {
             Piece pieceActuelle = this.personnage.getPieceActuelle();
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
-                this.serveurCombat.lancerCombat(this.personnage);
+                if (this.serveurCombat.lancerCombat(this.personnage) == 1){
+                    this.seDeconnecter(0);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,8 +154,7 @@ public class Client {
                 this.seDeplacer(commande);
             } else if ( commande.toLowerCase().equals("quitter") ) {
                 System.out.println("Déconnexion.");
-                this.seDeconnecter();
-                exit(0);
+                this.seDeconnecter(0);
             } else if ( commande.toLowerCase().equals("help") ) {
                 this.afficherCommande();
             } else {
