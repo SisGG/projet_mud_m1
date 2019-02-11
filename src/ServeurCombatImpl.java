@@ -38,23 +38,26 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
 
     private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
         int ciblePerdant1PDV = new Random().nextInt(2);
+        Personnage personnageCourant = (Personnage) this.donjon.recupereEtreVivant(personnage.getNom());
+        Monstre monstreCourant = (Monstre) this.donjon.recupereEtreVivant(monstre.getNom());
+
         if ( ciblePerdant1PDV == 0 ) {
-            personnage.getServeurNotification().notifier("Vous perdez 1 point de vie.");
-            personnage.perdrePointDeVie();
-        } else {
-            personnage.getServeurNotification().notifier(monstre.getNom()+" perds 1 point de vie.");
-            monstre.perdrePointDeVie();
+            personnageCourant.getServeurNotification().notifier("Vous perdez 1 point de vie.");
+            personnageCourant.perdrePointDeVie();
+        } else if (ciblePerdant1PDV == 1 ) {
+            personnageCourant.getServeurNotification().notifier(monstreCourant.getNom()+" perd 1 point de vie.");
+            monstreCourant.perdrePointDeVie();
         }
 
         if ( personnage.getPointDeVie() == 0 ) {
-            personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
-            monstre.augmenterPointDeVie();
+            personnageCourant.getServeurNotification().notifier("Vous mourez... bye bye.");
+            monstreCourant.augmenterPointDeVie();
             return 1;
         } else if ( monstre.getPointDeVie() == 0 ) {
-            personnage.augmenterPointDeVie();
-            personnage.getServeurNotification().notifier("Vous tuez "+monstre.getNom()+
+            personnageCourant.augmenterPointDeVie();
+            personnageCourant.getServeurNotification().notifier("Vous tuez "+monstreCourant.getNom()+
                     ". Vous regagnez donc un point de vie.\n" +
-                    "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
+                    "Il vous reste " + personnageCourant.getPointDeVie() + " points de vie.");
             return 2;
         } else {
             return 0;
