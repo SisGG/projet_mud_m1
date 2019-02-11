@@ -1,4 +1,3 @@
-import java.awt.dnd.DnDConstants;
 import java.rmi.RemoteException;
 import java.util.Random;
 
@@ -30,21 +29,18 @@ class CombatMonstre {
             this.effectuerTour();
             continuerCombat = this.personnage.getPointDeVie() != 0 && this.monstre.getPointDeVie() != 0;
             if ( continuerCombat ) {
-                String action = personnage.getServeurNotification().demanderAction("Entre \"fuir\" pour quitter le combat" +
+                String action = personnage.getServeurNotification().demanderAction("Entrez \"fuir\" pour quitter le combat" +
                         " ou n'importe quelle autre commande pour continuer : ");
                 if ( action.equals("fuir") ) {
-                    personnage.getServeurNotification().notifier("Vous avez fuit le combat. " +
+                    personnage.getServeurNotification().notifier("Vous avez fui le combat. " +
                             "Il vous reste " + personnage.getPointDeVie() + " point de vie.");
                     continuerCombat = false;
                 }
             }
         }
-        if ( this.personnage.getPointDeVie() == 0 ) {
-            return this.personnage;
-        } else if ( this.monstre.getPointDeVie() == 0 ) {
+        if ( this.monstre.getPointDeVie() == 0 )
             return this.monstre;
-        }
-        return null;
+        return this.personnage;
     }
 
     private void effectuerTour() throws RemoteException {
@@ -54,7 +50,7 @@ class CombatMonstre {
                     + " vous attaque, vous perdez 1 point de vie.");
             this.personnage.perdrePointDeVie();
         } else if (ciblePerdant1PDV == 1 ) {
-            this.personnage.getServeurNotification().notifier("Vous attaquer "
+            this.personnage.getServeurNotification().notifier("Vous attaquez "
                     + this.monstre.getNom() + " perd 1 point de vie.");
             this.monstre.perdrePointDeVie();
         }

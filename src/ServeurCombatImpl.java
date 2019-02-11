@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Random;
 
 /******************************************************************************
  * file     : src/ServeurCombatImpl.java
@@ -28,13 +27,17 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         while ( this.donjon.nomEtreVivantExist(monstre.getNom()) ) {
             monstre = new Monstre(personnage.getPieceActuelle());
         }
-        personnage.getServeurNotification().notifier(monstre.getNom() + " vous attaque.");
+        personnage.getServeurNotification().notifier("Vous êtes attaqué par "+monstre.getNom());
         this.donjon.ajouterEtreVivant(monstre);
 
         CombatMonstre combatMonstre = new CombatMonstre(this.donjon, personnage, monstre);
-        EtreVivant etreVivantMort = combatMonstre.lancerCombat();
-        this.donjon.supprimerEtreVivant(etreVivantMort);
-        return etreVivantMort.equals(personnage);
+        EtreVivant etreVivantSortant = combatMonstre.lancerCombat();
+        if(etreVivantSortant.getPointDeVie() == 0) {
+            this.donjon.supprimerEtreVivant(etreVivantSortant);
+            if (etreVivantSortant.equals(personnage))
+                return true;
+        }
+        return false;
     }
 
 }
