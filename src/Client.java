@@ -57,6 +57,7 @@ public class Client {
 
     /**
      * Permet de se déconnecter sur les différents serveur de jeu.
+     * @param codeDeSortie correspond au code du processus renvoyé
      */
     private void seDeconnecter(int codeDeSortie) {
         try {

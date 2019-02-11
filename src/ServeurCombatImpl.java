@@ -48,9 +48,12 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
 
         if ( personnage.getPointDeVie() == 0 ) {
             personnage.getServeurNotification().notifier("Vous mourez... bye bye.");
+            monstre.augmenterPointDeVie();
             return 1;
         } else if ( monstre.getPointDeVie() == 0 ) {
-            personnage.getServeurNotification().notifier("Vous tuez "+monstre.getNom()+ "! \n" +
+            personnage.augmenterPointDeVie();
+            personnage.getServeurNotification().notifier("Vous tuez "+monstre.getNom()+
+                    ". Vous regagnez donc un point de vie.\n" +
                     "Il vous reste " + personnage.getPointDeVie() + " points de vie.");
             return 2;
         } else {
@@ -59,11 +62,6 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     }
     
     /*
-    public EtreVivant faireGagnerPointDeVie(EtreVivant etreVivant) {
-        etreVivant.augmenterPointDeVie();
-        return etreVivant;
-    }
-
 
     private HashMap<String, EtreVivant> faireRegagnerPointDeVieMaxPiece(EtreVivant etreVivant){
         for ( EtreVivant etreVivantCurrent : this.donjon.getPersonnageMemePiece(etreVivant) ) {
