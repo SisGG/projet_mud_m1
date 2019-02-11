@@ -33,7 +33,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         while ( resultatTour == 0 ) {
             resultatTour = this.effectuerTour(personnage, monstre);
         }
-        return  resultatTour;
+        return resultatTour;
     }
 
     private int effectuerTour(Personnage personnage, Monstre monstre) throws RemoteException {
