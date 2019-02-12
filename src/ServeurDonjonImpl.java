@@ -67,10 +67,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
                 break;
         }
         if ( pieceDirection != null ) {
-                if ( !direction.equals("") ) {
-                    this.prevenirJoueurQuitterPiece(personnageListe);
-                }
-                personnageListe.setPieceActuelle(pieceDirection);
+            if ( !direction.equals("") ) {
+                this.prevenirJoueurQuitterPiece(personnageListe);
+            }
+            personnageListe.setPieceActuelle(pieceDirection);
             try {
                 personnageListe.getServeurNotification().notifier("\rVous arrivez dans la piece " + pieceDirection);
                 this.prevenirEntrerPersonnageMemePiece(personnageListe);
@@ -99,6 +99,25 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
     }
 
+    public void afficherEtreVivantPiece(Personnage personnage) throws  RemoteException{
+        String notification = "Il y a ";
+        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
+            if ( !etreVivantCourant.equals(personnage) ) {
+                notification += etreVivantCourant.getNom() + " ";
+            }
+        }
+        if ( notification.equals("Il y a ") ) {
+            notification = "Il n'y a pas d'autre joueur dans la pièce.";
+        } else {
+            notification += "dans la pièce.";
+        }
+        try {
+            personnage.getServeurNotification().notifier(notification);
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Quand un personnage entre dans une pìèce, envoie une notification
      * a tous les personnages deja present et le nom de tous les personnage
@@ -106,7 +125,6 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage Personnage entrant dans la piece
      */
     private void prevenirEntrerPersonnageMemePiece(Personnage personnage) throws RemoteException {
-        String notification = "Il y a ";
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
@@ -118,21 +136,9 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
                 } catch( Exception e ) {
                     e.printStackTrace();
                 }
-                if ( !etreVivantCourant.equals(personnage) ) {
-                    notification += etreVivantCourant.getNom() + " ";
-                }
             }
         }
-        if ( notification.equals("Il y a ") ) {
-            notification = "Il n'y a pas d'autre joueur dans la pièce.";
-        } else {
-            notification += "dans la pièce.";
-        }
-        try {
-                personnage.getServeurNotification().notifier(notification);
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
+        this.afficherEtreVivantPiece(personnage);
     }
 
     /**

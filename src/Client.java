@@ -154,10 +154,15 @@ public class Client {
                 this.discuter(commande);
             } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
                 this.seDeplacer(commande);
-
             } else if ( commande.toLowerCase().equals("quitter") ) {
                 System.out.println("Déconnexion.");
                 this.seDeconnecter(0);
+            } else if ( commande.equals("L")){
+                try {
+                    this.serveurDonjon.afficherEtreVivantPiece(personnage);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             } else if ( commande.toLowerCase().equals("help") ) {
                 this.afficherCommande();
             } else {
@@ -171,8 +176,9 @@ public class Client {
      */
     private void afficherCommande() {
         System.out.println("\nEntrer \'N\', \'E\', \'S\' ou \'O\' pour "
-                + "vous déplacer ou \'\"\' pour communiquer avec d'autres joueurs ou "
-                + "\'quitter\' pour vous déconnecter ou \'help\' pour voir les instructions.\n");
+                + "vous déplacer, \'\"\' pour communiquer, \'quitter\'" +
+                " pour vous déconnecter, \'L\' pour afficher les êtres dans la pièce " +
+                "ou \'help\' pour voir les commandes.\n");
     }
 
     public static void main(String[] args) {
