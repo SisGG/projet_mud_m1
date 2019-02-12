@@ -99,7 +99,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
     }
 
-    public void afficherEtreVivantPiece(Personnage personnage) throws  RemoteException{
+    public void afficherEtreVivantPiece(Personnage personnage){
         String notification = "Il y a ";
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
@@ -124,7 +124,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * deja present au personnage entrant, sinon envoie qu'il n'y a personne
      * @param personnage Personnage entrant dans la piece
      */
-    private void prevenirEntrerPersonnageMemePiece(Personnage personnage) throws RemoteException {
+    private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
@@ -167,7 +167,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param serveurNotification qui sera associé au personnage
      * @throws RemoteException si l'appel de méthode distant rencontre un problème
      */
-    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException {
+    public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) {
         this.donjon.associerServeurNotificationPersonnage(personnage, serveurNotification);
     }
 
@@ -177,7 +177,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @return vrai si le personnage existe dans la liste de personnage, faux sinon
      * @throws RemoteException  si l'appel de méthode distant rencontre un problème
      */
-    public boolean existeNomPersonnage(String nomPersonnage) throws RemoteException {
+    public boolean existeNomPersonnage(String nomPersonnage)  {
         return this.donjon.recupereEtreVivant(nomPersonnage) != null;
     }
 

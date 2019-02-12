@@ -92,9 +92,7 @@ public class Donjon {
     }
 
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
-        if ( etreVivant != null ) {
-            this.listeEtreVivant.remove(etreVivant.getNom());
-        }
+        this.listeEtreVivant.remove(etreVivant.getNom());
     }
 
     EtreVivant recupereEtreVivant(String nomEtreVivant) {
