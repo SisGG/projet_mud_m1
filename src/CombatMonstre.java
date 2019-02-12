@@ -70,4 +70,7 @@ class CombatMonstre {
         }
     }
 
+    public Piece recupererPieceCombat(){
+        return this.personnage.getPieceActuelle();
+    }
 }

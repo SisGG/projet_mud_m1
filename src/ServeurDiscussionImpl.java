@@ -36,7 +36,7 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
      * @throws RemoteException
      */
     public void discuter(Personnage personnage, String message) throws RemoteException{
-        for (EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ){
+        for (EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ){
             try {
                 if ( etreVivantCourant instanceof Personnage ) {
                     Personnage personnageCourant = (Personnage) etreVivantCourant;

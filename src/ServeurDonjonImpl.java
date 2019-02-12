@@ -15,7 +15,6 @@ import java.rmi.server.UnicastRemoteObject;
  *****************************************************************************/
 public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDonjon {
 
-    private  static final long serialVersionUID = 1L;
     private Donjon donjon;
 
     /**
@@ -101,7 +100,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
 
     public void afficherEtreVivantPiece(Personnage personnage){
         String notification = "Il y a ";
-        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
+        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
                 notification += etreVivantCourant.getNom() + " ";
             }
@@ -125,7 +124,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage Personnage entrant dans la piece
      */
     private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
-        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
+        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
                     if ( etreVivantCourant instanceof Personnage ) {
@@ -146,7 +145,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage quittant la pièce
      */
     private void prevenirJoueurQuitterPiece(Personnage personnage){
-        for(EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage) ) {
+        for(EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
                     if ( etreVivantCourant instanceof Personnage ) {
@@ -165,7 +164,6 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Associe un serveur de notification à un personnage
      * @param personnage auquel on associe un serveur notification
      * @param serveurNotification qui sera associé au personnage
-     * @throws RemoteException si l'appel de méthode distant rencontre un problème
      */
     public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) {
         this.donjon.associerServeurNotificationPersonnage(personnage, serveurNotification);
@@ -175,7 +173,6 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Vérifie si un personnage est dans la liste de personnage du donjon
      * @param nomPersonnage que l'on cherche dans la liste
      * @return vrai si le personnage existe dans la liste de personnage, faux sinon
-     * @throws RemoteException  si l'appel de méthode distant rencontre un problème
      */
     public boolean existeNomPersonnage(String nomPersonnage)  {
         return this.donjon.recupereEtreVivant(nomPersonnage) != null;

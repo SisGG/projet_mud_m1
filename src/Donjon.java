@@ -17,6 +17,7 @@ public class Donjon {
 
     private int tailleDonjon;
     private HashMap<String,EtreVivant> listeEtreVivant;
+    private Vector<CombatMonstre> listeCombatMonstre;
     private Piece[][] donjon;
 
     public Donjon(int tailleDonjon) {
@@ -24,6 +25,16 @@ public class Donjon {
         this.listeEtreVivant = new HashMap<>();
         this.donjon = new Piece[tailleDonjon][tailleDonjon];
         this.genererDonjon(tailleDonjon);
+        this.listeCombatMonstre = new Vector<>();
+    }
+
+    boolean seDeroulerCombatPiece(Piece piece) {
+        for(CombatMonstre combatMonstre : this.listeCombatMonstre){
+            if(combatMonstre.recupererPieceCombat().equals(piece)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -47,10 +58,10 @@ public class Donjon {
         return this.donjon[0][0];
     }
 
-    Vector<EtreVivant> getEtreVivantMemePiece(EtreVivant etreVivant) {
+    Vector<EtreVivant> getEtreVivantMemePiece(Piece piece) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
         for (EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
-            if ( etreVivant.getPieceActuelle().equals(etreVivantCourant.getPieceActuelle()) ) {
+            if ( piece.equals(etreVivantCourant.getPieceActuelle()) ) {
                 listePersonnage.add(etreVivantCourant);
             }
         }
@@ -89,6 +100,14 @@ public class Donjon {
         if ( !this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
             this.listeEtreVivant.put(etreVivant.getNom(), etreVivant);
         }
+    }
+
+    synchronized void ajouterCombat(CombatMonstre combatMonstre){
+        this.listeCombatMonstre.add(combatMonstre);
+    }
+
+    synchronized void supprimerCombat(CombatMonstre combatMonstre){
+        this.listeCombatMonstre.remove(combatMonstre);
     }
 
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {

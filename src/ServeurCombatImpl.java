@@ -1,5 +1,6 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.ExecutionException;
 
 /******************************************************************************
  * file     : src/ServeurCombatImpl.java
@@ -31,13 +32,32 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.donjon.ajouterEtreVivant(monstre);
 
         CombatMonstre combatMonstre = new CombatMonstre(this.donjon, personnage, monstre);
+        this.donjon.ajouterCombat(combatMonstre);
         EtreVivant etreVivantSortant = combatMonstre.lancerCombat();
+        this.donjon.supprimerCombat(combatMonstre);
+
         if(etreVivantSortant.getPointDeVie() == 0) {
             this.donjon.supprimerEtreVivant(etreVivantSortant);
-            if (etreVivantSortant.equals(personnage))
-                return true;
         }
-        return false;
+        this.regagnerVieMax(personnage.getPieceActuelle());
+        return (etreVivantSortant.equals(personnage) && etreVivantSortant.getPointDeVie()==0);
+    }
+
+    private void regagnerVieMax(Piece piece){
+        if(!this.donjon.seDeroulerCombatPiece(piece)){
+            for (EtreVivant etreVivant : this.donjon.getEtreVivantMemePiece(piece)){
+                this.donjon.recupereEtreVivant(etreVivant.nomEtreVivant).regagnerPointDeVieMax();
+                if(etreVivant instanceof Personnage) {
+                    try {
+                        ((Personnage) etreVivant).getServeurNotification().notifier(
+                                "Il n'y a plus de combat en cours, vous regagnez vos points de vie maximum." +
+                                        " Vous avez "+etreVivant.getPointDeVie() + " pdv.");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
 }
