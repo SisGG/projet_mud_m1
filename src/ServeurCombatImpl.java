@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.ExecutionException;
 
 /******************************************************************************
  * file     : src/ServeurCombatImpl.java

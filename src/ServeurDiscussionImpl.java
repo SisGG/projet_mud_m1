@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 
 /******************************************************************************
  * file     : src/ServeurDiscussionImpl.java
@@ -21,10 +20,9 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
     private Donjon donjon;
 
     /**
-     * Instanciation de la listepersonnage
-     * @throws RemoteException
+     * Instanciation du donjon
      */
-    public ServeurDiscussionImpl(Donjon donjon) throws RemoteException {
+     ServeurDiscussionImpl(Donjon donjon) throws RemoteException {
         super();
         this.donjon = donjon;
     }
@@ -33,9 +31,8 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
      * Envoyer un message à un personnage disponible dans listePersonnage qui se trouve aussi dans la même pièce
      * @param personnage personnage qui envoie le message
      * @param message chaine de caractère à envoyer
-     * @throws RemoteException
      */
-    public void discuter(Personnage personnage, String message) throws RemoteException{
+    public void discuter(Personnage personnage, String message) {
         for (EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ){
             try {
                 if ( etreVivantCourant instanceof Personnage ) {
