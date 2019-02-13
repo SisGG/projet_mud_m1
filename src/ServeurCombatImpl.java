@@ -35,7 +35,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         EtreVivant etreVivantSortant = combatMonstre.lancerCombat();
         this.donjon.supprimerCombat(combatMonstre);
 
-        if(etreVivantSortant.getPointDeVie() == 0) {
+        if ( etreVivantSortant.getPointDeVie() == 0 ) {
             this.donjon.supprimerEtreVivant(etreVivantSortant);
         }
         this.regagnerVieMax(personnage.getPieceActuelle());
@@ -43,15 +43,15 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     }
 
     private void regagnerVieMax(Piece piece){
-        if(!this.donjon.seDeroulerCombatPiece(piece)){
-            for (EtreVivant etreVivant : this.donjon.getEtreVivantMemePiece(piece)){
+        if ( !this.donjon.seDeroulerCombatPiece(piece) ) {
+            for ( EtreVivant etreVivant : this.donjon.getEtreVivantMemePiece(piece) ) {
                 this.donjon.recupereEtreVivant(etreVivant.nomEtreVivant).regagnerPointDeVieMax();
-                if(etreVivant instanceof Personnage) {
+                if ( etreVivant instanceof Personnage ) {
                     try {
                         ((Personnage) etreVivant).getServeurNotification().notifier(
                                 "Il n'y a plus de combat en cours, vous regagnez vos points de vie maximum." +
                                         " Vous avez "+etreVivant.getPointDeVie() + " pdv.");
-                    } catch (Exception e) {
+                    } catch ( Exception e ) {
                         e.printStackTrace();
                     }
                 }
