@@ -29,8 +29,8 @@ public class Donjon {
     }
 
     boolean seDeroulerCombatPiece(Piece piece) {
-        for(CombatMonstre combatMonstre : this.listeCombatMonstre){
-            if(combatMonstre.recupererPieceCombat().equals(piece)){
+        for ( CombatMonstre combatMonstre : this.listeCombatMonstre ) {
+            if ( combatMonstre.recupererPieceCombat().equals(piece) ) {
                 return true;
             }
         }
@@ -60,7 +60,7 @@ public class Donjon {
 
     Vector<EtreVivant> getEtreVivantMemePiece(Piece piece) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
-        for (EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
+        for ( EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
             if ( piece.equals(etreVivantCourant.getPieceActuelle()) ) {
                 listePersonnage.add(etreVivantCourant);
             }
