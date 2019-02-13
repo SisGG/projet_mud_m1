@@ -50,8 +50,9 @@ abstract class EtreVivant implements Serializable {
 
     synchronized void augmenterPointDeVie() {
         this.pointDeVieActuel += 1;
-        if (this.pointDeVieActuel > pointDeVieMax)
+        if ( this.pointDeVieActuel > pointDeVieMax ){
             pointDeVieMax = pointDeVieActuel;
+        }
     }
 
     synchronized void perdrePointDeVie() {
