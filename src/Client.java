@@ -30,7 +30,7 @@ public class Client {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
             this.serveurCombat = (ServeurCombat) Naming.lookup("//localhost/ServeurCombat");
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -49,7 +49,7 @@ public class Client {
 
             System.out.println("Le personnage " + this.personnage.getNom() + " vient de se connecter.");
             this.seDeplacer("");
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             this.seDeconnecter(-1);
         }
@@ -65,7 +65,7 @@ public class Client {
             this.serveurDonjon = null;
             this.serveurDiscussion = null;
             exit(codeDeSortie);
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -85,7 +85,7 @@ public class Client {
                 }
                 this.afficherCommande();
             }
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -97,7 +97,7 @@ public class Client {
     private void discuter(String message) {
         try {
             this.serveurDiscussion.discuter(this.personnage, message.substring(1));
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -157,10 +157,10 @@ public class Client {
             } else if ( commande.toLowerCase().equals("quitter") ) {
                 System.out.println("Déconnexion.");
                 this.seDeconnecter(0);
-            } else if ( commande.equals("L")){
+            } else if ( commande.equals("L") ) {
                 try {
                     this.serveurDonjon.afficherEtreVivantPiece(personnage);
-                }catch(Exception e){
+                } catch ( Exception e ) {
                     e.printStackTrace();
                 }
             } else if ( commande.toLowerCase().equals("help") ) {
