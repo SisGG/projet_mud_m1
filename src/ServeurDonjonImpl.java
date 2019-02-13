@@ -19,7 +19,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
 
     /**
      * Constructeur de la classe ServeurDonjonImpl.
-     * @param donjon Taille du donjon.
+     * @param donjon Base de données Donjon pour le serveur.
      */
     ServeurDonjonImpl(Donjon donjon) throws RemoteException {
         super();
