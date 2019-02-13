@@ -32,6 +32,11 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
         System.out.println("\r" + notication);
     }
 
+    /**
+     * Demande au Client de saisir une chaine de caractère avec un message spécifique.
+     * @param message Chaine de caractère à afficher avant la saisi.
+     * @return Renvoie la chaine de caractère saisi par le Client.
+     */
     public String demanderAction(String message) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(message);
