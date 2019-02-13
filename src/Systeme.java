@@ -22,7 +22,7 @@ public class Systeme {
         this.donjon = donjon;
         try {
             LocateRegistry.createRegistry(1099);
-        } catch(Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -36,7 +36,7 @@ public class Systeme {
             ServeurDonjon serveurDonjon = new ServeurDonjonImpl(this.donjon);
             Naming.rebind("ServeurDonjon", serveurDonjon);
             System.out.println("Le serveur donjon est démarré.");
-        } catch(Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -49,7 +49,7 @@ public class Systeme {
             ServeurDiscussion serveurDiscussion = new ServeurDiscussionImpl(this.donjon);
             Naming.rebind("ServeurDiscussion", serveurDiscussion);
             System.out.println("Le serveur discussion est démarré.");
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -63,7 +63,7 @@ public class Systeme {
             ServeurCombat serveurCombat = new ServeurCombatImpl(this.donjon);
             Naming.rebind("ServeurCombat", serveurCombat);
             System.out.println("Le serveur combat est démarré.");
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
