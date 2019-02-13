@@ -20,6 +20,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     /**
      * Constructeur de la classe ServeurDonjonImpl.
      * @param donjon Base de données Donjon pour le serveur.
+     * @throws RemoteException Exception déclenchée si ServeurDonjonImpl ne crée pas l'objet.
      */
     ServeurDonjonImpl(Donjon donjon) throws RemoteException {
         super();
@@ -124,8 +125,8 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     /**
      * Quand un personnage entre dans une pìèce, envoie une notification
      * a tous les personnages deja present et le nom de tous les personnage
-     * deja present au personnage entrant, sinon envoie qu'il n'y a personne
-     * @param personnage Personnage entrant dans la piece
+     * deja present au personnage entrant, sinon envoie qu'il n'y a personne.
+     * @param personnage Personnage entrant dans la piece.
      */
     private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
@@ -145,8 +146,8 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     }
 
     /**
-     * Quand un personnage quitte une pièce, en notifie les autres personnages encore dedans
-     * @param personnage quittant la pièce
+     * Quand un personnage quitte une pièce, en notifie les autres personnages encore dedans.
+     * @param personnage quittant la pièce.
      */
     private void prevenirJoueurQuitterPiece(Personnage personnage){
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
@@ -165,18 +166,18 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     }
 
     /**
-     * Associe un serveur de notification à un personnage
-     * @param personnage auquel on associe un serveur notification
-     * @param serveurNotification qui sera associé au personnage
+     * Associe un serveur de notification à un personnage.
+     * @param personnage auquel on associe un serveur notification.
+     * @param serveurNotification qui sera associé au personnage.
      */
     public void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) {
         this.donjon.associerServeurNotificationPersonnage(personnage, serveurNotification);
     }
 
     /**
-     * Vérifie si un personnage est dans la liste de personnage du donjon
-     * @param nomPersonnage que l'on cherche dans la liste
-     * @return vrai si le personnage existe dans la liste de personnage, faux sinon
+     * Vérifie si un personnage est dans la liste de personnage du donjon.
+     * @param nomPersonnage que l'on cherche dans la liste.
+     * @return Renvoie la valeur true si le personnage existe, false sinon.
      */
     public boolean existeNomPersonnage(String nomPersonnage)  {
         return this.donjon.recupereEtreVivant(nomPersonnage) != null;
