@@ -18,11 +18,22 @@ class CombatMonstre {
     private Personnage personnage;
     private Monstre monstre;
 
+    /**
+     * Constructeur de la classe CombatMonstre
+     * @param donjon Donjon dans lequel se passe le combat
+     * @param personnage personnage impliqué dans le combat
+     * @param monstre monstre impliqué dans le combat
+     */
     CombatMonstre(Donjon donjon, Personnage personnage, Monstre monstre) {
         this.personnage = (Personnage) donjon.recupereEtreVivant(personnage.getNom());
         this.monstre = (Monstre) donjon.recupereEtreVivant(monstre.getNom());
     }
 
+    /**
+     * Lance le combat et donne le choix au personnage de continuer ou fuir
+     * @return retourne l'etre vivant vainqueur du combat
+     * @throws RemoteException
+     */
     EtreVivant lancerCombat() throws RemoteException {
         boolean continuerCombat = true;
         while ( continuerCombat ) {
@@ -43,6 +54,11 @@ class CombatMonstre {
         return this.personnage;
     }
 
+    /**
+     * Fait perde à un des deux participants un point de vie de façon aléatoire
+     * Notifie le personnage du déroulement du combat
+     * @throws RemoteException
+     */
     private void effectuerTour() throws RemoteException {
         int ciblePerdant1PDV = new Random().nextInt(2);
         if ( ciblePerdant1PDV == 0 ) {
