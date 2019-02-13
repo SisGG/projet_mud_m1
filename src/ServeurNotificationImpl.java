@@ -15,6 +15,7 @@ import java.util.Scanner;
  *                                    (CC BY)
  *****************************************************************************/
 public class ServeurNotificationImpl extends UnicastRemoteObject implements ServeurNotification {
+
     /**
      * Constructeur de serveur notification Implémentation
      * @throws RemoteException en cas d'erreur sur un appel de méthode distant
