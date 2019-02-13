@@ -17,6 +17,7 @@ public class Donjon {
 
     private int tailleDonjon;
     private HashMap<String,EtreVivant> listeEtreVivant;
+    private Vector<CombatMonstre> listeCombatMonstre;
     private Piece[][] donjon;
 
     /**
@@ -28,6 +29,16 @@ public class Donjon {
         this.listeEtreVivant = new HashMap<>();
         this.donjon = new Piece[tailleDonjon][tailleDonjon];
         this.genererDonjon(tailleDonjon);
+        this.listeCombatMonstre = new Vector<>();
+    }
+
+    boolean seDeroulerCombatPiece(Piece piece) {
+        for(CombatMonstre combatMonstre : this.listeCombatMonstre){
+            if(combatMonstre.recupererPieceCombat().equals(piece)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -53,13 +64,13 @@ public class Donjon {
 
     /**
      * Récupère tous les etreVivants présents dans la même piece qu'un etre vivant
-     * @param etreVivant etre vivant qui est dans la piece
+     * @param piece piece concernée
      * @return liste de tous les etreVivant présents dans la même pièce que l'etre vivant passé en paramètres
      */
-    Vector<EtreVivant> getEtreVivantMemePiece(EtreVivant etreVivant) {
+    Vector<EtreVivant> getEtreVivantMemePiece(Piece piece) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
         for (EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
-            if ( etreVivant.getPieceActuelle().equals(etreVivantCourant.getPieceActuelle()) ) {
+            if ( piece.equals(etreVivantCourant.getPieceActuelle()) ) {
                 listePersonnage.add(etreVivantCourant);
             }
         }
@@ -93,6 +104,15 @@ public class Donjon {
         }
         return null;
     }
+
+    synchronized void ajouterCombat(CombatMonstre combatMonstre){
+        this.listeCombatMonstre.add(combatMonstre);
+    }
+
+    synchronized void supprimerCombat(CombatMonstre combatMonstre){
+        this.listeCombatMonstre.remove(combatMonstre);
+    }
+
 
     /**
      * Ajoute un etre vivant dans la liste listeEtreVivants
