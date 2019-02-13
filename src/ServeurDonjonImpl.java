@@ -145,7 +145,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage quittant la pièce
      */
     private void prevenirJoueurQuitterPiece(Personnage personnage){
-        for(EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
+        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
                     if ( etreVivantCourant instanceof Personnage ) {
@@ -153,7 +153,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
                         personnageCourant.getServeurNotification().notifier(personnage.getNom()
                                 + " a quitté la pièce.");
                     }
-                } catch (Exception e) {
+                } catch ( Exception e ) {
                     e.printStackTrace();
                 }
             }
