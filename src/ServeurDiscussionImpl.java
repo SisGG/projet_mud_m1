@@ -22,6 +22,7 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
     /**
      * Constructeur de la classe ServeurDiscussionImpl.
      * @param donjon Base de données Donjon pour le serveur.
+     * @throws RemoteException Exception déclenchée si ServeurDiscussionImpl ne crée pas l'objet.
      */
      ServeurDiscussionImpl(Donjon donjon) throws RemoteException {
         super();
@@ -29,9 +30,9 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
     }
 
     /**
-     * Envoyer un message à un personnage disponible dans listePersonnage qui se trouve aussi dans la même pièce
-     * @param personnage personnage qui envoie le message
-     * @param message chaine de caractère à envoyer
+     * Envoyer un message à un personnage disponible dans listePersonnage qui se trouve aussi dans la même pièce.
+     * @param personnage personnage qui envoie le message.
+     * @param message chaine de caractère à envoyer.
      */
     public void discuter(Personnage personnage, String message) {
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
