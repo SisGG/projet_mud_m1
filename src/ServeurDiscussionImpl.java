@@ -20,7 +20,8 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
     private Donjon donjon;
 
     /**
-     * Instanciation du donjon
+     * Constructeur de la classe ServeurDiscussionImpl.
+     * @param donjon Base de données Donjon pour le serveur.
      */
      ServeurDiscussionImpl(Donjon donjon) throws RemoteException {
         super();
