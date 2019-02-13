@@ -32,6 +32,11 @@ public class Donjon {
         this.listeCombatMonstre = new Vector<>();
     }
 
+    /**
+     * Vérifie si le combat se déroule bien dans une piece
+     * @param piece la piece ou l'on veut voir si un combatg se déroule
+     * @return vrai si un combat se déroule dans la piece passée en paramètre, faux sinon
+     */
     boolean seDeroulerCombatPiece(Piece piece) {
         for(CombatMonstre combatMonstre : this.listeCombatMonstre){
             if(combatMonstre.recupererPieceCombat().equals(piece)){
@@ -105,10 +110,18 @@ public class Donjon {
         return null;
     }
 
+    /**
+     * Ajoute un combat à la liste des combats listeCombatMonstre
+     * @param combatMonstre combat à ajouter
+     */
     synchronized void ajouterCombat(CombatMonstre combatMonstre){
         this.listeCombatMonstre.add(combatMonstre);
     }
 
+    /**
+     * Supprime un combat de la liste des combat listeCombatMonstre
+     * @param combatMonstre combat à supprimer
+     */
     synchronized void supprimerCombat(CombatMonstre combatMonstre){
         this.listeCombatMonstre.remove(combatMonstre);
     }
