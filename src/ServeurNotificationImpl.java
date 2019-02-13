@@ -17,16 +17,16 @@ import java.util.Scanner;
 public class ServeurNotificationImpl extends UnicastRemoteObject implements ServeurNotification {
 
     /**
-     * Constructeur de serveur notification Implémentation
-     * @throws RemoteException en cas d'erreur sur un appel de méthode distant
+     * Constructeur de la classe ServeurNotificationImpl.
+     * @throws RemoteException Exception déclenchée si ServeurNotificationImpl ne crée pas l'objet.
      */
     ServeurNotificationImpl() throws RemoteException {
         super();
     }
 
     /**
-     * Envoie une chaine de caractère au Client
-     * @param notication Chaine de caractère à envoyer au client
+     * Envoie une chaine de caractère au Client.
+     * @param notication Chaine de caractère à envoyer au client.
      */
     public void notifier(String notication){
         System.out.println("\r" + notication);
