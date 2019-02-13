@@ -18,6 +18,10 @@ public class Systeme {
     private static final int tailleDonjon = 5;
     private Donjon donjon;
 
+    /**
+     * Constructeur de la classe Systeme.
+     * @param donjon Base de données d'un donjon commun à tous les serveurs.
+     */
     private Systeme(Donjon donjon) {
         this.donjon = donjon;
         try {
