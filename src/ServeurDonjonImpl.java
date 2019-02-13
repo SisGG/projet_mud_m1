@@ -98,6 +98,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
     }
 
+    /**
+     * Affiche tous les EtreVivant qui se trouvent dans la même pièce qu'un Personnage.
+     * @param personnage Personnage pour récupérer la pièce et pour le notifier.
+     */
     public void afficherEtreVivantPiece(Personnage personnage){
         String notification = "Il y a ";
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
