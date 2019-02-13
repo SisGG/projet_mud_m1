@@ -19,10 +19,6 @@ public class Donjon {
     private HashMap<String,EtreVivant> listeEtreVivant;
     private Piece[][] donjon;
 
-    /**
-     * Constructeur de la classe donjon
-     * @param tailleDonjon entier définissant la taille du donjon
-     */
     public Donjon(int tailleDonjon) {
         this.tailleDonjon = tailleDonjon;
         this.listeEtreVivant = new HashMap<>();
@@ -61,14 +57,6 @@ public class Donjon {
         return listePersonnage;
     }
 
-
-    /* Là encore, il faut changer le nom de cette fonction en "recupérerPièce", on met un bon commentaire quand on la change */
-    /**
-     *
-     * @param piece
-     * @param direction
-     * @return
-     */
     Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
@@ -97,31 +85,18 @@ public class Donjon {
         return null;
     }
 
-    /**
-     * Ajoute un être vivant dans la liste listeEtreVivant de la classe
-     * @param etreVivant l'etre vivant à ajouter dans la liste
-     */
     synchronized void ajouterEtreVivant(EtreVivant etreVivant) {
         if ( !this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
             this.listeEtreVivant.put(etreVivant.getNom(), etreVivant);
         }
     }
 
-    /**
-     * Supprime un être vivant de la liste listeEtreVivant de la classe
-     * @param etreVivant l'etre vivant à supprimer de la liste
-     */
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
         if ( etreVivant != null ) {
             this.listeEtreVivant.remove(etreVivant.getNom());
         }
     }
 
-    /**
-     * Récupère un etre vivant dans la liste listeEtreVivant
-     * @param nomEtreVivant nom de l'etre vivant à récupérer
-     * @return retourne l'etreVivant dont le nom est nomEtreVivant si il existe, null sinon
-     */
     EtreVivant recupereEtreVivant(String nomEtreVivant) {
         if ( this.listeEtreVivant.containsKey(nomEtreVivant) ) {
             return this.listeEtreVivant.get(nomEtreVivant);
@@ -129,11 +104,6 @@ public class Donjon {
         return null;
     }
 
-    /**
-     * Associe un serveur de notification à un personnage
-     * @param etreVivant etreVivant à associer au serveur de notification
-     * @param serveurNotification serveur de notidfication à associer au personnage
-     */
     void associerServeurNotificationPersonnage(EtreVivant etreVivant, ServeurNotification serveurNotification) {
         if ( this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
             EtreVivant etreVivantListe = this.listeEtreVivant.get(etreVivant.getNom());
@@ -144,11 +114,6 @@ public class Donjon {
         }
     }
 
-    /**
-     * Vérifie si l'etre vivant existe dans la liste listeEtreVivant
-     * @param nomEtreVivant nom de l'etre vivant
-     * @return vrai si l'etre vivant existe, faux sinon
-     */
     boolean nomEtreVivantExist(String nomEtreVivant) {
         return this.listeEtreVivant.containsKey(nomEtreVivant);
     }

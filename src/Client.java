@@ -8,9 +8,9 @@ import static java.lang.System.exit;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 1.0
+ * @version : 2.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 30 Janvier 2019
+ * date     : 18 Février 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -30,7 +30,7 @@ public class Client {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
             this.serveurCombat = (ServeurCombat) Naming.lookup("//localhost/ServeurCombat");
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -49,7 +49,7 @@ public class Client {
 
             System.out.println("Le personnage " + this.personnage.getNom() + " vient de se connecter.");
             this.seDeplacer("");
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
             this.seDeconnecter(-1);
         }
@@ -65,7 +65,7 @@ public class Client {
             this.serveurDonjon = null;
             this.serveurDiscussion = null;
             exit(codeDeSortie);
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -85,7 +85,7 @@ public class Client {
                 }
                 this.afficherCommande();
             }
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -97,7 +97,7 @@ public class Client {
     private void discuter(String message) {
         try {
             this.serveurDiscussion.discuter(this.personnage, message.substring(1));
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -154,10 +154,15 @@ public class Client {
                 this.discuter(commande);
             } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
                 this.seDeplacer(commande);
-
             } else if ( commande.toLowerCase().equals("quitter") ) {
                 System.out.println("Déconnexion.");
                 this.seDeconnecter(0);
+            } else if ( commande.equals("L") ) {
+                try {
+                    this.serveurDonjon.afficherEtreVivantPiece(personnage);
+                } catch ( Exception e ) {
+                    e.printStackTrace();
+                }
             } else if ( commande.toLowerCase().equals("help") ) {
                 this.afficherCommande();
             } else {
@@ -171,8 +176,9 @@ public class Client {
      */
     private void afficherCommande() {
         System.out.println("\nEntrer \'N\', \'E\', \'S\' ou \'O\' pour "
-                + "vous déplacer ou \'\"\' pour communiquer avec d'autres joueurs ou "
-                + "\'quitter\' pour vous déconnecter ou \'help\' pour voir les instructions.\n");
+                + "vous déplacer, \'\"\' pour communiquer, \'quitter\'" +
+                " pour vous déconnecter, \'L\' pour afficher les êtres dans la pièce " +
+                "ou \'help\' pour voir les commandes.\n");
     }
 
     public static void main(String[] args) {

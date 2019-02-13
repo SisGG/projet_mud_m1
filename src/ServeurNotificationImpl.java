@@ -7,35 +7,40 @@ import java.util.Scanner;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 1.0
+ * @version : 2.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 30 Janvier 2019
+ * date     : 18 Février 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
 public class ServeurNotificationImpl extends UnicastRemoteObject implements ServeurNotification {
+
     /**
-     * Constructeur de serveur notification Implémentation
-     * @throws RemoteException en cas d'erreur sur un appel de méthode distant
+     * Constructeur de la classe ServeurNotificationImpl.
+     * @throws RemoteException Exception déclenchée si ServeurNotificationImpl ne crée pas l'objet.
      */
     ServeurNotificationImpl() throws RemoteException {
         super();
     }
 
     /**
-     * Envoie une chaine de caractère au Client
-     * @param notication Chaine de caractère à envoyer au client
+     * Envoie une chaine de caractère au Client.
+     * @param notication Chaine de caractère à envoyer au client.
      */
     public void notifier(String notication){
         System.out.println("\r" + notication);
     }
 
+    /**
+     * Demande au Client de saisir une chaine de caractère avec un message spécifique.
+     * @param message Chaine de caractère à afficher avant la saisi.
+     * @return Renvoie la chaine de caractère saisi par le Client.
+     */
     public String demanderAction(String message) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(message);
-        String text = scanner.nextLine();
-        return text;
+        return scanner.nextLine();
     }
 
 }
