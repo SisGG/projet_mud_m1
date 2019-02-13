@@ -33,13 +33,13 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
      * @param message chaine de caractère à envoyer
      */
     public void discuter(Personnage personnage, String message) {
-        for (EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ){
+        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             try {
                 if ( etreVivantCourant instanceof Personnage ) {
                     Personnage personnageCourant = (Personnage) etreVivantCourant;
                     personnageCourant.getServeurNotification().notifier(personnage.getNom() + ": " + message);
                 }
-            } catch (Exception e) {
+            } catch ( Exception e ) {
                 e.printStackTrace();
             }
         }
