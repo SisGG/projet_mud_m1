@@ -19,10 +19,10 @@ class CombatMonstre {
     private Monstre monstre;
 
     /**
-     * Constructeur de la classe CombatMonstre
-     * @param donjon Donjon dans lequel se passe le combat
-     * @param personnage personnage impliqué dans le combat
-     * @param monstre monstre impliqué dans le combat
+     * Constructeur de la classe CombatMonstre.
+     * @param donjon Donjon dans lequel se passe le combat.
+     * @param personnage personnage impliqué dans le combat.
+     * @param monstre monstre impliqué dans le combat.
      */
     CombatMonstre(Donjon donjon, Personnage personnage, Monstre monstre) {
         this.personnage = (Personnage) donjon.recupereEtreVivant(personnage.getNom());
@@ -30,9 +30,9 @@ class CombatMonstre {
     }
 
     /**
-     * Lance le combat et donne le choix au personnage de continuer ou fuir
-     * @return retourne l'etre vivant vainqueur du combat
-     * @throws RemoteException
+     * Lance le combat et donne le choix au personnage de continuer ou fuir.
+     * @return retourne l'etre vivant vainqueur du combat.
+     * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
     EtreVivant lancerCombat() throws RemoteException {
         boolean continuerCombat = true;
@@ -55,9 +55,9 @@ class CombatMonstre {
     }
 
     /**
-     * Fait perde à un des deux participants un point de vie de façon aléatoire
-     * Notifie le personnage du déroulement du combat
-     * @throws RemoteException
+     * Fait perde à un des deux participants un point de vie de façon aléatoire.
+     * Notifie le personnage du déroulement du combat.
+     * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
     private void effectuerTour() throws RemoteException {
         int ciblePerdant1PDV = new Random().nextInt(2);
@@ -86,7 +86,10 @@ class CombatMonstre {
         }
     }
 
-    Piece recupererPieceCombat(){
+    /**
+     * Renvoie la pièce dans laquellle le combat a lieu.
+     */
+    Piece recupererPieceCombat() {
         return this.personnage.getPieceActuelle();
     }
 }

@@ -21,8 +21,8 @@ public class Donjon {
     private Piece[][] donjon;
 
     /**
-     * Constructeur de la classe Donjon
-     * @param tailleDonjon  taille  du donjon
+     * Constructeur de la classe Donjon.
+     * @param tailleDonjon  taille  du donjon.
      */
     public Donjon(int tailleDonjon) {
         this.tailleDonjon = tailleDonjon;
@@ -33,9 +33,9 @@ public class Donjon {
     }
 
     /**
-     * Vérifie si le combat se déroule bien dans une piece
-     * @param piece la piece ou l'on veut voir si un combatg se déroule
-     * @return vrai si un combat se déroule dans la piece passée en paramètre, faux sinon
+     * Vérifie si le combat se déroule bien dans une piece.
+     * @param piece la piece ou l'on veut voir si un combatg se déroule.
+     * @return Renvoie la valeur true si un combat se déroule dans la piece passée en paramètre, false sinon.
      */
     boolean seDeroulerCombatPiece(Piece piece) {
         for(CombatMonstre combatMonstre : this.listeCombatMonstre){
@@ -68,9 +68,9 @@ public class Donjon {
     }
 
     /**
-     * Récupère tous les etreVivants présents dans la même piece qu'un etre vivant
-     * @param piece piece concernée
-     * @return liste de tous les etreVivant présents dans la même pièce que l'etre vivant passé en paramètres
+     * Récupère tous les etreVivants présents dans la même piece qu'un etre vivant.
+     * @param piece Piece concernée.
+     * @return Renvoie la liste de tous les etreVivant présents dans la même pièce que l'etre vivant passé en paramètres
      */
     Vector<EtreVivant> getEtreVivantMemePiece(Piece piece) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
@@ -111,16 +111,16 @@ public class Donjon {
     }
 
     /**
-     * Ajoute un combat à la liste des combats listeCombatMonstre
-     * @param combatMonstre combat à ajouter
+     * Ajoute un nouveau combat dans le Donjon.
+     * @param combatMonstre Combat à ajouter.
      */
     synchronized void ajouterCombat(CombatMonstre combatMonstre){
         this.listeCombatMonstre.add(combatMonstre);
     }
 
     /**
-     * Supprime un combat de la liste des combat listeCombatMonstre
-     * @param combatMonstre combat à supprimer
+     * Supprime un combat du Donjon.
+     * @param combatMonstre Combat à supprimer.
      */
     synchronized void supprimerCombat(CombatMonstre combatMonstre){
         this.listeCombatMonstre.remove(combatMonstre);
@@ -128,8 +128,8 @@ public class Donjon {
 
 
     /**
-     * Ajoute un etre vivant dans la liste listeEtreVivants
-     * @param etreVivant etreVivant à ajouter dans la liste
+     * Ajoute un nouvel etre vivant dans le Donjon.
+     * @param etreVivant EtreVivant à ajouter.
      */
     synchronized void ajouterEtreVivant(EtreVivant etreVivant) {
         if ( !this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
@@ -138,8 +138,8 @@ public class Donjon {
     }
 
     /**
-     * Supprime un être vivant de la liste listeEtreVivant
-     * @param etreVivant etreVivant à supprimer de la liste
+     * Supprime un être vivant du Donjon.
+     * @param etreVivant EtreVivant à supprimer.
      */
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
         if ( etreVivant != null ) {
@@ -148,9 +148,9 @@ public class Donjon {
     }
 
     /**
-     * Récupère un etre vivant à partir de listeEtreVivant
-     * @param nomEtreVivant nom de l'être vivant à récupérer
-     * @return etreVivant qui a le nom passé en paramètre,  null sinon
+     * Récupère un etre vivant dans le Donjon.
+     * @param nomEtreVivant Nom de l'être vivant à récupérer.
+     * @return Renvoie un EtreVivant dont le nom est passé en paramètre, null sinon.
      */
     EtreVivant recupereEtreVivant(String nomEtreVivant) {
         if ( this.listeEtreVivant.containsKey(nomEtreVivant) ) {
@@ -160,9 +160,9 @@ public class Donjon {
     }
 
     /**
-     * Assoscie un serveur  de   notification à un etreVivant
-     * @param etreVivant etreVivant à associer au serveur de notification
-     * @param serveurNotification serveur de notification à associer
+     * Associe un serveur de notification à un etreVivant.
+     * @param etreVivant EtreVivant à associer.
+     * @param serveurNotification ServeurNotification à associer à l'EtreVivant.
      */
     void associerServeurNotificationPersonnage(EtreVivant etreVivant, ServeurNotification serveurNotification) {
         if ( this.listeEtreVivant.containsKey(etreVivant.getNom()) ) {
@@ -175,9 +175,9 @@ public class Donjon {
     }
 
     /**
-     * Verifie si l'etreVivant est présent dans la liste
-     * @param nomEtreVivant nom de l'etreVivant recherché
-     * @return vrai s'il existe, faux sinon
+     * Verifie si un nom d'EtreVivant est présent dans le Donjon.
+     * @param nomEtreVivant Chaine de caractère de l'EtreVivant recherché.
+     * @return Renvoie la valeur true si un nom existe dans le Donjon, false sinon.
      */
     boolean nomEtreVivantExist(String nomEtreVivant) {
         return this.listeEtreVivant.containsKey(nomEtreVivant);

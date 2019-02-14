@@ -16,8 +16,8 @@ public class Monstre extends EtreVivant {
     private static int numeroMonstre = 0;
 
     /**
-     * Constructeur  de la classe Monstre
-     * @param piece pice où se trouve le monstre
+     * Constructeur  de la classe Monstre.
+     * @param piece Pice où se situe le monstre.
      */
     public Monstre(Piece piece) {
         super("Monstre" + numeroMonstre, pointDeVieMax, piece);

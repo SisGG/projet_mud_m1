@@ -20,9 +20,9 @@ abstract class EtreVivant implements Serializable {
     private int pointDeVieActuel;
 
     /**
-     * Constructeur de la classe EtreVivant
-     * @param nomEtreVivant nom de l'être vivant
-     * @param pointDeVie points de vie de l'être vivant
+     * Constructeur de la classe EtreVivant.
+     * @param nomEtreVivant Chaine de caractère de l'EtreVivant.
+     * @param pointDeVie Points de vie de l'EtreVivant.
      * */
     EtreVivant(String nomEtreVivant, int pointDeVie) {
         this.nomEtreVivant = nomEtreVivant;
@@ -32,11 +32,11 @@ abstract class EtreVivant implements Serializable {
     }
 
     /**
-    * Surcharge du constructeur de la classe EtreVivant pour iniitaliser le paramètre pieceActuelle
-    * @param nomEtreVivant nom de l'être vivant
-    * @param pointDeVieMax points de vie de l'être vivant
-    * @param piece piece où se trouve l'être vivant
-    * */
+     * Constructeur de la classe EtreVivant.
+     * @param nomEtreVivant Chaine de caractère de l'EtreVivant.
+     * @param pointDeVieMax Points de vie de l'EtreVivant.
+     * @param piece Piece a associé à l'EtreVivant.
+     */
     EtreVivant(String nomEtreVivant, int pointDeVieMax, Piece piece) {
         this.nomEtreVivant = nomEtreVivant;
         this.pointDeVieMax = pointDeVieMax;
@@ -45,22 +45,22 @@ abstract class EtreVivant implements Serializable {
     }
 
     /**
-     * Définie la piece actuelle de l'etre vivant.
+     * Définie la piece actuelle de l'EtreVivant.
      */
     void setPieceActuelle(Piece pieceActuelle) {
         this.pieceActuelle = pieceActuelle;
     }
 
     /**
-     * Récupère la piece actuelle de l'etre vivant.
-     * @return Renvoie la piece actuelle de l'etre vivant.
+     * Récupère la piece actuelle de l'EtreVivant.
+     * @return Renvoie la piece actuelle de l'EtreVivant.
      */
     Piece getPieceActuelle() {
         return this.pieceActuelle;
     }
 
     /**
-     * Augmente les points de vies de l'être vivant à l'issu d'un combat gagné
+     * Augmente un point de vie à l'EtreVivant.
      * */
     synchronized void augmenterPointDeVie() {
         this.pointDeVieActuel += 1;
@@ -70,38 +70,39 @@ abstract class EtreVivant implements Serializable {
     }
 
     /**
-     * Décrémente de 1 les points de vie de l'être vivant*/
+     * Décrémente un point de vie à l'EtreVivant.
+     */
     synchronized void perdrePointDeVie() {
         this.pointDeVieActuel -= 1;
     }
 
     /**
-     * Remet au maximum les points de vie de l'être vivant
+     * Initialise les points de vie de l'EtreVivant au maximum.
      */
     synchronized void regagnerPointDeVieMax() {
         this.pointDeVieActuel = this.pointDeVieMax;
     }
 
     /**
-     * Récupère les points de vies actuels  de  l'être  vivant
-     * @return renvoie les points de vie actuels de l'être  vivant
+     * Récupère les points de vies actuels de l'EtreVivant.
+     * @return Renvoie les points de vie actuels de l'EtreVivant?
      */
     int getPointDeVie() {
         return pointDeVieActuel;
     }
 
     /**
-     * Récupère le nom de  l'être  vivant
-     * @return renvoie le nom de l'être vivant
+     * Récupère le nom de l'être  vivant
+     * @return Renvoie la chaine de caractère du nom de l'EtreVivant.
      */
     String getNom() {
         return nomEtreVivant;
     }
 
     /**
-     * Vérifie si l'être vivant passé en paramètres  est équivalent à l'être vivant appelant  de la foncition
-     * @param etreVivant être vivant à comparer avec l'appelant
-     * @return résultat de la comparaison
+     * Indique si l'EtreVivant passé en paramètre est identique à l'EtreVivant courant.
+     * @param etreVivant EtreVivant à comparer.
+     * @return Renvoie true si les deux EtreVivant sont considéré comme identique, false sinon.
      */
     boolean equals(EtreVivant etreVivant) {
         return this.nomEtreVivant.equals(etreVivant.getNom());

@@ -17,39 +17,39 @@ public class Personnage extends EtreVivant {
 
     /**
      * Constructeur de la classe Personnage.
-     * @param nomPersonnage Nom du personnage.
+     * @param nomPersonnage Chaine de caractère du Personnage.
      */
     Personnage(String nomPersonnage) {
         super(nomPersonnage, pointDeVieMax);
     }
 
     /***
-     * Associe un Serveur Notification au personnage
-     * @param serveurNotification que l'on associe au personnage
+     * Associe un Serveur Notification au Personnage.
+     * @param serveurNotification ServeurNotification que l'on associe au personnage.
      */
     void setServeurNotification(ServeurNotification serveurNotification) {
         this.serveurNotification = serveurNotification;
     }
 
     /***
-     * @return Serveur notification associé au personnage
+     * @return Renvoie le ServeurNotification associé au personnage.
      */
     ServeurNotification getServeurNotification() {
         return this.serveurNotification;
     }
 
     /**
-     * Récupère la chaine de caractère définissant l'objet.
-     * @return Renvoie une chaine de caractère.
+     * Renvoie une chaine de caractère représentant le Personnage.
+     * @return Renvoie une chaine de caractère représentant le Personnage.
      */
     public String toString() {
         return "Personnage[" + this.nomEtreVivant + "]";
     }
 
     /**
-     * Redéfinition de la méthode equals pour comparer deux personnages
-     * @param personnage Personnage que l'on compare avec celui courant
-     * @return Boolean : True si les deux sont identiques, faux sinon
+     * Indique si le Personnage passé en paramètre est identique au Personnage courant.
+     * @param personnage Personnage à comparer.
+     * @return Renvoie true si les deux Personnage sont considéré comme identique, false sinon.
      */
     boolean equals(Personnage personnage) {
         return this.nomEtreVivant.equals(personnage.getNom());
