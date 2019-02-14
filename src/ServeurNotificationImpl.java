@@ -29,7 +29,7 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
      * @param notication Chaine de caractère à envoyer au client.
      */
     public void notifier(String notication){
-        System.out.println("\r" + notication);
+        System.out.println(notication);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
      */
     public String demanderAction(String message) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print(message);
+        System.out.println(message);
         return scanner.nextLine();
     }
 

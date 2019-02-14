@@ -72,14 +72,14 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             }
             personnageListe.setPieceActuelle(pieceDirection);
             try {
-                personnageListe.getServeurNotification().notifier("\rVous arrivez dans la piece " + pieceDirection);
+                personnageListe.getServeurNotification().notifier("Vous arrivez dans la piece : " + pieceDirection);
                 this.prevenirEntrerPersonnageMemePiece(personnageListe);
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
         } else {
             try {
-                personnageListe.getServeurNotification().notifier("\rImpossible d'aller dans cette direction.");
+                personnageListe.getServeurNotification().notifier("Impossible d'aller dans cette direction.");
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
