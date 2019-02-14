@@ -23,7 +23,7 @@ public class Personnage extends EtreVivant {
         super(nomPersonnage, pointDeVieMax);
     }
 
-    /***
+    /**
      * Associe un Serveur Notification au Personnage.
      * @param serveurNotification ServeurNotification que l'on associe au personnage.
      */
@@ -31,7 +31,7 @@ public class Personnage extends EtreVivant {
         this.serveurNotification = serveurNotification;
     }
 
-    /***
+    /**
      * @return Renvoie le ServeurNotification associé au personnage.
      */
     ServeurNotification getServeurNotification() {
@@ -49,7 +49,7 @@ public class Personnage extends EtreVivant {
     /**
      * Indique si le Personnage passé en paramètre est identique au Personnage courant.
      * @param personnage Personnage à comparer.
-     * @return Renvoie true si les deux Personnage sont considéré comme identique, false sinon.
+     * @return Renvoie true si les deux Personnage sont considérés comme identiques, false sinon.
      */
     boolean equals(Personnage personnage) {
         return this.nomEtreVivant.equals(personnage.getNom());

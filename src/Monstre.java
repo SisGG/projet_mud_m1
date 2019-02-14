@@ -17,10 +17,11 @@ public class Monstre extends EtreVivant {
 
     /**
      * Constructeur  de la classe Monstre.
-     * @param piece Pice où se situe le monstre.
+     * @param piece Piece où se situe le Monstre.
      */
     public Monstre(Piece piece) {
         super("Monstre" + numeroMonstre, pointDeVieMax, piece);
         numeroMonstre++;
     }
+
 }

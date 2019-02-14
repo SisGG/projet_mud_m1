@@ -34,7 +34,7 @@ public class Donjon {
 
     /**
      * Vérifie si le combat se déroule bien dans une piece.
-     * @param piece la piece ou l'on veut voir si un combatg se déroule.
+     * @param piece La piece à vérifier.
      * @return Renvoie la valeur true si un combat se déroule dans la piece passée en paramètre, false sinon.
      */
     boolean seDeroulerCombatPiece(Piece piece) {
@@ -68,9 +68,9 @@ public class Donjon {
     }
 
     /**
-     * Récupère tous les etreVivants présents dans la même piece qu'un etre vivant.
+     * Récupère tous les EtreVivants présents dans la même piece qu'un EtreVivant.
      * @param piece Piece concernée.
-     * @return Renvoie la liste de tous les etreVivant présents dans la même pièce que l'etre vivant passé en paramètres
+     * @return Renvoie la liste de tous les etreVivant présents dans la même pièce que l'EtreVivant passé en paramètres
      */
     Vector<EtreVivant> getEtreVivantMemePiece(Piece piece) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
@@ -128,7 +128,7 @@ public class Donjon {
 
 
     /**
-     * Ajoute un nouvel etre vivant dans le Donjon.
+     * Ajoute un nouvel EtreVivant dans le Donjon.
      * @param etreVivant EtreVivant à ajouter.
      */
     synchronized void ajouterEtreVivant(EtreVivant etreVivant) {
@@ -138,7 +138,7 @@ public class Donjon {
     }
 
     /**
-     * Supprime un être vivant du Donjon.
+     * Supprime un EtreVivant du Donjon.
      * @param etreVivant EtreVivant à supprimer.
      */
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
@@ -148,8 +148,8 @@ public class Donjon {
     }
 
     /**
-     * Récupère un etre vivant dans le Donjon.
-     * @param nomEtreVivant Nom de l'être vivant à récupérer.
+     * Récupère un EtreVivant dans le Donjon.
+     * @param nomEtreVivant Nom de l'EtreVivant à récupérer.
      * @return Renvoie un EtreVivant dont le nom est passé en paramètre, null sinon.
      */
     EtreVivant recupereEtreVivant(String nomEtreVivant) {
@@ -160,7 +160,7 @@ public class Donjon {
     }
 
     /**
-     * Associe un serveur de notification à un etreVivant.
+     * Associe un ServeurNotification à un EtreVivant.
      * @param etreVivant EtreVivant à associer.
      * @param serveurNotification ServeurNotification à associer à l'EtreVivant.
      */

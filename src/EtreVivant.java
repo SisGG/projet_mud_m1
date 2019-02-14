@@ -23,7 +23,7 @@ abstract class EtreVivant implements Serializable {
      * Constructeur de la classe EtreVivant.
      * @param nomEtreVivant Chaine de caractère de l'EtreVivant.
      * @param pointDeVie Points de vie de l'EtreVivant.
-     * */
+     */
     EtreVivant(String nomEtreVivant, int pointDeVie) {
         this.nomEtreVivant = nomEtreVivant;
         this.pointDeVieMax = pointDeVie;
@@ -46,6 +46,7 @@ abstract class EtreVivant implements Serializable {
 
     /**
      * Définie la piece actuelle de l'EtreVivant.
+     * @param pieceActuelle Piece à définir.
      */
     void setPieceActuelle(Piece pieceActuelle) {
         this.pieceActuelle = pieceActuelle;
@@ -53,7 +54,7 @@ abstract class EtreVivant implements Serializable {
 
     /**
      * Récupère la piece actuelle de l'EtreVivant.
-     * @return Renvoie la piece actuelle de l'EtreVivant.
+     * @return Renvoie la Piece actuelle de l'EtreVivant.
      */
     Piece getPieceActuelle() {
         return this.pieceActuelle;
@@ -101,10 +102,11 @@ abstract class EtreVivant implements Serializable {
 
     /**
      * Indique si l'EtreVivant passé en paramètre est identique à l'EtreVivant courant.
-     * @param etreVivant EtreVivant à comparer.
-     * @return Renvoie true si les deux EtreVivant sont considéré comme identique, false sinon.
+     * @param etreVivant EtreVivant a comparé.
+     * @return Renvoie true si les deux EtreVivant sont considérées comme identiques, false sinon.
      */
     boolean equals(EtreVivant etreVivant) {
         return this.nomEtreVivant.equals(etreVivant.getNom());
     }
+
 }

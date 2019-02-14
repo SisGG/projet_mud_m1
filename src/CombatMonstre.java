@@ -21,8 +21,8 @@ class CombatMonstre {
     /**
      * Constructeur de la classe CombatMonstre.
      * @param donjon Donjon dans lequel se passe le combat.
-     * @param personnage personnage impliqué dans le combat.
-     * @param monstre monstre impliqué dans le combat.
+     * @param personnage Personnage impliqué dans le combat.
+     * @param monstre Monstre impliqué dans le combat.
      */
     CombatMonstre(Donjon donjon, Personnage personnage, Monstre monstre) {
         this.personnage = (Personnage) donjon.recupereEtreVivant(personnage.getNom());
@@ -31,7 +31,7 @@ class CombatMonstre {
 
     /**
      * Lance le combat et donne le choix au personnage de continuer ou fuir.
-     * @return retourne l'etre vivant vainqueur du combat.
+     * @return retourne L'EtreVivant vainqueur du combat.
      * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
     EtreVivant lancerCombat() throws RemoteException {
@@ -87,7 +87,7 @@ class CombatMonstre {
     }
 
     /**
-     * Renvoie la pièce dans laquellle le combat a lieu.
+     * @return Renvoie la pièce dans laquelle le combat a lieu.
      */
     Piece recupererPieceCombat() {
         return this.personnage.getPieceActuelle();
