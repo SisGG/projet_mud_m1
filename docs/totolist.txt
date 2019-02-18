@@ -1,2 +1,4 @@
 - Diagramme classe etape 2
 - Implementation classe etape 2
+- Ajouter un point de vie max supplémentaire
+- Déroulement des combats automatiques
