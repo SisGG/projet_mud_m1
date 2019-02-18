@@ -1,4 +1,3 @@
-- Diagramme classe etape 2
-- Implementation classe etape 2
+- Diagramme de cas d'utilisation étpape 3
 - Ajouter un point de vie max supplémentaire
 - Déroulement des combats automatiques
