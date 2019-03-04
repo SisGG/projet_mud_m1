@@ -1,3 +1,5 @@
-- Diagramme de cas d'utilisation étpape 3
-- Ajouter un point de vie max supplémentaire
-- Déroulement des combats automatiques
+- Ajouter un point de vie max supplémentaire (D'abord restorer + rajouter pdv)
+- Déroulement des combats automatiques (durée 1s)
+- Attaquer personnage
+- Combat parallèle
+- Diagramme de classe v3
