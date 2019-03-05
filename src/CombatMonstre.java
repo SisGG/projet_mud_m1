@@ -36,13 +36,18 @@ class CombatMonstre {
      */
     EtreVivant lancerCombat() throws RemoteException {
         boolean continuerCombat = true;
+        String action;
         while ( continuerCombat ) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             this.effectuerTour();
             continuerCombat = this.personnage.getPointDeVie() != 0 && this.monstre.getPointDeVie() != 0;
             if ( continuerCombat ) {
-                String action = personnage.getServeurNotification().demanderAction("Entrez \"fuir\" pour quitter le combat" +
-                        " ou n'importe quelle autre commande pour continuer : ");
-                if ( action.equals("fuir") ) {
+                action = personnage.getServeurNotification().demanderAction("");
+                if (action.equals("f")){
                     personnage.getServeurNotification().notifier("Vous avez fui le combat. " +
                             "Il vous reste " + personnage.getPointDeVie() + " point de vie.");
                     continuerCombat = false;
@@ -55,7 +60,7 @@ class CombatMonstre {
     }
 
     /**
-     * Fait perde à un des deux participants un point de vie de façon aléatoire.
+     * Fait perdre à un des deux participants un point de vie de façon aléatoire.
      * Notifie le personnage du déroulement du combat.
      * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
@@ -77,7 +82,7 @@ class CombatMonstre {
         } else if ( this.monstre.getPointDeVie() == 0 ) {
             this.personnage.augmenterPointDeVie();
             this.personnage.getServeurNotification().notifier("Vous tuez " + this.monstre.getNom() +
-                    ". Fin du combat, vous regagnez donc un point de vie. " +
+                    ". Fin du combat, vous gagnez donc un point de vie. " +
                     "Il vous reste " + this.personnage.getPointDeVie() + " points de vie.");
         } else {
             this.personnage.getServeurNotification().notifier("Il vous reste "

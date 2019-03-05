@@ -38,7 +38,8 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         while ( this.donjon.nomEtreVivantExist(monstre.getNom()) ) {
             monstre = new Monstre(personnage.getPieceActuelle());
         }
-        personnage.getServeurNotification().notifier("Vous êtes attaqué par "+monstre.getNom());
+        personnage.getServeurNotification().notifier("Vous êtes attaqué par "+monstre.getNom() +
+                ". Entrez \'f\' pour fuir le combat.");
         this.donjon.ajouterEtreVivant(monstre);
 
         CombatMonstre combatMonstre = new CombatMonstre(this.donjon, personnage, monstre);

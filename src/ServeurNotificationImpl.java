@@ -42,5 +42,4 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
         System.out.println(message);
         return scanner.nextLine();
     }
-
 }
