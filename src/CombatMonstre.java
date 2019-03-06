@@ -32,26 +32,23 @@ class CombatMonstre {
     /**
      * Lance le combat et donne le choix au personnage de continuer ou fuir.
      * @return retourne L'EtreVivant vainqueur du combat.
-     * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
-    EtreVivant lancerCombat() throws RemoteException {
+    EtreVivant lancerCombat() {
         boolean continuerCombat = true;
-        String action;
         while ( continuerCombat ) {
             try {
                 Thread.sleep(1000);
+                this.effectuerTour();
+                continuerCombat = this.personnage.getPointDeVie() != 0 && this.monstre.getPointDeVie() != 0;
+                if ( continuerCombat ) {
+                    if(personnage.getServeurNotification().demanderAction().equals("")){
+                        personnage.getServeurNotification().notifier("Vous avez fui le combat. " +
+                                "Il vous reste " + personnage.getPointDeVie() + " point de vie.");
+                        continuerCombat = false;
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            this.effectuerTour();
-            continuerCombat = this.personnage.getPointDeVie() != 0 && this.monstre.getPointDeVie() != 0;
-            if ( continuerCombat ) {
-                action = personnage.getServeurNotification().demanderAction("");
-                if (action.equals("f")){
-                    personnage.getServeurNotification().notifier("Vous avez fui le combat. " +
-                            "Il vous reste " + personnage.getPointDeVie() + " point de vie.");
-                    continuerCombat = false;
-                }
             }
         }
         if ( this.monstre.getPointDeVie() == 0 )

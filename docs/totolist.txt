@@ -1,4 +1,3 @@
-- Déroulement des combats automatiques (durée 1s)
 - Attaquer personnage
 - Combat parallèle
 - Diagramme de classe v3

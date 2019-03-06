@@ -1,6 +1,7 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
 
 /******************************************************************************
  * file     : src/ServeurNotificationImpl.java
@@ -34,12 +35,20 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
 
     /**
      * Demande au Client de saisir une chaine de caractère avec un message spécifique.
-     * @param message Chaine de caractère à afficher avant la saisi.
      * @return Renvoie la chaine de caractère saisi par le Client.
      */
-    public String demanderAction(String message) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(message);
-        return scanner.nextLine();
+    public String demanderAction() {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            Thread.sleep(1000);
+            if (!bufferedReader.ready()){
+                return "-1";
+            }
+            return bufferedReader.readLine();
+        }catch(Exception e){
+            e.printStackTrace();
+            return "-2";
+        }
     }
+
 }
