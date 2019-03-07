@@ -37,7 +37,6 @@ class CombatMonstre {
         boolean continuerCombat = true;
         while ( continuerCombat ) {
             try {
-                Thread.sleep(1000);
                 this.effectuerTour();
                 continuerCombat = this.personnage.getPointDeVie() != 0 && this.monstre.getPointDeVie() != 0;
                 if ( continuerCombat ) {

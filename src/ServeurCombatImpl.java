@@ -40,6 +40,11 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }
         personnage.getServeurNotification().notifier("Vous êtes attaqué par "+monstre.getNom() +
                 ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
+        try {
+            Thread.sleep(1000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         this.donjon.ajouterEtreVivant(monstre);
 
         CombatMonstre combatMonstre = new CombatMonstre(this.donjon, personnage, monstre);
