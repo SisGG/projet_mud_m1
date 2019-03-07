@@ -133,8 +133,8 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
                     if ( etreVivantCourant instanceof Personnage ) {
-                        Personnage personnageCourant = (Personnage) etreVivantCourant;
-                        personnageCourant.getServeurNotification().notifier(personnage.getNom()
+                        ((Personnage) etreVivantCourant).getServeurNotification()
+                                .notifier(personnage.getNom()
                                 + " est entré dans la pièce: " + personnage.getPieceActuelle());
                     }
                 } catch( Exception e ) {
@@ -154,8 +154,8 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             if ( !etreVivantCourant.equals(personnage) ) {
                 try {
                     if ( etreVivantCourant instanceof Personnage ) {
-                        Personnage personnageCourant = (Personnage) etreVivantCourant;
-                        personnageCourant.getServeurNotification().notifier(personnage.getNom()
+                        ((Personnage) etreVivantCourant).getServeurNotification()
+                                .notifier(personnage.getNom()
                                 + " a quitté la pièce.");
                     }
                 } catch ( Exception e ) {

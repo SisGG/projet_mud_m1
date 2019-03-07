@@ -38,8 +38,8 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             try {
                 if ( etreVivantCourant instanceof Personnage ) {
-                    Personnage personnageCourant = (Personnage) etreVivantCourant;
-                    personnageCourant.getServeurNotification().notifier(personnage.getNom() + ": " + message);
+                    ((Personnage) etreVivantCourant).getServeurNotification()
+                            .notifier(personnage.getNom() + ": " + message);
                 }
             } catch ( Exception e ) {
                 e.printStackTrace();
