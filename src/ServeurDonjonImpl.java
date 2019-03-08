@@ -111,7 +111,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             }
         }
         if ( notification.equals("Il y a ") ) {
-            notification = "Il n'y a pas d'autre joueur dans la pièce.";
+            notification = "Il n'y a pas d'autres etres dans la pièce.";
         } else {
             notification += "dans la pièce.";
         }

@@ -14,7 +14,7 @@ import java.io.Serializable;
  *****************************************************************************/
 abstract class EtreVivant implements Serializable {
 
-    protected String nomEtreVivant;
+    String nomEtreVivant;
     private Piece pieceActuelle;
     private int pointDeVieMax;
     private int pointDeVieActuel;

@@ -30,33 +30,49 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     /**
      * Permet de lancer un combat entre un Personnage et un Monstre.
      * @param personnage Personnage qui est attaquer par un Monstre.
-     * @return Renvoie la valeur true si le personnage attaqué est mort, false sinon.
      * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
-    public boolean lancerCombatMonstre(Personnage personnage) throws RemoteException {
+    public EtreVivant lancerCombatMonstre(Personnage personnage) throws RemoteException {
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
-        while ( this.donjon.nomEtreVivantExist(monstre.getNom()) ) {
+        while ( this.donjon.nomEtreVivantExiste(monstre.getNom()) ) {
             monstre = new Monstre(personnage.getPieceActuelle());
         }
-        personnage.getServeurNotification().notifier("Vous êtes attaqué par "+monstre.getNom() +
-                ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
+        this.donjon.ajouterEtreVivant(monstre);
+        return this.lancerCombat(monstre, personnage);
+    }
+
+    public EtreVivant lancerCombat(EtreVivant attaquant, EtreVivant attaque) throws RemoteException {
+        EtreVivant perdantCombat = null;
+        if( attaquant instanceof Personnage) {
+            ((Personnage) attaque).getServeurNotification().notifier("Vous attaquez " + attaque.getNom() +
+                    ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
+        }
+        if( attaque instanceof Personnage) {
+            ((Personnage) attaque).getServeurNotification().notifier("Vous êtes attaqué par " + attaquant.getNom() +
+                    ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
+        }
         try {
             Thread.sleep(1000);
         }catch(Exception e){
             e.printStackTrace();
         }
-        this.donjon.ajouterEtreVivant(monstre);
 
-        CombatMonstre combatMonstre = new CombatMonstre(this.donjon, personnage, monstre);
-        this.donjon.ajouterCombat(combatMonstre);
-        EtreVivant etreVivantSortant = combatMonstre.lancerCombat();
-        this.donjon.supprimerCombat(combatMonstre);
-
-        if ( etreVivantSortant.getPointDeVie() == 0 ) {
-            this.donjon.supprimerEtreVivant(etreVivantSortant);
+        Combat combat = new Combat(this.donjon, attaquant, attaque);
+        Piece pieceCombat = combat.recupererPieceCombat();
+        this.donjon.ajouterCombat(combat);
+        combat.lancerCombat();
+        if (combat.getEtreVivantAttaquant().getPointDeVie() == 0) {
+            perdantCombat = attaquant;
+            this.donjon.supprimerEtreVivant(attaquant);
+        } else if (combat.getEtreVivantAttaque().getPointDeVie() == 0){
+            perdantCombat = attaque;
+            this.donjon.supprimerEtreVivant(attaque);
         }
-        this.regagnerVieMax(personnage.getPieceActuelle());
-        return (etreVivantSortant.equals(personnage) && etreVivantSortant.getPointDeVie()==0);
+        this.donjon.supprimerCombat(combat);
+        this.regagnerVieMax(pieceCombat);
+
+        // Problème sur le return d'un EtreVivant
+        return perdantCombat;
     }
 
     /**

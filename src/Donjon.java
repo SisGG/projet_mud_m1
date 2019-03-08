@@ -17,7 +17,7 @@ public class Donjon {
 
     private int tailleDonjon;
     private HashMap<String,EtreVivant> listeEtreVivant;
-    private Vector<CombatMonstre> listeCombatMonstre;
+    private Vector<Combat> listeCombat;
     private Piece[][] donjon;
 
     /**
@@ -29,7 +29,7 @@ public class Donjon {
         this.listeEtreVivant = new HashMap<>();
         this.donjon = new Piece[tailleDonjon][tailleDonjon];
         this.genererDonjon(tailleDonjon);
-        this.listeCombatMonstre = new Vector<>();
+        this.listeCombat = new Vector<>();
     }
 
     /**
@@ -38,8 +38,8 @@ public class Donjon {
      * @return Renvoie la valeur true si un combat se déroule dans la piece passée en paramètre, false sinon.
      */
     boolean seDeroulerCombatPiece(Piece piece) {
-        for(CombatMonstre combatMonstre : this.listeCombatMonstre){
-            if(combatMonstre.recupererPieceCombat().equals(piece)){
+        for(Combat combat : this.listeCombat){
+            if(combat.recupererPieceCombat().equals(piece)){
                 return true;
             }
         }
@@ -112,18 +112,18 @@ public class Donjon {
 
     /**
      * Ajoute un nouveau combat dans le Donjon.
-     * @param combatMonstre Combat à ajouter.
+     * @param combat Combat à ajouter.
      */
-    synchronized void ajouterCombat(CombatMonstre combatMonstre){
-        this.listeCombatMonstre.add(combatMonstre);
+    synchronized void ajouterCombat(Combat combat){
+        this.listeCombat.add(combat);
     }
 
     /**
      * Supprime un combat du Donjon.
-     * @param combatMonstre Combat à supprimer.
+     * @param combat Combat à supprimer.
      */
-    synchronized void supprimerCombat(CombatMonstre combatMonstre){
-        this.listeCombatMonstre.remove(combatMonstre);
+    synchronized void supprimerCombat(Combat combat){
+        this.listeCombat.remove(combat);
     }
 
 
@@ -179,7 +179,7 @@ public class Donjon {
      * @param nomEtreVivant Chaine de caractère de l'EtreVivant recherché.
      * @return Renvoie la valeur true si un nom existe dans le Donjon, false sinon.
      */
-    boolean nomEtreVivantExist(String nomEtreVivant) {
+    boolean nomEtreVivantExiste(String nomEtreVivant) {
         return this.listeEtreVivant.containsKey(nomEtreVivant);
     }
 }
