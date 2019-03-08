@@ -60,13 +60,17 @@ public class Client {
      * @param codeDeSortie correspond au code du processus renvoyé
      */
     private void seDeconnecter(int codeDeSortie) {
-        try {
-            this.serveurDonjon.seDeconnecter(this.personnage);
-            this.serveurDonjon = null;
-            this.serveurDiscussion = null;
+        if(codeDeSortie == 0) {
+            try {
+                this.serveurDonjon.seDeconnecter(this.personnage);
+                this.serveurDonjon = null;
+                this.serveurDiscussion = null;
+                exit(codeDeSortie);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
             exit(codeDeSortie);
-        } catch ( Exception e ) {
-            e.printStackTrace();
         }
     }
 
@@ -79,10 +83,11 @@ public class Client {
             Piece pieceActuelle = this.personnage.getPieceActuelle();
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
-                boolean personnageMort = this.serveurCombat.lancerCombatMonstre(this.personnage);
-                if ( personnageMort ) {
-                    System.exit(0);
-                }
+                this.serveurCombat.lancerCombatMonstre(this.personnage);
+                /* EtreVivant perdantCombat = this.serveurCombat.lancerCombatMonstre(this.personnage);
+                if(perdantCombat != null && perdantCombat.equals(this.personnage)){
+                    this.seDeconnecter(1);
+                }*/
                 this.afficherCommande();
             }
         } catch ( Exception e ) {
@@ -138,6 +143,18 @@ public class Client {
         this.seConnecter(nomPersonnage);
     }
 
+    private void attaquer(String nomCible){
+        try {
+            if (this.serveurDonjon.existeNomPersonnage(nomCible)){
+                System.out.println("Le personnage existe.");
+            } else{
+                System.out.println("Il n'y a pas d\'être de ce nom dans la pièce.");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Permet d'interpréter les commandes de l'utilisateur.
      * Demande à l'utilisateur de saisir une commande.
@@ -147,23 +164,30 @@ public class Client {
      */
     private void interpreterCommande() {
         this.afficherCommande();
+        Scanner scanner = new Scanner(System.in);
         while ( true ) {
-            Scanner scanner = new Scanner(System.in);
             String commande = scanner.nextLine();
-            if ( commande.length() > 1 && commande.substring(0, 1).equals("\"") ) {
+            if (commande.length() > 1 && commande.substring(0, 1).equals("\"")) {
                 this.discuter(commande);
-            } else if ( commande.equals("N") || commande.equals("E") || commande.equals("S") || commande.equals("O") ) {
+            } else if (commande.toLowerCase().equals("n") || commande.toLowerCase().equals("e") ||
+                    commande.toLowerCase().equals("s") || commande.toLowerCase().equals("o")) {
                 this.seDeplacer(commande);
-            } else if ( commande.toLowerCase().equals("quitter") ) {
+            } else if (commande.toLowerCase().equals("quitter")) {
                 System.out.println("Déconnexion.");
                 this.seDeconnecter(0);
-            } else if ( commande.equals("L") ) {
+                exit(0);
+            } else if (commande.toLowerCase().equals("l")) {
                 try {
                     this.serveurDonjon.afficherEtreVivantPiece(personnage);
-                } catch ( Exception e ) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if ( commande.toLowerCase().equals("help") ) {
+            }else if(commande.length() > 8){
+                if(commande.substring(0,7).toLowerCase().equals("attaque")) {
+                    this.attaquer(commande.substring(8));
+                }else
+                    System.out.println("Cette commande n'est pas reconnue.");
+            }else if ( commande.toLowerCase().equals("help") ) {
                 this.afficherCommande();
             } else {
                 System.out.println("Cette commande n'est pas reconnue.");
