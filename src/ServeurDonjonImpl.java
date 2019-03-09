@@ -176,11 +176,27 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
 
     /**
      * Vérifie si un personnage est dans la liste de personnage du donjon.
-     * @param nomPersonnage que l'on cherche dans la liste.
+     * @param nomEtreVivant que l'on cherche dans la liste.
      * @return Renvoie la valeur true si le personnage existe, false sinon.
      */
-    public boolean existeNomPersonnage(String nomPersonnage)  {
-        return this.donjon.recupereEtreVivant(nomPersonnage) != null;
+    public boolean existeNomEtreVivant(String nomEtreVivant)  {
+        return this.donjon.recupereEtreVivant(nomEtreVivant) != null;
+    }
+
+    public Personnage getPersonnage(String nomPersonnage){
+        EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomPersonnage);
+        if (etreVivant.getClass().equals(Personnage.class)){
+            return (Personnage) etreVivant;
+        }
+        else return null;
+    }
+
+    public Monstre getMonstre(String nomMontre){
+        EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomMontre);
+        if (etreVivant.getClass().equals(Monstre.class)){
+            return (Monstre) etreVivant;
+        }
+        else return null;
     }
 
 }

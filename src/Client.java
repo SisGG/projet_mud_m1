@@ -1,4 +1,5 @@
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -84,11 +85,6 @@ public class Client {
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction);
             if ( !direction.equals("") && !pieceActuelle.equals(this.personnage.getPieceActuelle()) ) {
                 this.serveurCombat.lancerCombatMonstre(this.personnage);
-                /* EtreVivant perdantCombat = this.serveurCombat.lancerCombatMonstre(this.personnage);
-                if(perdantCombat != null && perdantCombat.equals(this.personnage)){
-                    this.seDeconnecter(1);
-                }*/
-                this.afficherCommande();
             }
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -115,7 +111,7 @@ public class Client {
     private boolean existeNomPersonnage(String nomPersonnage) {
         try {
             ServeurDonjon serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
-            return serveurDonjon.existeNomPersonnage(nomPersonnage);
+            return serveurDonjon.existeNomEtreVivant(nomPersonnage);
         } catch ( Exception e ) {
             e.printStackTrace();
         }
@@ -145,8 +141,13 @@ public class Client {
 
     private void attaquer(String nomCible){
         try {
-            if (this.serveurDonjon.existeNomPersonnage(nomCible)){
-                System.out.println("Le personnage existe.");
+            EtreVivant etreVivantAttaque = this.serveurDonjon.getMonstre(nomCible);
+            if(etreVivantAttaque == null) {
+                etreVivantAttaque = this.serveurDonjon.getPersonnage(nomCible);
+                System.out.println(etreVivantAttaque);
+            }
+            if (etreVivantAttaque != null ){
+                this.serveurCombat.lancerCombat(this.personnage, etreVivantAttaque);
             } else{
                 System.out.println("Il n'y a pas d\'être de ce nom dans la pièce.");
             }
@@ -163,36 +164,41 @@ public class Client {
      * Effectue ensuite l'action souhaité.
      */
     private void interpreterCommande() {
-        this.afficherCommande();
         Scanner scanner = new Scanner(System.in);
-        while ( true ) {
-            String commande = scanner.nextLine();
-            if (commande.length() > 1 && commande.substring(0, 1).equals("\"")) {
-                this.discuter(commande);
-            } else if (commande.toLowerCase().equals("n") || commande.toLowerCase().equals("e") ||
-                    commande.toLowerCase().equals("s") || commande.toLowerCase().equals("o")) {
-                this.seDeplacer(commande);
-            } else if (commande.toLowerCase().equals("quitter")) {
-                System.out.println("Déconnexion.");
-                this.seDeconnecter(0);
-                exit(0);
-            } else if (commande.toLowerCase().equals("l")) {
-                try {
-                    this.serveurDonjon.afficherEtreVivantPiece(personnage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else if(commande.length() > 8){
-                if(commande.substring(0,7).toLowerCase().equals("attaque")) {
-                    this.attaquer(commande.substring(8));
-                }else
-                    System.out.println("Cette commande n'est pas reconnue.");
-            }else if ( commande.toLowerCase().equals("help") ) {
+        try {
+            while (this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant) ) {
                 this.afficherCommande();
-            } else {
-                System.out.println("Cette commande n'est pas reconnue.");
+                String commande = scanner.nextLine();
+                if (commande.length() > 1 && commande.substring(0, 1).equals("\"")) {
+                    this.discuter(commande);
+                } else if (commande.toLowerCase().equals("n") || commande.toLowerCase().equals("e") ||
+                        commande.toLowerCase().equals("s") || commande.toLowerCase().equals("o")) {
+                    this.seDeplacer(commande);
+                } else if (commande.toLowerCase().equals("quitter")) {
+                    System.out.println("Déconnexion.");
+                    this.seDeconnecter(0);
+                    exit(0);
+                } else if (commande.toLowerCase().equals("l")) {
+                    try {
+                        this.serveurDonjon.afficherEtreVivantPiece(personnage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else if(commande.length() > 8){
+                    if(commande.substring(0,7).toLowerCase().equals("attaque")) {
+                        this.attaquer(commande.substring(8));
+                    }else
+                        System.out.println("Cette commande n'est pas reconnue.");
+                }else if ( commande.toLowerCase().equals("help") ) {
+                    this.afficherCommande();
+                } else {
+                    System.out.println("Cette commande n'est pas reconnue.");
+                }
             }
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
+        this.seDeconnecter(1);
     }
 
     /**

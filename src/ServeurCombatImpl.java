@@ -32,19 +32,18 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
      * @param personnage Personnage qui est attaquer par un Monstre.
      * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
-    public EtreVivant lancerCombatMonstre(Personnage personnage) throws RemoteException {
+    public void lancerCombatMonstre(Personnage personnage) throws RemoteException {
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
         while ( this.donjon.nomEtreVivantExiste(monstre.getNom()) ) {
             monstre = new Monstre(personnage.getPieceActuelle());
         }
         this.donjon.ajouterEtreVivant(monstre);
-        return this.lancerCombat(monstre, personnage);
+        lancerCombat(monstre, personnage);
     }
 
-    public EtreVivant lancerCombat(EtreVivant attaquant, EtreVivant attaque) throws RemoteException {
-        EtreVivant perdantCombat = null;
+    public void lancerCombat(EtreVivant attaquant, EtreVivant attaque) throws RemoteException {
         if( attaquant instanceof Personnage) {
-            ((Personnage) attaque).getServeurNotification().notifier("Vous attaquez " + attaque.getNom() +
+            ((Personnage) attaquant).getServeurNotification().notifier("Vous attaquez " + attaque.getNom() +
                     ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
         }
         if( attaque instanceof Personnage) {
@@ -62,17 +61,12 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.donjon.ajouterCombat(combat);
         combat.lancerCombat();
         if (combat.getEtreVivantAttaquant().getPointDeVie() == 0) {
-            perdantCombat = attaquant;
             this.donjon.supprimerEtreVivant(attaquant);
         } else if (combat.getEtreVivantAttaque().getPointDeVie() == 0){
-            perdantCombat = attaque;
             this.donjon.supprimerEtreVivant(attaque);
         }
         this.donjon.supprimerCombat(combat);
         this.regagnerVieMax(pieceCombat);
-
-        // Problème sur le return d'un EtreVivant
-        return perdantCombat;
     }
 
     /**

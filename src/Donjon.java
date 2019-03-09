@@ -142,9 +142,7 @@ public class Donjon {
      * @param etreVivant EtreVivant à supprimer.
      */
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
-        if ( etreVivant != null ) {
-            this.listeEtreVivant.remove(etreVivant.getNom());
-        }
+        this.listeEtreVivant.remove(etreVivant.getNom());
     }
 
     /**

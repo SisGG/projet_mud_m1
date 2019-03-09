@@ -43,6 +43,10 @@ class Combat {
                         if(((Personnage) etreVivantAttaquant).getServeurNotification().demanderAction().equals("")){
                             ((Personnage) etreVivantAttaquant).getServeurNotification().notifier("Vous avez fui le combat. " +
                                     "Il vous reste " + etreVivantAttaquant.getPointDeVie() + " point de vie.");
+                            if(etreVivantAttaque instanceof Personnage){
+                                ((Personnage) etreVivantAttaque).getServeurNotification().notifier(etreVivantAttaquant.getNom()+
+                                        " a fui le combat. " + "Il vous reste " + etreVivantAttaque.getPointDeVie() + " point de vie.");
+                            }
                             continuerCombat = false;
                         }
                     }
@@ -50,6 +54,10 @@ class Combat {
                         if(((Personnage) etreVivantAttaque).getServeurNotification().demanderAction().equals("")){
                             ((Personnage) etreVivantAttaque).getServeurNotification().notifier("Vous avez fui le combat. " +
                                     "Il vous reste " + etreVivantAttaque.getPointDeVie() + " point de vie.");
+                            if(etreVivantAttaquant instanceof Personnage) {
+                                ((Personnage) etreVivantAttaquant).getServeurNotification().notifier(etreVivantAttaque.getNom() +
+                                        " a fui le combat. " + "Il vous reste " + etreVivantAttaquant.getPointDeVie() + " point de vie.");
+                            }
                             continuerCombat = false;
                         }
                     }
@@ -74,17 +82,17 @@ class Combat {
             }
             this.etreVivantAttaquant.perdrePointDeVie();
             if(this.etreVivantAttaque instanceof Personnage){
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier("Vous attaquez "
+                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier("Vous attaquez, "
                         + this.etreVivantAttaquant.getNom() + " perd 1 point de vie.");
             }
         } else if (ciblePerdant1PDV == 1 ) {
             if (this.etreVivantAttaque instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier(this.etreVivantAttaque.getNom()
+                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier(this.etreVivantAttaquant.getNom()
                         + " vous attaque, vous perdez 1 point de vie.");
             }
             this.etreVivantAttaque.perdrePointDeVie();
             if(this.etreVivantAttaquant instanceof Personnage){
-                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier("Vous attaquez "
+                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier("Vous attaquez, "
                         + this.etreVivantAttaque.getNom() + " perd 1 point de vie.");
             }
         }
