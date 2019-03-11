@@ -6,9 +6,9 @@ import java.rmi.server.UnicastRemoteObject;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -73,6 +73,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
             personnageListe.setPieceActuelle(pieceDirection);
             try {
                 personnageListe.getServeurNotification().notifier("Vous arrivez dans la pièce : " + pieceDirection);
+                this.afficherEtreVivantPiece(personnageListe);
                 this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom()+" est entré dans la pièce: "+pieceDirection);
                 if(!direction.equals("")){
                     serveurCombat.lancerCombatMonstre(personnageListe);

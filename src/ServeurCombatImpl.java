@@ -6,9 +6,9 @@ import java.rmi.server.UnicastRemoteObject;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -54,11 +54,12 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         Piece pieceCombat = combat.recupererPieceCombat();
         this.donjon.ajouterCombat(combat);
         EtreVivant gagnant = combat.lancerCombat();
-
-        if (combat.getEtreVivantAttaquant().getPointDeVie() == 0 && combat.getEtreVivantAttaque().equals(gagnant)) {
-            this.afficherMessageVainqueur(combat.getEtreVivantAttaque(), combat.getEtreVivantAttaquant());
-        } else if (combat.getEtreVivantAttaque().getPointDeVie() == 0 && combat.getEtreVivantAttaquant().equals(gagnant)){
-            this.afficherMessageVainqueur(combat.getEtreVivantAttaquant(), combat.getEtreVivantAttaque());
+        if (gagnant != null) {
+            if (combat.getEtreVivantAttaquant().getPointDeVie() == 0 && combat.getEtreVivantAttaque().equals(gagnant)) {
+                this.afficherMessageVainqueur(combat.getEtreVivantAttaque(), combat.getEtreVivantAttaquant());
+            } else if (combat.getEtreVivantAttaque().getPointDeVie() == 0 && combat.getEtreVivantAttaquant().equals(gagnant)) {
+                this.afficherMessageVainqueur(combat.getEtreVivantAttaquant(), combat.getEtreVivantAttaque());
+            }
         }
         this.donjon.supprimerCombat(combat);
         this.regagnerVieMax(pieceCombat);
@@ -72,9 +73,9 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     private void afficherMessageCombat(EtreVivant attaquant, EtreVivant attaque, EtreVivant etreNotifie){
         if( etreNotifie instanceof Personnage) {
             try {
-                ((Personnage) etreNotifie).getServeurNotification().notifier( "["+attaquant.getNom()+ " - "
-                        +attaquant.getPointDeVie()+" pdv] attaque ["+attaque.getNom()+ " - "
-                        +attaque.getPointDeVie()+" pdv]. Appuyez sur \'Entrer\' pour fuir.");
+                this.donjon.prevenirJoueurMemePiece(etreNotifie,"["+attaquant.getNom()+ " - "
+                        +attaquant.getPointDeVie()+" pdv] attaque ["+attaque.getNom()+ " - "+attaque.getPointDeVie()+" pdv].") ;
+                ((Personnage) etreNotifie).getServeurNotification().notifier("Appuyez sur \'Entrer\' pour fuir.");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

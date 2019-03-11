@@ -10,9 +10,9 @@ import static java.lang.System.exit;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -106,7 +106,7 @@ public class Client {
     /**
      * Vérifie si le nom d'un personnage est présent en jeu.
      * @param nomPersonnage Nom du personnage à vérifier.
-     * @return Renvoie la valeur True si le joueur existe, False sinon.
+     * @return True si le personnage existe, False sinon.
      */
     private boolean existeNomPersonnage(String nomPersonnage) {
         try {
@@ -143,6 +143,10 @@ public class Client {
         this.seConnecter(nomPersonnage);
     }
 
+    /**
+     * Permet à un personnage d'attaquer un être vivant à partir de son nom
+     * @param nomCible nom de l'être vivant à attaquer
+     */
     private void attaquer(String nomCible){
         if(!nomCible.equals(this.personnage.getNom())) {
             try {
@@ -168,8 +172,6 @@ public class Client {
     /**
      * Permet d'interpréter les commandes de l'utilisateur.
      * Demande à l'utilisateur de saisir une commande.
-     * L'utilisateur peut discuter en commançant la chaine de caractère par le caractère ".
-     * L'utilisateur peut se déplacer en indiquant les lettres N, E, S, O.
      * Effectue ensuite l'action souhaité.
      */
     private void interpreterCommande() {
@@ -219,15 +221,18 @@ public class Client {
     }
 
     /**
-     * Afficher le message d'aide des commandes.
+     * Affiche l'ensemble des commandes disponibles pour l'utilisateur.
      */
     private void afficherCommande() {
         System.out.println("\nEntrer \'N\', \'E\', \'S\' ou \'O\' pour "
                 + "vous déplacer, \'\"\' pour communiquer, \'exit\'" +
-                " pour vous déconnecter, \'L\' pour afficher les êtres et \'C\' pour les combats dans la pièce " +
-                "ou \'help\' pour revoir les commandes.\n");
+                " pour vous déconnecter, \'L\' pour afficher les êtres et \'C\' pour les combats dans la pièce," +
+                " \'attaque\' pour attaquer un être ou \'help\' pour revoir les commandes.\n");
     }
 
+    /**
+     * Tant que le personnage est connecté, attend une nouvelle commande de sa part
+     */
     private void jouer(){
         this.afficherCommande();
         try {

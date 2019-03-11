@@ -1,2 +1,3 @@
 - Video pour scénario?
 - Diagramme de classe v3
+- Commenter code

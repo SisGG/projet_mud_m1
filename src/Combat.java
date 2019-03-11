@@ -7,9 +7,9 @@ import java.util.Random;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -123,7 +123,8 @@ class Combat implements Serializable {
         if(fuyant instanceof Personnage){
             try {
                 if(((Personnage) fuyant).getServeurNotification().demanderAction().equals("")){
-                    this.fuirCombat(fuyant, fuye);
+                    this.fuirCombat(fuyant, fuyant);
+                    this.fuirCombat(fuyant,fuye);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -132,15 +133,11 @@ class Combat implements Serializable {
 
     }
 
-    void fuirCombat(EtreVivant fuyant, EtreVivant fuye){
+    void fuirCombat(EtreVivant fuyant, EtreVivant notifie){
         try {
-            if(fuyant instanceof Personnage){
-                ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui le combat. " +
-                        "Il vous reste " + fuyant.getPointDeVie() + " point de vie.");
-                if(fuye instanceof Personnage) {
-                    ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom() +
-                            " a fui le combat. " + "Il vous reste " + fuye.getPointDeVie() + " point de vie.");
-                }
+            if(notifie instanceof Personnage) {
+                ((Personnage) notifie).getServeurNotification().notifier(fuyant.getNom() +
+                        " a fui le combat. " + "Il vous reste " + notifie.getPointDeVie() + " point de vie.");
             }
         } catch (RemoteException e) {
             e.printStackTrace();
