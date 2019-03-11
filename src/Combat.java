@@ -88,6 +88,12 @@ class Combat implements Serializable {
         return null;
     }
 
+    /**
+     * Notifie le personnage du déroulement d'un tour du combat dans lequel il est impliqué
+     * @param blesse EtreVivant blessé dans ce tour
+     * @param blesseur EtreVivant blessant dans ce tour
+     * @param etreNotifie l'EtreVivant à notifier à condition qu'il soit un personnage
+     */
     private void afficherMessageBlessure(EtreVivant blesse, EtreVivant blesseur, EtreVivant etreNotifie) {
         try {
             if (etreNotifie instanceof Personnage) {
@@ -101,6 +107,11 @@ class Combat implements Serializable {
         }
     }
 
+    /**
+     * Affiche la mort d'un EtreVivant
+     * @param etreMort EtreVivant mort
+     * @param etreTueur EtreVivant Tueur
+     */
     private void afficherMessageMort(EtreVivant etreMort, EtreVivant etreTueur){
         if (etreMort instanceof Personnage) {
             try {
@@ -119,6 +130,11 @@ class Combat implements Serializable {
         }
     }
 
+    /**
+     * Donne le choix à un personnage de choisir entre fuir et continuer un combat, en tappant entrée, le personnage fui
+     * @param fuyant personnage fuyant
+     * @param fuye EtreVivant auquel le fuyant veut fuir
+     */
     private void choixCombat(EtreVivant fuyant, EtreVivant fuye){
         if(fuyant instanceof Personnage){
             try {
@@ -133,6 +149,11 @@ class Combat implements Serializable {
 
     }
 
+    /**
+     * Notifie le personnage fuyé quand l'adversaire fuit le combat
+     * @param fuyant personnage ayant fui
+     * @param notifie EtreVivant à notifier à condition d'etre une instance de personnage
+     */
     void fuirCombat(EtreVivant fuyant, EtreVivant notifie){
         try {
             if(notifie instanceof Personnage) {
@@ -145,10 +166,18 @@ class Combat implements Serializable {
         this.combatEnCours = false;
     }
 
+    /**
+     *
+     * @return Renvoie l'instance de l'EtreVivant attaqué
+     */
     EtreVivant getEtreVivantAttaque() {
         return etreVivantAttaque;
     }
 
+    /**
+     *
+     * @return Renvoie l'instance de l'EtreVivant attaquant
+     */
     EtreVivant getEtreVivantAttaquant() {
         return etreVivantAttaquant;
     }
