@@ -40,9 +40,13 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         lancerCombat(monstre, personnage);
     }
 
+    /**
+     * Permet de lancer un combat entre un Personnage et un deuxième Personnage se trouvant dans la même pièce
+     * @param attaquant Personnage attaquant
+     * @param attaque Personnage attaqué
+     */
     public void lancerCombat(EtreVivant attaquant, EtreVivant attaque) {
         afficherMessageCombat(attaquant, attaque, attaquant);
-        afficherMessageCombat(attaquant, attaque, attaque);
 
         try {
             Thread.sleep(2000);
@@ -65,11 +69,22 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.regagnerVieMax(pieceCombat);
     }
 
+    /**
+     * permet d'afficher l'issue d'un comlbat dans la pièce et supprime l'etreVivant perdant
+     * @param vainqueur  etreVivant vainqueur du combat
+     * @param vaincu etreVivant perdant du combat
+     */
     private void afficherMessageVainqueur(EtreVivant vainqueur, EtreVivant vaincu){
         this.donjon.prevenirJoueurMemePiece(vainqueur, vaincu.getNom()+ " a été vaincu par "+ vainqueur.getNom()+".");
         this.donjon.supprimerEtreVivant(vaincu);
     }
 
+    /**
+     * Cette méthode prévient les joueurs présent dans la même pièce du début d'un combat
+     * @param attaquant EtreVivant attaquant
+     * @param attaque EtreVivant attaqué
+     * @param etreNotifie EtreVivant concerné par  le combat à notifier
+     */
     private void afficherMessageCombat(EtreVivant attaquant, EtreVivant attaque, EtreVivant etreNotifie){
         if( etreNotifie instanceof Personnage) {
             try {
@@ -103,6 +118,10 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }
     }
 
+    /**
+     * Permet  à un EtreVivant  de  fuir un combat  et  prévient  les  joeurs  dans la même pièce de la fuite
+     * @param etreVivant EtreVivant  voulant fuir
+     */
     public void fuirCombat(EtreVivant etreVivant){
         Combat combat = this.getCombatEtre(etreVivant);
         if(combat.getEtreVivantAttaquant().equals(etreVivant)){
@@ -110,8 +129,14 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }else{
             combat.fuirCombat(etreVivant, combat.getEtreVivantAttaque());
         }
+        this.donjon.prevenirJoueurMemePiece(etreVivant, etreVivant.nomEtreVivant + " a fuit le combat \n");
     }
 
+    /**
+     * Parcour la liste des combat pour renvoyer le combat auquel participe l'etreVivant passé en paramètres
+     * @param etreVivant etreVivant participant au  combat
+     * @return combat quaquel participe l'etreVivant ou null
+     */
     public Combat getCombatEtre(EtreVivant etreVivant)  {
         for(Combat combat : this.donjon.getListeCombat()){
             if(combat.getEtreVivantAttaque().equals(etreVivant) || combat.getEtreVivantAttaquant().equals(etreVivant)){
@@ -121,7 +146,11 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         return null;
     }
 
-
+    /**
+     * Renvoie un boolean pour savoir si un etreVivant  est en combat ou non
+     * @param etreVivant etrVivant dont on veut connaitre l'etat
+     * @return boolean
+     */
     public boolean estEnCombat(EtreVivant etreVivant){
         return this.getCombatEtre(etreVivant) != null;
     }

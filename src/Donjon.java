@@ -82,6 +82,11 @@ public class Donjon {
         return listePersonnage;
     }
 
+    /**
+     * Parcours la liste des combat  et  retourne un vecteur qui contient les combats  qui se passent  dans une  même pièce
+     * @param piece pièce que l'on veut vérifier
+     * @return vecteur de combats
+     */
     Vector<Combat> getCombatMemePiece(Piece piece) {
         Vector<Combat> combats = new Vector<>();
         for (Combat combat : this.listeCombat.subList(0, this.listeCombat.size())) {
@@ -91,6 +96,7 @@ public class Donjon {
         }
         return combats;
     }
+
 
     Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();

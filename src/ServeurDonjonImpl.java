@@ -163,6 +163,11 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         return this.donjon.recupereEtreVivant(nomEtreVivant) != null;
     }
 
+    /**
+     * Retourne un personnage en fonction du nom passé en parametre
+     * @param nomPersonnage nom du  personnage recherché
+     * @return l'instance du personnage
+     */
     public Personnage getPersonnage(String nomPersonnage){
         EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomPersonnage);
         if (etreVivant.getClass().equals(Personnage.class)){
