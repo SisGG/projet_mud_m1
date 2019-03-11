@@ -44,7 +44,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param direction Direction vers lequel le personnage se déplace.
      * @return Renvoie le personnage mis à jour.
      */
-    public Personnage seDeplacer(Personnage personnage, String direction) {
+    public Personnage seDeplacer(Personnage personnage, String direction, ServeurCombat serveurCombat) {
         Personnage personnageListe = (Personnage) this.donjon.recupereEtreVivant(personnage.getNom());
         Piece pieceDirection = this.donjon.getPieceDepart();
         if ( personnageListe.getPieceActuelle() == null ) {
@@ -68,12 +68,15 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
         if ( pieceDirection != null ) {
             if ( !direction.equals("") ) {
-                this.prevenirJoueurQuitterPiece(personnageListe);
+                this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom()+ " a quitté la pièce.");
             }
             personnageListe.setPieceActuelle(pieceDirection);
             try {
-                personnageListe.getServeurNotification().notifier("Vous arrivez dans la piece : " + pieceDirection);
-                this.prevenirEntrerPersonnageMemePiece(personnageListe);
+                personnageListe.getServeurNotification().notifier("Vous arrivez dans la pièce : " + pieceDirection);
+                this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom()+" est entré dans la pièce: "+pieceDirection);
+                if(!direction.equals("")){
+                    serveurCombat.lancerCombatMonstre(personnageListe);
+                }
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
@@ -89,10 +92,11 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
 
     /**
      * Déconnecte un personnage du donjon. Il le supprime de la liste des personnage.
-     * @param personnage Personnage à déconnecter.
+     * @param personnage à déconnecter.
      */
-    public void seDeconnecter(Personnage personnage){
+    public void deconnecter(Personnage personnage){
         try {
+            this.donjon.prevenirJoueurMemePiece(personnage, personnage.getNom() + " est maintenant déconnecté.");
             this.donjon.supprimerEtreVivant(personnage);
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -104,16 +108,14 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param personnage Personnage pour récupérer la pièce et pour le notifier.
      */
     public void afficherEtreVivantPiece(Personnage personnage){
-        String notification = "Il y a ";
+        String notification = "Êtres dans la pièce: ";
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
-                notification += etreVivantCourant.getNom() + " ";
+                notification += "["+etreVivantCourant.getNom()+ "|" + etreVivantCourant.getPointDeVie()+"pdv] ";
             }
         }
-        if ( notification.equals("Il y a ") ) {
-            notification = "Il n'y a pas d'autres etres dans la pièce.";
-        } else {
-            notification += "dans la pièce.";
+        if ( notification.equals("Êtres dans la pièce: ")) {
+            notification = "Il n'y a pas d'autres êtres dans la pièce.";
         }
         try {
             personnage.getServeurNotification().notifier(notification);
@@ -123,47 +125,24 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     }
 
     /**
-     * Quand un personnage entre dans une pìèce, envoie une notification
-     * a tous les personnages deja present et le nom de tous les personnage
-     * deja present au personnage entrant, sinon envoie qu'il n'y a personne.
-     * @param personnage Personnage entrant dans la piece.
+     * Affiche tous les combats qui se trouvent dans la même pièce qu'un personnage.
+     * @param personnage  pour récupérer la pièce et pour le notifier.
      */
-    private void prevenirEntrerPersonnageMemePiece(Personnage personnage) {
-        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
-            if ( !etreVivantCourant.equals(personnage) ) {
-                try {
-                    if ( etreVivantCourant instanceof Personnage ) {
-                        Personnage personnageCourant = (Personnage) etreVivantCourant;
-                        personnageCourant.getServeurNotification().notifier(personnage.getNom()
-                                + " est entré dans la pièce: " + personnage.getPieceActuelle());
-                    }
-                } catch( Exception e ) {
-                    e.printStackTrace();
-                }
+    public void afficherCombatPiece(Personnage personnage){
+        String notification = "Combats dans la pièce: ";
+        for ( Combat combat : this.donjon.getCombatMemePiece(personnage.getPieceActuelle()) ) {
+                notification += "["+combat.getEtreVivantAttaquant().getNom()+ "|vs|" + combat.getEtreVivantAttaque().getNom()+"] ";
             }
+        if (notification.equals("Combats dans la pièce: ")) {
+            notification = "Il n'y a pas de combat dans la pièce.";
         }
-        this.afficherEtreVivantPiece(personnage);
+        try {
+            personnage.getServeurNotification().notifier(notification);
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Quand un personnage quitte une pièce, en notifie les autres personnages encore dedans.
-     * @param personnage quittant la pièce.
-     */
-    private void prevenirJoueurQuitterPiece(Personnage personnage){
-        for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
-            if ( !etreVivantCourant.equals(personnage) ) {
-                try {
-                    if ( etreVivantCourant instanceof Personnage ) {
-                        Personnage personnageCourant = (Personnage) etreVivantCourant;
-                        personnageCourant.getServeurNotification().notifier(personnage.getNom()
-                                + " a quitté la pièce.");
-                    }
-                } catch ( Exception e ) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     /**
      * Associe un serveur de notification à un personnage.
@@ -191,8 +170,8 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         else return null;
     }
 
-    public Monstre getMonstre(String nomMontre){
-        EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomMontre);
+    public Monstre getMonstre(String nomMonstre){
+        EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomMonstre);
         if (etreVivant.getClass().equals(Monstre.class)){
             return (Monstre) etreVivant;
         }

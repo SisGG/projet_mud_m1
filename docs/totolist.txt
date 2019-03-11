@@ -1,3 +1,2 @@
-- Attaquer personnage
-- Combat parallèle
+- Video pour scénario?
 - Diagramme de classe v3

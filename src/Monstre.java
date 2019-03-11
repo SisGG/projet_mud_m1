@@ -12,7 +12,7 @@
  *****************************************************************************/
 public class Monstre extends EtreVivant {
 
-    private static final int pointDeVieMax= 5;
+    private static final int pointDeVieMax = 5;
     private static int numeroMonstre = 0;
 
     /**

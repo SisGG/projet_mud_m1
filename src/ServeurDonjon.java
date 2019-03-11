@@ -17,11 +17,13 @@ public interface ServeurDonjon extends Remote {
 
     Personnage seConnecter(String nomPersonnage) throws RemoteException;
 
-    Personnage seDeplacer(Personnage personnage, String direction) throws RemoteException;
+    Personnage seDeplacer(Personnage personnage, String direction, ServeurCombat serveurCombat) throws RemoteException;
 
     void afficherEtreVivantPiece(Personnage personnage) throws  RemoteException;
 
-    void seDeconnecter(Personnage personnage) throws  RemoteException;
+    void afficherCombatPiece(Personnage personnage) throws  RemoteException;
+
+    void deconnecter(Personnage personnage) throws  RemoteException;
 
     void enregistrerNotification(Personnage personnage, ServeurNotification serveurNotification) throws RemoteException;
 
@@ -30,6 +32,5 @@ public interface ServeurDonjon extends Remote {
     Personnage getPersonnage(String nomEtreVivant)throws RemoteException;
 
     Monstre getMonstre(String nomEtreVivant)throws RemoteException;
-
 
     }

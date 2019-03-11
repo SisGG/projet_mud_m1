@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Random;
 
@@ -13,10 +14,11 @@ import java.util.Random;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-class Combat {
+class Combat implements Serializable {
 
     private EtreVivant etreVivantAttaquant;
     private EtreVivant etreVivantAttaque;
+    private boolean combatEnCours;
 
     /**
      * Constructeur de la classe Combat.
@@ -27,110 +29,123 @@ class Combat {
     Combat(Donjon donjon, EtreVivant etreVivantAttaquant, EtreVivant etreVivantAttaque) {
         this.etreVivantAttaquant = donjon.recupereEtreVivant(etreVivantAttaquant.getNom());
         this.etreVivantAttaque = donjon.recupereEtreVivant(etreVivantAttaque.getNom());
+        this.combatEnCours = true;
     }
 
     /**
      * Lance le combat et donne le choix au etreVivantAttaquant de continuer ou fuir.
      */
-    void lancerCombat() {
-        boolean continuerCombat = true;
-        while ( continuerCombat ) {
+    EtreVivant lancerCombat() {
+        EtreVivant gagnant = null;
+        while (this.combatEnCours) {
+            gagnant = this.effectuerTour();
+        }
+        return gagnant;
+    }
+
+    /**
+     * Fait perdre à un des deux participants un point de vie de façon aléatoire.
+     * Notifie les participants du déroulement du combat.
+     */
+    private EtreVivant effectuerTour() {
+        int ciblePerdant1PDV = new Random().nextInt(2);
+
+        if(this.etreVivantAttaquant.getPointDeVie() != 0 && this.etreVivantAttaque.getPointDeVie() != 0) {
+
+            if (ciblePerdant1PDV == 0) {
+                this.etreVivantAttaquant.perdrePointDeVie();
+                this.afficherMessageBlessure(etreVivantAttaquant, etreVivantAttaque, etreVivantAttaquant);
+                this.afficherMessageBlessure(etreVivantAttaquant, etreVivantAttaque, etreVivantAttaque);
+
+            } else if (ciblePerdant1PDV == 1) {
+                this.etreVivantAttaque.perdrePointDeVie();
+                this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaquant);
+                this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaque);
+            }
+
+            if (this.etreVivantAttaquant.getPointDeVie() == 0) {
+                this.etreVivantAttaque.augmenterPointDeVie();
+                this.afficherMessageMort(this.etreVivantAttaquant, this.etreVivantAttaque);
+                this.combatEnCours = false;
+                return etreVivantAttaque;
+            } else if (this.etreVivantAttaque.getPointDeVie() == 0) {
+                this.etreVivantAttaquant.augmenterPointDeVie();
+                this.afficherMessageMort(this.etreVivantAttaque, this.etreVivantAttaquant);
+                this.combatEnCours = false;
+                return etreVivantAttaquant;
+            }
+
             try {
-                this.effectuerTour();
-                continuerCombat = this.etreVivantAttaquant.getPointDeVie() != 0 && this.etreVivantAttaque.getPointDeVie() != 0;
-                if ( continuerCombat ) {
-                    if(etreVivantAttaquant instanceof Personnage){
-                        if(((Personnage) etreVivantAttaquant).getServeurNotification().demanderAction().equals("")){
-                            ((Personnage) etreVivantAttaquant).getServeurNotification().notifier("Vous avez fui le combat. " +
-                                    "Il vous reste " + etreVivantAttaquant.getPointDeVie() + " point de vie.");
-                            if(etreVivantAttaque instanceof Personnage){
-                                ((Personnage) etreVivantAttaque).getServeurNotification().notifier(etreVivantAttaquant.getNom()+
-                                        " a fui le combat. " + "Il vous reste " + etreVivantAttaque.getPointDeVie() + " point de vie.");
-                            }
-                            continuerCombat = false;
-                        }
-                    }
-                    if(etreVivantAttaque instanceof Personnage){
-                        if(((Personnage) etreVivantAttaque).getServeurNotification().demanderAction().equals("")){
-                            ((Personnage) etreVivantAttaque).getServeurNotification().notifier("Vous avez fui le combat. " +
-                                    "Il vous reste " + etreVivantAttaque.getPointDeVie() + " point de vie.");
-                            if(etreVivantAttaquant instanceof Personnage) {
-                                ((Personnage) etreVivantAttaquant).getServeurNotification().notifier(etreVivantAttaque.getNom() +
-                                        " a fui le combat. " + "Il vous reste " + etreVivantAttaquant.getPointDeVie() + " point de vie.");
-                            }
-                            continuerCombat = false;
-                        }
-                    }
-                }
-            } catch (Exception e) {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            choixCombat(etreVivantAttaquant, etreVivantAttaque);
+            choixCombat(etreVivantAttaque, etreVivantAttaquant);
+        } else {
+            this.combatEnCours = false;
+        }
+        return null;
+    }
+
+    private void afficherMessageBlessure(EtreVivant blesse, EtreVivant blesseur, EtreVivant etreNotifie) {
+        try {
+            if (etreNotifie instanceof Personnage) {
+                ((Personnage) etreNotifie).getServeurNotification().notifier(blesseur.getNom()
+                        + " attaque. "+blesse.getNom()+ " perd 1 pdv. ["+etreVivantAttaquant.getNom()+ ": "
+                        +etreVivantAttaquant.getPointDeVie()+" pdv] - ["+etreVivantAttaque.getNom()+ ": "
+                        +etreVivantAttaque.getPointDeVie()+" pdv]");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void afficherMessageMort(EtreVivant etreMort, EtreVivant etreTueur){
+        if (etreMort instanceof Personnage) {
+            try {
+                ((Personnage) etreMort).getServeurNotification().notifier("Vous mourez... bye bye.");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        if(etreTueur instanceof Personnage) {
+            try {
+                ((Personnage) etreTueur).getServeurNotification().notifier(
+                        "Fin du combat, vous gagnez un pdv. Vous avez " +etreTueur.getPointDeVie()+" pdv.");
+            } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /**
-     * Fait perdre à un des deux participants un point de vie de façon aléatoire.
-     * Notifie le etreVivantAttaquant du déroulement du combat.
-     */
-    private void effectuerTour() throws RemoteException {
-        int ciblePerdant1PDV = new Random().nextInt(2);
-
-        if ( ciblePerdant1PDV == 0 ) {
-            if (this.etreVivantAttaquant instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier(this.etreVivantAttaque.getNom()
-                        + " vous attaque, vous perdez 1 point de vie.");
-            }
-            this.etreVivantAttaquant.perdrePointDeVie();
-            if(this.etreVivantAttaque instanceof Personnage){
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier("Vous attaquez, "
-                        + this.etreVivantAttaquant.getNom() + " perd 1 point de vie.");
-            }
-        } else if (ciblePerdant1PDV == 1 ) {
-            if (this.etreVivantAttaque instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier(this.etreVivantAttaquant.getNom()
-                        + " vous attaque, vous perdez 1 point de vie.");
-            }
-            this.etreVivantAttaque.perdrePointDeVie();
-            if(this.etreVivantAttaquant instanceof Personnage){
-                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier("Vous attaquez, "
-                        + this.etreVivantAttaque.getNom() + " perd 1 point de vie.");
+    private void choixCombat(EtreVivant fuyant, EtreVivant fuye){
+        if(fuyant instanceof Personnage){
+            try {
+                if(((Personnage) fuyant).getServeurNotification().demanderAction().equals("")){
+                    this.fuirCombat(fuyant, fuye);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
 
-        if ( this.etreVivantAttaquant.getPointDeVie() == 0 ) {
-            this.etreVivantAttaque.augmenterPointDeVie();
-            if (this.etreVivantAttaquant instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier("Vous mourez... bye bye.");
+    }
+
+    void fuirCombat(EtreVivant fuyant, EtreVivant fuye){
+        try {
+            if(fuyant instanceof Personnage){
+                ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui le combat. " +
+                        "Il vous reste " + fuyant.getPointDeVie() + " point de vie.");
+                if(fuye instanceof Personnage) {
+                    ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom() +
+                            " a fui le combat. " + "Il vous reste " + fuye.getPointDeVie() + " point de vie.");
+                }
             }
-            if(this.etreVivantAttaque instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier(
-                        "Vous tuez " + this.etreVivantAttaquant.getNom() +
-                                ". Fin du combat, vous gagnez donc un point de vie. " +
-                                "Il vous reste " + this.etreVivantAttaque.getPointDeVie() + " points de vie.");
-            }
-        } else if ( this.etreVivantAttaque.getPointDeVie() == 0 ) {
-            if (this.etreVivantAttaque instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier("Vous mourez... bye bye.");
-            }
-            this.etreVivantAttaquant.augmenterPointDeVie();
-            if(this.etreVivantAttaquant instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier(
-                        "Vous tuez " + this.etreVivantAttaque.getNom() +
-                        ". Fin du combat, vous gagnez donc un point de vie. " +
-                        "Il vous reste " + this.etreVivantAttaquant.getPointDeVie() + " points de vie.");
-            }
-        } else {
-            if (this.etreVivantAttaquant instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaquant).getServeurNotification().notifier("Il vous reste "
-                        + this.etreVivantAttaquant.getPointDeVie() + " pdv. " +
-                        this.etreVivantAttaque.nomEtreVivant+ " a " + this.etreVivantAttaque.getPointDeVie() + " pdv.");
-            }
-            if (this.etreVivantAttaque instanceof Personnage) {
-                ((Personnage) this.etreVivantAttaque).getServeurNotification().notifier("Il vous reste "
-                        + this.etreVivantAttaque.getPointDeVie() + " pdv. " +
-                        this.etreVivantAttaquant.nomEtreVivant+ " a " + this.etreVivantAttaquant.getPointDeVie() + " pdv.");
-            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
+        this.combatEnCours = false;
     }
 
     EtreVivant getEtreVivantAttaque() {

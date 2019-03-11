@@ -30,9 +30,8 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     /**
      * Permet de lancer un combat entre un Personnage et un Monstre.
      * @param personnage Personnage qui est attaquer par un Monstre.
-     * @throws RemoteException Exception déclenchée si la méthode n'est pas invoquée.
      */
-    public void lancerCombatMonstre(Personnage personnage) throws RemoteException {
+    public void lancerCombatMonstre(Personnage personnage)  {
         Monstre monstre = new Monstre(personnage.getPieceActuelle());
         while ( this.donjon.nomEtreVivantExiste(monstre.getNom()) ) {
             monstre = new Monstre(personnage.getPieceActuelle());
@@ -41,17 +40,12 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         lancerCombat(monstre, personnage);
     }
 
-    public void lancerCombat(EtreVivant attaquant, EtreVivant attaque) throws RemoteException {
-        if( attaquant instanceof Personnage) {
-            ((Personnage) attaquant).getServeurNotification().notifier("Vous attaquez " + attaque.getNom() +
-                    ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
-        }
-        if( attaque instanceof Personnage) {
-            ((Personnage) attaque).getServeurNotification().notifier("Vous êtes attaqué par " + attaquant.getNom() +
-                    ". Ne faites rien pour continuer le combat ou appuyez sur \'Entrer\' pour le fuir.");
-        }
+    public void lancerCombat(EtreVivant attaquant, EtreVivant attaque) {
+        afficherMessageCombat(attaquant, attaque, attaquant);
+        afficherMessageCombat(attaquant, attaque, attaque);
+
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -59,14 +53,32 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         Combat combat = new Combat(this.donjon, attaquant, attaque);
         Piece pieceCombat = combat.recupererPieceCombat();
         this.donjon.ajouterCombat(combat);
-        combat.lancerCombat();
-        if (combat.getEtreVivantAttaquant().getPointDeVie() == 0) {
-            this.donjon.supprimerEtreVivant(attaquant);
-        } else if (combat.getEtreVivantAttaque().getPointDeVie() == 0){
-            this.donjon.supprimerEtreVivant(attaque);
+        EtreVivant gagnant = combat.lancerCombat();
+
+        if (combat.getEtreVivantAttaquant().getPointDeVie() == 0 && combat.getEtreVivantAttaque().equals(gagnant)) {
+            this.afficherMessageVainqueur(combat.getEtreVivantAttaque(), combat.getEtreVivantAttaquant());
+        } else if (combat.getEtreVivantAttaque().getPointDeVie() == 0 && combat.getEtreVivantAttaquant().equals(gagnant)){
+            this.afficherMessageVainqueur(combat.getEtreVivantAttaquant(), combat.getEtreVivantAttaque());
         }
         this.donjon.supprimerCombat(combat);
         this.regagnerVieMax(pieceCombat);
+    }
+
+    private void afficherMessageVainqueur(EtreVivant vainqueur, EtreVivant vaincu){
+        this.donjon.prevenirJoueurMemePiece(vainqueur, vaincu.getNom()+ " a été vaincu par "+ vainqueur.getNom()+".");
+        this.donjon.supprimerEtreVivant(vaincu);
+    }
+
+    private void afficherMessageCombat(EtreVivant attaquant, EtreVivant attaque, EtreVivant etreNotifie){
+        if( etreNotifie instanceof Personnage) {
+            try {
+                ((Personnage) etreNotifie).getServeurNotification().notifier( "["+attaquant.getNom()+ " - "
+                        +attaquant.getPointDeVie()+" pdv] attaque ["+attaque.getNom()+ " - "
+                        +attaque.getPointDeVie()+" pdv]. Appuyez sur \'Entrer\' pour fuir.");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -88,6 +100,29 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
                 }
             }
         }
+    }
+
+    public void fuirCombat(EtreVivant etreVivant){
+        Combat combat = this.getCombatEtre(etreVivant);
+        if(combat.getEtreVivantAttaquant().equals(etreVivant)){
+            combat.fuirCombat(etreVivant, combat.getEtreVivantAttaquant());
+        }else{
+            combat.fuirCombat(etreVivant, combat.getEtreVivantAttaque());
+        }
+    }
+
+    public Combat getCombatEtre(EtreVivant etreVivant)  {
+        for(Combat combat : this.donjon.getListeCombat()){
+            if(combat.getEtreVivantAttaque().equals(etreVivant) || combat.getEtreVivantAttaquant().equals(etreVivant)){
+                return combat;
+            }
+        }
+        return null;
+    }
+
+
+    public boolean estEnCombat(EtreVivant etreVivant){
+        return this.getCombatEtre(etreVivant) != null;
     }
 
 }

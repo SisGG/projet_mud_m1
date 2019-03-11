@@ -19,4 +19,11 @@ public interface ServeurCombat extends Remote {
 
     void lancerCombat(EtreVivant attaquant, EtreVivant attaque) throws RemoteException;
 
-}
+    Combat getCombatEtre(EtreVivant etreVivant) throws RemoteException;
+
+    void fuirCombat(EtreVivant etreVivant) throws RemoteException;
+
+    boolean estEnCombat(EtreVivant etreVivant)throws RemoteException;
+
+
+    }

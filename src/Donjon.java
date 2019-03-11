@@ -82,6 +82,16 @@ public class Donjon {
         return listePersonnage;
     }
 
+    Vector<Combat> getCombatMemePiece(Piece piece) {
+        Vector<Combat> combats = new Vector<>();
+        for (Combat combat : this.listeCombat.subList(0, this.listeCombat.size())) {
+            if ( piece.equals(combat.recupererPieceCombat()) ) {
+                combats.add(combat);
+            }
+        }
+        return combats;
+    }
+
     Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
@@ -179,5 +189,24 @@ public class Donjon {
      */
     boolean nomEtreVivantExiste(String nomEtreVivant) {
         return this.listeEtreVivant.containsKey(nomEtreVivant);
+    }
+
+    Vector<Combat> getListeCombat() {
+        return this.listeCombat;
+    }
+
+    void prevenirJoueurMemePiece(EtreVivant etreVivant, String message){
+        for (EtreVivant etreVivantCourant : this.getEtreVivantMemePiece(etreVivant.getPieceActuelle()) ) {
+            if ( !etreVivantCourant.equals(etreVivant) ) {
+                try {
+                    if (etreVivantCourant instanceof Personnage) {
+                        Personnage personnageCourant = (Personnage) etreVivantCourant;
+                        personnageCourant.getServeurNotification().notifier(message);
+                    }
+                } catch( Exception e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

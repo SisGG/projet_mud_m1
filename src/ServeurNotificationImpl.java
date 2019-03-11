@@ -34,13 +34,12 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
     }
 
     /**
-     * Demande au Client de saisir une chaine de caractère avec un message spécifique.
+     * Demande au Client de saisir une chaine de caractère.
      * @return Renvoie la chaine de caractère saisi par le Client.
      */
     public String demanderAction() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            Thread.sleep(1000);
             if (!bufferedReader.ready()){
                 return "-1";
             }
