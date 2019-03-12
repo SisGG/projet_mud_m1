@@ -98,6 +98,10 @@ public class Donjon {
     }
 
 
+    /**
+     * Retourne une pièce à partir d'une pièce et d'une direction
+     * @return la pièce suivante
+     */
     Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
@@ -197,10 +201,18 @@ public class Donjon {
         return this.listeEtreVivant.containsKey(nomEtreVivant);
     }
 
+    /**
+     * @return la liste des combats
+     */
     Vector<Combat> getListeCombat() {
         return this.listeCombat;
     }
 
+    /**
+     * Notifie les autres êtres vivant d'un pièce
+     * @param etreVivant dans laquelle on va notifier
+     * @param message à notifier
+     */
     void prevenirJoueurMemePiece(EtreVivant etreVivant, String message){
         for (EtreVivant etreVivantCourant : this.getEtreVivantMemePiece(etreVivant.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(etreVivant) ) {

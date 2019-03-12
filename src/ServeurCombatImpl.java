@@ -41,12 +41,12 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     }
 
     /**
-     * Permet de lancer un combat entre un Personnage et un deuxième Personnage se trouvant dans la même pièce
-     * @param attaquant Personnage attaquant
-     * @param attaque Personnage attaqué
+     * Permet de lancer un combat entre deux êtres vivants se trouvant dans la même pièce
+     * @param attaquant Etre attaquant
+     * @param attaque Etre attaqué
      */
     public void lancerCombat(EtreVivant attaquant, EtreVivant attaque) {
-        afficherMessageCombat(attaquant, attaque, attaquant);
+        afficherMessageCombat(attaquant, attaque);
 
         try {
             Thread.sleep(2000);
@@ -83,14 +83,26 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
      * Cette méthode prévient les joueurs présent dans la même pièce du début d'un combat
      * @param attaquant EtreVivant attaquant
      * @param attaque EtreVivant attaqué
-     * @param etreNotifie EtreVivant concerné par  le combat à notifier
      */
-    private void afficherMessageCombat(EtreVivant attaquant, EtreVivant attaque, EtreVivant etreNotifie){
-        if( etreNotifie instanceof Personnage) {
+    private void afficherMessageCombat(EtreVivant attaquant, EtreVivant attaque){
+        String messageAttaque ="["+attaquant.getNom()+ " - "  +attaquant.getPointDeVie()+" pdv]" +
+                " attaque ["+attaque.getNom()+ " - "+attaque.getPointDeVie()+" pdv].";
+        this.donjon.prevenirJoueurMemePiece(attaquant, messageAttaque);
+        if (attaquant instanceof Personnage){
             try {
-                this.donjon.prevenirJoueurMemePiece(etreNotifie,"["+attaquant.getNom()+ " - "
-                        +attaquant.getPointDeVie()+" pdv] attaque ["+attaque.getNom()+ " - "+attaque.getPointDeVie()+" pdv].") ;
-                ((Personnage) etreNotifie).getServeurNotification().notifier("Appuyez sur \'Entrer\' pour fuir.");
+                ((Personnage) attaquant).getServeurNotification().notifier(messageAttaque);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        this.messageCommandeFuite(attaquant);
+        this.messageCommandeFuite(attaque);
+    }
+
+    private void messageCommandeFuite(EtreVivant etreVivant){
+        if(etreVivant instanceof Personnage){
+            try {
+                ((Personnage) etreVivant).getServeurNotification().notifier("Appuyez sur \'Entrer\' pour fuir.");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -108,7 +120,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
                 if ( etreVivant instanceof Personnage ) {
                     try {
                         ((Personnage) etreVivant).getServeurNotification().notifier(
-                                "Il n'y a plus de combat en cours, vous regagnez vos points de vie maximum." +
+                                "Il n'y a plus de combat en cours dans la pièce, tous les êtres regagnent leurs pdv maximum." +
                                         " Vous avez "+etreVivant.getPointDeVie() + " pdv.");
                     } catch ( Exception e ) {
                         e.printStackTrace();
@@ -119,8 +131,8 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
     }
 
     /**
-     * Permet  à un EtreVivant  de  fuir un combat  et  prévient  les  joeurs  dans la même pièce de la fuite
-     * @param etreVivant EtreVivant  voulant fuir
+     * Permet à un EtreVivant de fuir un combat et prévient les joeurs dans la même pièce de la fuite
+     * @param etreVivant EtreVivant voulant fuir
      */
     public void fuirCombat(EtreVivant etreVivant){
         Combat combat = this.getCombatEtre(etreVivant);
@@ -129,7 +141,6 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         }else{
             combat.fuirCombat(etreVivant, combat.getEtreVivantAttaque());
         }
-        this.donjon.prevenirJoueurMemePiece(etreVivant, etreVivant.nomEtreVivant + " a fuit le combat \n");
     }
 
     /**

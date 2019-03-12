@@ -42,6 +42,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Déplace un personnage dans le donjon. Met à jour la pièce du joueur et renvoie le nouveau joueur.
      * @param personnage Personnage qui se déplace.
      * @param direction Direction vers lequel le personnage se déplace.
+     * @param serveurCombat Utilisé pour lancer un combat lors d'un déplacement
      * @return Renvoie le personnage mis à jour.
      */
     public Personnage seDeplacer(Personnage personnage, String direction, ServeurCombat serveurCombat) {
@@ -166,7 +167,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     /**
      * Retourne un personnage en fonction du nom passé en parametre
      * @param nomPersonnage nom du  personnage recherché
-     * @return l'instance du personnage
+     * @return personnage si trouvé, null sinon
      */
     public Personnage getPersonnage(String nomPersonnage){
         EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomPersonnage);
@@ -176,6 +177,11 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         else return null;
     }
 
+    /**
+     * Retourne un monstre en fonction du nom passé en parametre
+     * @param nomMonstre du monstre recherché
+     * @return Monstre si trouvé sinon null
+     */
     public Monstre getMonstre(String nomMonstre){
         EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomMonstre);
         if (etreVivant.getClass().equals(Monstre.class)){

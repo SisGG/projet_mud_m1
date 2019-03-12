@@ -34,6 +34,7 @@ class Combat implements Serializable {
 
     /**
      * Lance le combat et donne le choix au etreVivantAttaquant de continuer ou fuir.
+     * @return l'être vivant gagnant du combat
      */
     EtreVivant lancerCombat() {
         EtreVivant gagnant = null;
@@ -139,8 +140,7 @@ class Combat implements Serializable {
         if(fuyant instanceof Personnage){
             try {
                 if(((Personnage) fuyant).getServeurNotification().demanderAction().equals("")){
-                    this.fuirCombat(fuyant, fuyant);
-                    this.fuirCombat(fuyant,fuye);
+                    this.fuirCombat(fuyant, fuye);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -152,13 +152,17 @@ class Combat implements Serializable {
     /**
      * Notifie le personnage fuyé quand l'adversaire fuit le combat
      * @param fuyant personnage ayant fui
-     * @param notifie EtreVivant à notifier à condition d'etre une instance de personnage
+     * @param fuye personnage auquel le fuyant veut fuir
      */
-    void fuirCombat(EtreVivant fuyant, EtreVivant notifie){
+    void fuirCombat(EtreVivant fuyant, EtreVivant fuye){
         try {
-            if(notifie instanceof Personnage) {
-                ((Personnage) notifie).getServeurNotification().notifier(fuyant.getNom() +
-                        " a fui le combat. " + "Il vous reste " + notifie.getPointDeVie() + " point de vie.");
+            if(fuyant instanceof Personnage) {
+                ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui devant " +
+                        fuye.getNom() + ". Il vous reste " + fuyant.getPointDeVie() + " point de vie.");
+            }
+            if(fuye instanceof Personnage) {
+                ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom() +
+                        " a fui devant vous. Il vous reste " + fuye.getPointDeVie() + " point de vie.");
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -167,7 +171,6 @@ class Combat implements Serializable {
     }
 
     /**
-     *
      * @return Renvoie l'instance de l'EtreVivant attaqué
      */
     EtreVivant getEtreVivantAttaque() {
@@ -175,7 +178,6 @@ class Combat implements Serializable {
     }
 
     /**
-     *
      * @return Renvoie l'instance de l'EtreVivant attaquant
      */
     EtreVivant getEtreVivantAttaquant() {
