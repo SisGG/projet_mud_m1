@@ -65,13 +65,13 @@ public class Client {
      * @param codeDeSortie correspond au code du processus renvoyé
      */
     private void seDeconnecter(int codeDeSortie) {
-        if(codeDeSortie == 0) {
+        if ( codeDeSortie == 0 ) {
             try {
                 this.serveurDonjon.deconnecter(this.personnage);
                 this.serveurDonjon = null;
                 this.serveurDiscussion = null;
                 exit(codeDeSortie);
-            } catch (Exception e) {
+            } catch ( Exception e ) {
                 e.printStackTrace();
             }
         }else {
@@ -135,7 +135,7 @@ public class Client {
                     System.out.println("Ce nom existe déjà.");
                     nomPersonnage = null;
                 }
-            } catch (IOException e) {
+            } catch ( IOException e ) {
                 e.printStackTrace();
                 exit(-10);
             }
@@ -147,24 +147,24 @@ public class Client {
      * Permet à un personnage d'attaquer un être vivant à partir de son nom
      * @param nomCible nom de l'être vivant à attaquer
      */
-    private void attaquer(String nomCible){
-        if(!nomCible.equals(this.personnage.getNom())) {
+    private void attaquer(String nomCible) {
+        if ( !nomCible.equals(this.personnage.getNom()) ) {
             try {
-                if (this.serveurDonjon.existeNomEtreVivant(nomCible)) {
+                if ( this.serveurDonjon.existeNomEtreVivant(nomCible) ) {
                     EtreVivant etreVivantAttaque = this.serveurDonjon.getMonstre(nomCible);
-                    if (etreVivantAttaque == null) {
+                    if ( etreVivantAttaque == null ) {
                         etreVivantAttaque = this.serveurDonjon.getPersonnage(nomCible);
                     }
-                    if (etreVivantAttaque != null) {
+                    if ( etreVivantAttaque != null ) {
                         this.serveurCombat.lancerCombat(this.personnage, etreVivantAttaque);
                     }
                 } else {
                     System.out.println("Il n'y a pas d\'être de ce nom dans la pièce.");
                 }
-            } catch (Exception e) {
+            } catch ( Exception e ) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             System.out.println("Vous ne pouvez pas vous attaquer vous-même.");
         }
     }
@@ -178,39 +178,32 @@ public class Client {
         try {
             if (bufferedReader.ready()) {
                 String commande = this.bufferedReader.readLine();
-                if (commande != null) {
-                    if (!this.serveurCombat.estEnCombat(this.personnage)) {
-                        if (commande.length() > 1 && commande.substring(0, 1).equals("\"")) {
+                if ( commande != null ) {
+                    if ( !this.serveurCombat.estEnCombat(this.personnage) ) {
+                        if ( commande.length() > 1 && commande.substring(0, 1).equals("\"") ) {
                             this.discuter(commande);
-                        } else if (commande.toLowerCase().equals("n") || commande.toLowerCase().equals("e") ||
-                                commande.toLowerCase().equals("s") || commande.toLowerCase().equals("o")) {
+                        } else if ( commande.toLowerCase().equals("n") || commande.toLowerCase().equals("e") ||
+                                    commande.toLowerCase().equals("s") || commande.toLowerCase().equals("o") ) {
                             this.seDeplacer(commande);
-                        } else if (commande.toLowerCase().equals("exit")) {
+                        } else if ( commande.toLowerCase().equals("exit") ) {
                             System.out.println("Déconnexion.");
                             this.seDeconnecter(0);
-                        } else if (commande.toLowerCase().equals("l")) {
-                            try {
-                                this.serveurDonjon.afficherEtreVivantPiece(personnage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else if (commande.toLowerCase().equals("c")) {
-                            try {
-                                this.serveurDonjon.afficherCombatPiece(personnage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else if (commande.length() > 8) {
-                            if (commande.substring(0, 7).toLowerCase().equals("attaque")) {
+                        } else if ( commande.toLowerCase().equals("l") ) {
+                            this.serveurDonjon.afficherEtreVivantPiece(personnage);
+                        } else if ( commande.toLowerCase().equals("c") ) {
+                            this.serveurDonjon.afficherCombatPiece(personnage);
+                        } else if ( commande.length() > 8 ) {
+                            if ( commande.substring(0, 7).toLowerCase().equals("attaque") ) {
                                 this.attaquer(commande.substring(8));
-                            } else
+                            } else {
                                 System.out.println("Cette commande n'est pas reconnue.");
-                        } else if (commande.toLowerCase().equals("help")) {
+                            }
+                        } else if ( commande.toLowerCase().equals("help") ) {
                             this.afficherCommande();
                         } else {
                             System.out.println("Cette commande n'est pas reconnue.");
                         }
-                    } else if (commande.equals("")) {
+                    } else if ( commande.equals("") ) {
                         this.serveurCombat.fuirCombat(this.personnage);
                     }
                 }
@@ -233,14 +226,14 @@ public class Client {
     /**
      * Tant que le personnage est connecté, attend une nouvelle commande de sa part
      */
-    private void jouer(){
+    private void jouer() {
         this.afficherCommande();
         try {
-            while (this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant)){
+            while ( this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant) ) {
                 this.interpreterCommande();
             }
             this.seDeconnecter(1);
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             e.printStackTrace();
         }
     }

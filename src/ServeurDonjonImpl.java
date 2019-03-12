@@ -69,14 +69,14 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         }
         if ( pieceDirection != null ) {
             if ( !direction.equals("") ) {
-                this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom()+ " a quitté la pièce.");
+                this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom() + " a quitté la pièce.");
             }
             personnageListe.setPieceActuelle(pieceDirection);
             try {
                 personnageListe.getServeurNotification().notifier("Vous arrivez dans la pièce : " + pieceDirection);
                 this.afficherEtreVivantPiece(personnageListe);
-                this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom()+" est entré dans la pièce: "+pieceDirection);
-                if(!direction.equals("")){
+                this.donjon.prevenirJoueurMemePiece(personnageListe, personnage.getNom()+" est entré dans la pièce: " + pieceDirection);
+                if ( !direction.equals("") ) {
                     serveurCombat.lancerCombatMonstre(personnageListe);
                 }
             } catch ( Exception e ) {
@@ -96,7 +96,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Déconnecte un personnage du donjon. Il le supprime de la liste des personnage.
      * @param personnage à déconnecter.
      */
-    public void deconnecter(Personnage personnage){
+    public void deconnecter(Personnage personnage) {
         try {
             this.donjon.prevenirJoueurMemePiece(personnage, personnage.getNom() + " est maintenant déconnecté.");
             this.donjon.supprimerEtreVivant(personnage);
@@ -109,11 +109,11 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Affiche tous les EtreVivant qui se trouvent dans la même pièce qu'un Personnage.
      * @param personnage Personnage pour récupérer la pièce et pour le notifier.
      */
-    public void afficherEtreVivantPiece(Personnage personnage){
+    public void afficherEtreVivantPiece(Personnage personnage) {
         String notification = "Êtres dans la pièce: ";
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
-                notification += "["+etreVivantCourant.getNom()+ "|" + etreVivantCourant.getPointDeVie()+"pdv] ";
+                notification += "[" + etreVivantCourant.getNom() + "|" + etreVivantCourant.getPointDeVie()+"pdv] ";
             }
         }
         if ( notification.equals("Êtres dans la pièce: ")) {
@@ -130,12 +130,12 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * Affiche tous les combats qui se trouvent dans la même pièce qu'un personnage.
      * @param personnage  pour récupérer la pièce et pour le notifier.
      */
-    public void afficherCombatPiece(Personnage personnage){
+    public void afficherCombatPiece(Personnage personnage) {
         String notification = "Combats dans la pièce: ";
         for ( Combat combat : this.donjon.getCombatMemePiece(personnage.getPieceActuelle()) ) {
-                notification += "["+combat.getEtreVivantAttaquant().getNom()+ "|vs|" + combat.getEtreVivantAttaque().getNom()+"] ";
+                notification += "[" + combat.getEtreVivantAttaquant().getNom() +  "|vs|" + combat.getEtreVivantAttaque().getNom() + "] ";
             }
-        if (notification.equals("Combats dans la pièce: ")) {
+        if ( notification.equals("Combats dans la pièce: ") ) {
             notification = "Il n'y a pas de combat dans la pièce.";
         }
         try {
@@ -160,7 +160,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param nomEtreVivant que l'on cherche dans la liste.
      * @return Renvoie la valeur true si le personnage existe, false sinon.
      */
-    public boolean existeNomEtreVivant(String nomEtreVivant)  {
+    public boolean existeNomEtreVivant(String nomEtreVivant) {
         return this.donjon.recupereEtreVivant(nomEtreVivant) != null;
     }
 
@@ -171,10 +171,10 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     public Personnage getPersonnage(String nomPersonnage){
         EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomPersonnage);
-        if (etreVivant.getClass().equals(Personnage.class)){
+        if ( etreVivant.getClass().equals(Personnage.class) ) {
             return (Personnage) etreVivant;
         }
-        else return null;
+        return null;
     }
 
     /**
@@ -182,12 +182,12 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      * @param nomMonstre du monstre recherché
      * @return Monstre si trouvé sinon null
      */
-    public Monstre getMonstre(String nomMonstre){
+    public Monstre getMonstre(String nomMonstre) {
         EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomMonstre);
-        if (etreVivant.getClass().equals(Monstre.class)){
+        if ( etreVivant.getClass().equals(Monstre.class) ) {
             return (Monstre) etreVivant;
         }
-        else return null;
+        return null;
     }
 
 }

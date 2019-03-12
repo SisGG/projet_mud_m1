@@ -38,7 +38,7 @@ class Combat implements Serializable {
      */
     EtreVivant lancerCombat() {
         EtreVivant gagnant = null;
-        while (this.combatEnCours) {
+        while ( this.combatEnCours ) {
             gagnant = this.effectuerTour();
         }
         return gagnant;
@@ -51,25 +51,25 @@ class Combat implements Serializable {
     private EtreVivant effectuerTour() {
         int ciblePerdant1PDV = new Random().nextInt(2);
 
-        if(this.etreVivantAttaquant.getPointDeVie() != 0 && this.etreVivantAttaque.getPointDeVie() != 0) {
+        if ( this.etreVivantAttaquant.getPointDeVie() != 0 && this.etreVivantAttaque.getPointDeVie() != 0 ) {
 
-            if (ciblePerdant1PDV == 0) {
+            if ( ciblePerdant1PDV == 0 ) {
                 this.etreVivantAttaquant.perdrePointDeVie();
                 this.afficherMessageBlessure(etreVivantAttaquant, etreVivantAttaque, etreVivantAttaquant);
                 this.afficherMessageBlessure(etreVivantAttaquant, etreVivantAttaque, etreVivantAttaque);
 
-            } else if (ciblePerdant1PDV == 1) {
+            } else if ( ciblePerdant1PDV == 1 ) {
                 this.etreVivantAttaque.perdrePointDeVie();
                 this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaquant);
                 this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaque);
             }
 
-            if (this.etreVivantAttaquant.getPointDeVie() == 0) {
+            if ( this.etreVivantAttaquant.getPointDeVie() == 0 ) {
                 this.etreVivantAttaque.augmenterPointDeVie();
                 this.afficherMessageMort(this.etreVivantAttaquant, this.etreVivantAttaque);
                 this.combatEnCours = false;
                 return etreVivantAttaque;
-            } else if (this.etreVivantAttaque.getPointDeVie() == 0) {
+            } else if ( this.etreVivantAttaque.getPointDeVie() == 0 ) {
                 this.etreVivantAttaquant.augmenterPointDeVie();
                 this.afficherMessageMort(this.etreVivantAttaque, this.etreVivantAttaquant);
                 this.combatEnCours = false;
@@ -78,7 +78,7 @@ class Combat implements Serializable {
 
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
             choixCombat(etreVivantAttaquant, etreVivantAttaque);
@@ -97,13 +97,13 @@ class Combat implements Serializable {
      */
     private void afficherMessageBlessure(EtreVivant blesse, EtreVivant blesseur, EtreVivant etreNotifie) {
         try {
-            if (etreNotifie instanceof Personnage) {
+            if ( etreNotifie instanceof Personnage ) {
                 ((Personnage) etreNotifie).getServeurNotification().notifier(blesseur.getNom()
-                        + " attaque. "+blesse.getNom()+ " perd 1 pdv. ["+etreVivantAttaquant.getNom()+ ": "
-                        +etreVivantAttaquant.getPointDeVie()+" pdv] - ["+etreVivantAttaque.getNom()+ ": "
-                        +etreVivantAttaque.getPointDeVie()+" pdv]");
+                        + " attaque. "+blesse.getNom() + " perd 1 pdv. [" + etreVivantAttaquant.getNom() + ": "
+                        + etreVivantAttaquant.getPointDeVie() + " pdv] - [" + etreVivantAttaque.getNom() + ": "
+                        + etreVivantAttaque.getPointDeVie() + " pdv]");
             }
-        } catch (RemoteException e) {
+        } catch ( RemoteException e ) {
             e.printStackTrace();
         }
     }
@@ -113,11 +113,11 @@ class Combat implements Serializable {
      * @param etreMort EtreVivant mort
      * @param etreTueur EtreVivant Tueur
      */
-    private void afficherMessageMort(EtreVivant etreMort, EtreVivant etreTueur){
-        if (etreMort instanceof Personnage) {
+    private void afficherMessageMort(EtreVivant etreMort, EtreVivant etreTueur) {
+        if ( etreMort instanceof Personnage ) {
             try {
                 ((Personnage) etreMort).getServeurNotification().notifier("Vous mourez... bye bye.");
-            } catch (RemoteException e) {
+            } catch ( RemoteException e ) {
                 e.printStackTrace();
             }
         }
@@ -125,7 +125,7 @@ class Combat implements Serializable {
             try {
                 ((Personnage) etreTueur).getServeurNotification().notifier(
                         "Fin du combat, vous gagnez un pdv. Vous avez " +etreTueur.getPointDeVie()+" pdv.");
-            } catch (RemoteException e) {
+            } catch ( RemoteException e ) {
                 e.printStackTrace();
             }
         }
@@ -136,13 +136,13 @@ class Combat implements Serializable {
      * @param fuyant personnage fuyant
      * @param fuye EtreVivant auquel le fuyant veut fuir
      */
-    private void choixCombat(EtreVivant fuyant, EtreVivant fuye){
-        if(fuyant instanceof Personnage){
+    private void choixCombat(EtreVivant fuyant, EtreVivant fuye) {
+        if ( fuyant instanceof Personnage ) {
             try {
-                if(((Personnage) fuyant).getServeurNotification().demanderAction().equals("")){
+                if ( ((Personnage) fuyant).getServeurNotification().demanderAction().equals("") ) {
                     this.fuirCombat(fuyant, fuye);
                 }
-            } catch (RemoteException e) {
+            } catch ( RemoteException e ) {
                 e.printStackTrace();
             }
         }
@@ -154,17 +154,17 @@ class Combat implements Serializable {
      * @param fuyant personnage ayant fui
      * @param fuye personnage auquel le fuyant veut fuir
      */
-    void fuirCombat(EtreVivant fuyant, EtreVivant fuye){
+    void fuirCombat(EtreVivant fuyant, EtreVivant fuye) {
         try {
-            if(fuyant instanceof Personnage) {
-                ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui devant " +
-                        fuye.getNom() + ". Il vous reste " + fuyant.getPointDeVie() + " point de vie.");
+            if ( fuyant instanceof Personnage ) {
+                ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui devant "
+                        + fuye.getNom() + ". Il vous reste " + fuyant.getPointDeVie() + " point de vie.");
             }
-            if(fuye instanceof Personnage) {
-                ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom() +
-                        " a fui devant vous. Il vous reste " + fuye.getPointDeVie() + " point de vie.");
+            if ( fuye instanceof Personnage ) {
+                ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom()
+                        + " a fui devant vous. Il vous reste " + fuye.getPointDeVie() + " point de vie.");
             }
-        } catch (RemoteException e) {
+        } catch ( RemoteException e ) {
             e.printStackTrace();
         }
         this.combatEnCours = false;

@@ -38,8 +38,8 @@ public class Donjon {
      * @return Renvoie la valeur true si un combat se déroule dans la piece passée en paramètre, false sinon.
      */
     boolean seDeroulerCombatPiece(Piece piece) {
-        for(Combat combat : this.listeCombat){
-            if(combat.recupererPieceCombat().equals(piece)){
+        for ( Combat combat : this.listeCombat ) {
+            if ( combat.recupererPieceCombat().equals(piece) ) {
                 return true;
             }
         }
@@ -74,7 +74,7 @@ public class Donjon {
      */
     Vector<EtreVivant> getEtreVivantMemePiece(Piece piece) {
         Vector<EtreVivant> listePersonnage = new Vector<>();
-        for (EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
+        for ( EtreVivant etreVivantCourant : this.listeEtreVivant.values() ) {
             if ( piece.equals(etreVivantCourant.getPieceActuelle()) ) {
                 listePersonnage.add(etreVivantCourant);
             }
@@ -89,7 +89,7 @@ public class Donjon {
      */
     Vector<Combat> getCombatMemePiece(Piece piece) {
         Vector<Combat> combats = new Vector<>();
-        for (Combat combat : this.listeCombat.subList(0, this.listeCombat.size())) {
+        for ( Combat combat : this.listeCombat.subList(0, this.listeCombat.size()) ) {
             if ( piece.equals(combat.recupererPieceCombat()) ) {
                 combats.add(combat);
             }
@@ -105,7 +105,7 @@ public class Donjon {
     Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
-        switch( direction ) {
+        switch ( direction ) {
             case "Nord":
                 if ( coordonneeX + 1 < this.tailleDonjon ) {
                     return this.donjon[coordonneeX+1][coordonneeY];
@@ -213,11 +213,11 @@ public class Donjon {
      * @param etreVivant dans laquelle on va notifier
      * @param message à notifier
      */
-    void prevenirJoueurMemePiece(EtreVivant etreVivant, String message){
+    void prevenirJoueurMemePiece(EtreVivant etreVivant, String message) {
         for (EtreVivant etreVivantCourant : this.getEtreVivantMemePiece(etreVivant.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(etreVivant) ) {
                 try {
-                    if (etreVivantCourant instanceof Personnage) {
+                    if ( etreVivantCourant instanceof Personnage ) {
                         Personnage personnageCourant = (Personnage) etreVivantCourant;
                         personnageCourant.getServeurNotification().notifier(message);
                     }
