@@ -6,9 +6,9 @@ import java.util.Vector;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -82,6 +82,26 @@ public class Donjon {
         return listePersonnage;
     }
 
+    /**
+     * Parcours la liste des combat  et  retourne un vecteur qui contient les combats  qui se passent  dans une  même pièce
+     * @param piece pièce que l'on veut vérifier
+     * @return vecteur de combats
+     */
+    Vector<Combat> getCombatMemePiece(Piece piece) {
+        Vector<Combat> combats = new Vector<>();
+        for (Combat combat : this.listeCombat.subList(0, this.listeCombat.size())) {
+            if ( piece.equals(combat.recupererPieceCombat()) ) {
+                combats.add(combat);
+            }
+        }
+        return combats;
+    }
+
+
+    /**
+     * Retourne une pièce à partir d'une pièce et d'une direction
+     * @return la pièce suivante
+     */
     Piece getPiece(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
@@ -142,9 +162,7 @@ public class Donjon {
      * @param etreVivant EtreVivant à supprimer.
      */
     synchronized void supprimerEtreVivant(EtreVivant etreVivant) {
-        if ( etreVivant != null ) {
-            this.listeEtreVivant.remove(etreVivant.getNom());
-        }
+        this.listeEtreVivant.remove(etreVivant.getNom());
     }
 
     /**
@@ -181,5 +199,32 @@ public class Donjon {
      */
     boolean nomEtreVivantExiste(String nomEtreVivant) {
         return this.listeEtreVivant.containsKey(nomEtreVivant);
+    }
+
+    /**
+     * @return la liste des combats
+     */
+    Vector<Combat> getListeCombat() {
+        return this.listeCombat;
+    }
+
+    /**
+     * Notifie les autres êtres vivant d'un pièce
+     * @param etreVivant dans laquelle on va notifier
+     * @param message à notifier
+     */
+    void prevenirJoueurMemePiece(EtreVivant etreVivant, String message){
+        for (EtreVivant etreVivantCourant : this.getEtreVivantMemePiece(etreVivant.getPieceActuelle()) ) {
+            if ( !etreVivantCourant.equals(etreVivant) ) {
+                try {
+                    if (etreVivantCourant instanceof Personnage) {
+                        Personnage personnageCourant = (Personnage) etreVivantCourant;
+                        personnageCourant.getServeurNotification().notifier(message);
+                    }
+                } catch( Exception e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

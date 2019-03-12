@@ -8,9 +8,9 @@ import java.rmi.server.UnicastRemoteObject;
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -34,13 +34,12 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
     }
 
     /**
-     * Demande au Client de saisir une chaine de caractère avec un message spécifique.
+     * Demande au Client de saisir une chaine de caractère.
      * @return Renvoie la chaine de caractère saisi par le Client.
      */
     public String demanderAction() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            Thread.sleep(1000);
             if (!bufferedReader.ready()){
                 return "-1";
             }

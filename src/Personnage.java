@@ -3,9 +3,9 @@
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 2.0
+ * @version : 3.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Février 2019
+ * date     : 18 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
@@ -39,19 +39,10 @@ public class Personnage extends EtreVivant {
     }
 
     /**
-     * Renvoie une chaine de caractère représentant le Personnage.
+     * Renvoie une chaine de caractère représentant le Personnage
      * @return Renvoie une chaine de caractère représentant le Personnage.
      */
     public String toString() {
         return "Personnage[" + this.nomEtreVivant + "]";
-    }
-
-    /**
-     * Indique si le Personnage passé en paramètre est identique au Personnage courant.
-     * @param personnage Personnage à comparer.
-     * @return Renvoie true si les deux Personnage sont considérés comme identiques, false sinon.
-     */
-    boolean equals(Personnage personnage) {
-        return this.nomEtreVivant.equals(personnage.getNom());
     }
 }
