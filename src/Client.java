@@ -177,33 +177,44 @@ public class Client {
     private void interpreterCommande() {
         try {
             if (bufferedReader.ready()) {
-                String commande = this.bufferedReader.readLine();
-                if ( commande != null ) {
+                String texte = this.bufferedReader.readLine();
+                if ( texte != null ) {
                     if ( !this.serveurCombat.estEnCombat(this.personnage) ) {
-                        if ( commande.length() > 1 && commande.substring(0, 1).equals("\"") ) {
-                            this.discuter(commande);
-                        } else if ( commande.toLowerCase().equals("n") || commande.toLowerCase().equals("e") ||
-                                    commande.toLowerCase().equals("s") || commande.toLowerCase().equals("o") ) {
-                            this.seDeplacer(commande);
-                        } else if ( commande.toLowerCase().equals("exit") ) {
-                            System.out.println("Déconnexion.");
-                            this.seDeconnecter(0);
-                        } else if ( commande.toLowerCase().equals("l") ) {
-                            this.serveurDonjon.afficherEtreVivantPiece(personnage);
-                        } else if ( commande.toLowerCase().equals("c") ) {
-                            this.serveurDonjon.afficherCombatPiece(personnage);
-                        } else if ( commande.length() > 8 ) {
-                            if ( commande.substring(0, 7).toLowerCase().equals("attaque") ) {
-                                this.attaquer(commande.substring(8));
-                            } else {
-                                System.out.println("Cette commande n'est pas reconnue.");
-                            }
-                        } else if ( commande.toLowerCase().equals("help") ) {
-                            this.afficherCommande();
+                        if ( texte.length() > 1 && texte.substring(0, 1).equals("\"") ) {
+                            this.discuter(texte);
                         } else {
-                            System.out.println("Cette commande n'est pas reconnue.");
+                            String[] commandes = texte.split(" ");
+                            switch ( commandes[0].toLowerCase() ) {
+                                case "n": case "e": case "s": case "o":
+                                    this.seDeplacer(commandes[0]);
+                                    break;
+                                case "exit": case "quitter":
+                                    System.out.println("Déconnexion.");
+                                    this.seDeconnecter(0);
+                                    break;
+                                case "l":
+                                    this.serveurDonjon.afficherEtreVivantPiece(personnage);
+                                    break;
+                                case "c":
+                                    this.serveurDonjon.afficherCombatPiece(personnage);
+                                    break;
+                                case "attaque": case "attaquer":
+                                    if ( commandes.length == 2 ) {
+                                        this.attaquer(commandes[1]);
+                                    } else {
+                                        System.out.println("Il faut un nom de joueur.");
+                                    }
+                                    break;
+                                case "help":
+                                    this.afficherCommande();
+                                    break;
+                                default:
+                                    System.out.println("Cette commande n'est pas reconnue.");
+                                    break;
+
+                            }
                         }
-                    } else if ( commande.equals("") ) {
+                    } else if ( texte.equals("") ) {
                         this.serveurCombat.fuirCombat(this.personnage);
                     }
                 }
