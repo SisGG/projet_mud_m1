@@ -1,3 +1,5 @@
-- Video pour scénario?
-- Diagramme de classe v3
-- Commenter code
+- Diagramme de cas v4 et v5
+- Coder la v4
+
+- Diagramme de classe complet pour la fin
+- Video pour montrer le fonctionnement final du programme

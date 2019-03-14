@@ -134,14 +134,14 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
 
     /**
      * Permet à un EtreVivant de fuir un combat et prévient les joeurs dans la même pièce de la fuite
-     * @param etreVivant EtreVivant voulant fuir
+     * @param fuyant EtreVivant voulant fuir
      */
-    public void fuirCombat(EtreVivant etreVivant) {
-        Combat combat = this.getCombatEtre(etreVivant);
-        if ( combat.getEtreVivantAttaquant().equals(etreVivant) ) {
-            combat.fuirCombat(etreVivant, combat.getEtreVivantAttaquant());
+    public void fuirCombat(EtreVivant fuyant) {
+        Combat combat = this.getCombatEtre(fuyant);
+        if ( combat.getEtreVivantAttaquant().equals(fuyant) ) {
+            combat.fuirCombat(fuyant, combat.getEtreVivantAttaque());
         } else {
-            combat.fuirCombat(etreVivant, combat.getEtreVivantAttaque());
+            combat.fuirCombat(fuyant, combat.getEtreVivantAttaquant());
         }
     }
 
