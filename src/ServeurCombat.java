@@ -23,7 +23,7 @@ public interface ServeurCombat extends Remote {
 
     void fuirCombat(EtreVivant etreVivant) throws RemoteException;
 
-    boolean estEnCombat(EtreVivant etreVivant)throws RemoteException;
+    boolean estEnCombat(EtreVivant etreVivant) throws RemoteException;
 
 
-    }
+}

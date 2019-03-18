@@ -29,7 +29,7 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
      * Envoie une chaine de caractère au Client.
      * @param notication Chaine de caractère à envoyer au client.
      */
-    public void notifier(String notication){
+    public void notifier(String notication) {
         System.out.println(notication);
     }
 
@@ -40,11 +40,11 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
     public String demanderAction() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            if ( !bufferedReader.ready() ) {
+            if (!bufferedReader.ready()) {
                 return "-1";
             }
             return bufferedReader.readLine();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "-2";
         }

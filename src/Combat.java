@@ -82,6 +82,7 @@ class Combat implements Serializable {
                 e.printStackTrace();
             }
             choixCombat(etreVivantAttaquant, etreVivantAttaque);
+            choixCombat(etreVivantAttaque, etreVivantAttaquant);
         } else {
             this.combatEnCours = false;
         }
@@ -145,7 +146,6 @@ class Combat implements Serializable {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**

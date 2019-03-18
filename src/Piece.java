@@ -20,7 +20,8 @@ public class Piece implements Serializable {
 
     /**
      * Constructeur de la classe Piece.
-     * @param coordonneX Entier correspendant à la coordonnée X de la piece.
+     *
+     * @param coordonneX  Entier correspendant à la coordonnée X de la piece.
      * @param coordonneeY Entier correspendant à la coordonnée Y de la piece.
      */
     Piece(int coordonneX, int coordonneeY) {
@@ -30,6 +31,7 @@ public class Piece implements Serializable {
 
     /**
      * Récupérer la coordonnée X de la pièce.
+     *
      * @return Renvoie l'entier qui représente la coordonnée X.
      */
     int getCoordonneeX() {
@@ -38,6 +40,7 @@ public class Piece implements Serializable {
 
     /**
      * Récupérer la coordonnée Y de la pièce.
+     *
      * @return Renvoie l'entier qui représente la coordonnée Y.
      */
     int getCoordonneeY() {
@@ -46,6 +49,7 @@ public class Piece implements Serializable {
 
     /**
      * Indique si la Piece passé en paramètre est identique a la Piece courante.
+     *
      * @param piece Piece à comparer.
      * @return Renvoie true si les deux Piece sont considéré comme identique, false sinon.
      */
@@ -55,6 +59,7 @@ public class Piece implements Serializable {
 
     /**
      * Renvoie une chaine de caractère représentant la Piece.
+     *
      * @return Renvoie une chaine de caractère représentant la Piece.
      */
     public String toString() {

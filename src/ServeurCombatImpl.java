@@ -162,7 +162,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
 
     /**
      * Renvoie un boolean pour savoir si un etreVivant  est en combat ou non
-     * @param etreVivant etrVivant dont on veut connaitre l'etat
+     * @param etreVivant etreVivant dont on veut connaitre l'etat
      * @return boolean
      */
     public boolean estEnCombat(EtreVivant etreVivant){

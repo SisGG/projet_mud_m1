@@ -17,6 +17,7 @@ public class Monstre extends EtreVivant {
 
     /**
      * Constructeur  de la classe Monstre.
+     *
      * @param piece Piece où se situe le Monstre.
      */
     public Monstre(Piece piece) {

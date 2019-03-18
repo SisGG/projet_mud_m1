@@ -20,16 +20,25 @@ public class Systeme {
 
     /**
      * Constructeur de la classe Systeme.
+     *
      * @param donjon Base de données d'un donjon commun à tous les serveurs.
      */
     private Systeme(Donjon donjon) {
         this.donjon = donjon;
         try {
             LocateRegistry.createRegistry(1099);
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
+    }
+
+    public static void main(String[] args) {
+        Donjon donjon = new Donjon(tailleDonjon);
+        Systeme systeme = new Systeme(donjon);
+        systeme.lancerServeurDonjon();
+        systeme.lancerServeurDiscussion();
+        systeme.lancerServeurCombat();
     }
 
     /**
@@ -40,11 +49,12 @@ public class Systeme {
             ServeurDonjon serveurDonjon = new ServeurDonjonImpl(this.donjon);
             Naming.rebind("ServeurDonjon", serveurDonjon);
             System.out.println("Le serveur donjon est démarré.");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
     }
+
     /**
      * Démarre un serveur discussion en lui attribuant un nom spécifique.
      */
@@ -53,7 +63,7 @@ public class Systeme {
             ServeurDiscussion serveurDiscussion = new ServeurDiscussionImpl(this.donjon);
             Naming.rebind("ServeurDiscussion", serveurDiscussion);
             System.out.println("Le serveur discussion est démarré.");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -67,17 +77,9 @@ public class Systeme {
             ServeurCombat serveurCombat = new ServeurCombatImpl(this.donjon);
             Naming.rebind("ServeurCombat", serveurCombat);
             System.out.println("Le serveur combat est démarré.");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
-    }
-
-    public static void main(String[] args) {
-        Donjon donjon = new Donjon(tailleDonjon);
-        Systeme systeme = new Systeme(donjon);
-        systeme.lancerServeurDonjon();
-        systeme.lancerServeurDiscussion();
-        systeme.lancerServeurCombat();
     }
 }

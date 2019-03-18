@@ -17,18 +17,11 @@ public class Personnage extends EtreVivant {
 
     /**
      * Constructeur de la classe Personnage.
+     *
      * @param nomPersonnage Chaine de caractère du Personnage.
      */
     Personnage(String nomPersonnage) {
         super(nomPersonnage, pointDeVieMax);
-    }
-
-    /**
-     * Associe un Serveur Notification au Personnage.
-     * @param serveurNotification ServeurNotification que l'on associe au personnage.
-     */
-    void setServeurNotification(ServeurNotification serveurNotification) {
-        this.serveurNotification = serveurNotification;
     }
 
     /**
@@ -39,7 +32,17 @@ public class Personnage extends EtreVivant {
     }
 
     /**
+     * Associe un Serveur Notification au Personnage.
+     *
+     * @param serveurNotification ServeurNotification que l'on associe au personnage.
+     */
+    void setServeurNotification(ServeurNotification serveurNotification) {
+        this.serveurNotification = serveurNotification;
+    }
+
+    /**
      * Renvoie une chaine de caractère représentant le Personnage
+     *
      * @return Renvoie une chaine de caractère représentant le Personnage.
      */
     public String toString() {
