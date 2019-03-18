@@ -113,7 +113,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
         String notification = "Êtres dans la pièce: ";
         for ( EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle()) ) {
             if ( !etreVivantCourant.equals(personnage) ) {
-                notification += "[" + etreVivantCourant.getNom() + "|" + etreVivantCourant.getPointDeVie()+"pdv] ";
+                notification = notification.concat("[" + etreVivantCourant.getNom() + "|" + etreVivantCourant.getPointDeVie()+"pdv] ");
             }
         }
         if ( notification.equals("Êtres dans la pièce: ")) {
@@ -133,8 +133,8 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     public void afficherCombatPiece(Personnage personnage) {
         String notification = "Combats dans la pièce: ";
         for ( Combat combat : this.donjon.getCombatMemePiece(personnage.getPieceActuelle()) ) {
-                notification += "[" + combat.getEtreVivantAttaquant().getNom() +  "|vs|" + combat.getEtreVivantAttaque().getNom() + "] ";
-            }
+            notification = notification.concat("[" + combat.getEtreVivantAttaquant().getNom() +  "|vs|" + combat.getEtreVivantAttaque().getNom() + "] ");
+        }
         if ( notification.equals("Combats dans la pièce: ") ) {
             notification = "Il n'y a pas de combat dans la pièce.";
         }
