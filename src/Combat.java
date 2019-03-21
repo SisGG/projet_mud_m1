@@ -81,7 +81,7 @@ class Combat implements Serializable {
             } catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
-            choixCombat(etreVivantAttaquant, etreVivantAttaque);
+            this.choixCombat(etreVivantAttaquant, etreVivantAttaque);
         } else {
             this.combatEnCours = false;
         }
