@@ -73,11 +73,26 @@ public class Systeme {
         }
     }
 
+    /**
+     * Démarre un serveur persistance.
+     */
+    private void lancerServeurPersistance() {
+        try {
+            ServeurPersistance serveurPersistance = new ServeurPersistanceImpl();
+            Naming.rebind("ServeurPersistance", serveurPersistance);
+            System.out.println("Le serveur persistance est démarré.");
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
     public static void main(String[] args) {
         Donjon donjon = new Donjon(tailleDonjon);
         Systeme systeme = new Systeme(donjon);
         systeme.lancerServeurDonjon();
         systeme.lancerServeurDiscussion();
         systeme.lancerServeurCombat();
+        systeme.lancerServeurPersistance();
     }
 }
