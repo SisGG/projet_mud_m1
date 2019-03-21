@@ -1,5 +1,7 @@
-- Diagramme de cas v4 et v5
-- Coder la v4
+- Diagramme de cas final
+- Coder v4
+- Diagramme de classe v4 + v5
 
 - Diagramme de classe complet pour la fin
+
 - Video pour montrer le fonctionnement final du programme
