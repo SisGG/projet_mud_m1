@@ -1,8 +1,5 @@
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
 /******************************************************************************
- * file     : src/ServeurPersistance.java
+ * file     : src/BaseDeDonnees.java
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
@@ -13,12 +10,12 @@ import java.rmi.RemoteException;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public interface ServeurPersistance extends Remote {
+public interface BaseDeDonnees {
 
-    void sauvegarderPersonnage(Personnage personnage) throws RemoteException;
+    void put(Personnage personnage);
 
-    Personnage recuperePersonnage(String nomPersonnage) throws RemoteException;
+    void remove(String nomPersonnage);
 
-    void supprimerPersonnage(String nomPersonnage) throws RemoteException;
+    Personnage get(String nomPersonnage);
 
 }

@@ -17,6 +17,7 @@ public class Systeme {
 
     private static final int tailleDonjon = 5;
     private Donjon donjon;
+    private static final BaseDeDonnees baseDeDonnees = new BDFile("DataBase.data");
 
     /**
      * Constructeur de la classe Systeme.
@@ -78,7 +79,7 @@ public class Systeme {
      */
     private void lancerServeurPersistance() {
         try {
-            ServeurPersistance serveurPersistance = new ServeurPersistanceImpl();
+            ServeurPersistance serveurPersistance = new ServeurPersistanceImpl(baseDeDonnees);
             Naming.rebind("ServeurPersistance", serveurPersistance);
             System.out.println("Le serveur persistance est démarré.");
         } catch ( Exception e ) {

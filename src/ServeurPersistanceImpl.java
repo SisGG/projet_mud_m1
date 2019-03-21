@@ -16,29 +16,22 @@ import java.util.HashMap;
  *****************************************************************************/
 public class ServeurPersistanceImpl extends UnicastRemoteObject implements ServeurPersistance {
 
-    private HashMap<String,Personnage> baseDeDonnees;
+    private BaseDeDonnees baseDeDonnees;
 
-    ServeurPersistanceImpl() throws RemoteException {
+    ServeurPersistanceImpl(BaseDeDonnees baseDeDonnees) throws RemoteException {
         super();
-        this.baseDeDonnees = new HashMap<>();
+        this.baseDeDonnees = baseDeDonnees;
     }
 
     public void sauvegarderPersonnage(Personnage personnage) {
-        if ( !this.baseDeDonnees.containsKey(personnage.getNom()) ) {
-            this.baseDeDonnees.put(personnage.getNom(), personnage);
-        } else {
-            this.baseDeDonnees.replace(personnage.getNom(), personnage);
-        }
+        this.baseDeDonnees.put(personnage);
     }
 
     public Personnage recuperePersonnage(String nomPersonnage) {
-        if ( this.baseDeDonnees.containsKey(nomPersonnage) ) {
-            return this.baseDeDonnees.get(nomPersonnage);
-        }
-        return null;
+        return this.baseDeDonnees.get(nomPersonnage);
     }
 
-    public void supprimerPersonnage(Personnage personnage) {
-        this.baseDeDonnees.remove(personnage.getNom());
+    public void supprimerPersonnage(String nomPersonnage) {
+        this.baseDeDonnees.remove(nomPersonnage);
     }
 }
