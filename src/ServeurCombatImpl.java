@@ -37,7 +37,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
             monstre = new Monstre(personnage.getPieceActuelle());
         }
         this.donjon.ajouterEtreVivant(monstre);
-        lancerCombat(monstre, personnage);
+        this.lancerCombat(monstre, personnage);
     }
 
     /**
@@ -46,11 +46,11 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
      * @param attaque Etre attaqué
      */
     public void lancerCombat(EtreVivant attaquant, EtreVivant attaque) {
-        afficherMessageCombat(attaquant, attaque);
+        this.afficherMessageCombat(attaquant, attaque);
 
         try {
             Thread.sleep(2000);
-        }catch(Exception e){
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
 

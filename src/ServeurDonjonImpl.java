@@ -41,6 +41,16 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     }
 
     /**
+     * Enregistre dans le serveur un personnage et renvoie le personnage.
+     * @param personnage Personnage.
+     * @return Renvoie le nouveau personnage crée.
+     */
+    public synchronized Personnage seConnecter(Personnage personnage) {
+        this.donjon.ajouterEtreVivant(personnage);
+        return personnage;
+    }
+
+    /**
      * Déplace un personnage dans le donjon. Met à jour la pièce du joueur et renvoie le nouveau joueur.
      *
      * @param personnage    Personnage qui se déplace.
@@ -68,6 +78,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
                 pieceDirection = this.donjon.getPiece(personnageListe.getPieceActuelle(), "Ouest");
                 break;
             default:
+                pieceDirection = personnageListe.getPieceActuelle();
                 break;
         }
         if (pieceDirection != null) {
