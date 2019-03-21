@@ -66,27 +66,30 @@ public class Client {
             this.seDeplacer("");
         } catch ( Exception e ) {
             e.printStackTrace();
-            this.seDeconnecter(-1);
+            this.seDeconnecter(false);
         }
     }
 
     /**
      * Permet de se déconnecter sur les différents serveur de jeu.
-     * @param codeDeSortie correspond au code du processus renvoyé
+     * @param etreSupprimer True si le personnage doit être supprimer du serveur de persistance,
+     *                      False non.
      */
-    private void seDeconnecter(int codeDeSortie) {
-        if ( codeDeSortie == 0 ) {
-            try {
+    private void seDeconnecter(boolean etreSupprimer) {
+        try {
+            if ( etreSupprimer ) {
+                this.serveurPersistance.supprimerPersonnage(this.personnage.getNom());
+            } else {
                 this.sauvegarderPersonnage();
-                this.serveurDonjon.deconnecter(this.personnage);
-                this.serveurDonjon = null;
-                this.serveurDiscussion = null;
-                exit(codeDeSortie);
-            } catch ( Exception e ) {
-                e.printStackTrace();
             }
-        }else {
-            exit(codeDeSortie);
+            this.serveurDonjon.deconnecter(this.personnage);
+            this.serveurDonjon = null;
+            this.serveurDiscussion = null;
+            this.serveurCombat = null;
+            this.serveurPersistance = null;
+            exit(0);
+        } catch ( Exception e ) {
+            e.printStackTrace();
         }
     }
 
@@ -214,7 +217,7 @@ public class Client {
                                     break;
                                 case "exit": case "quitter":
                                     System.out.println("Déconnexion.");
-                                    this.seDeconnecter(0);
+                                    this.seDeconnecter(false);
                                     break;
                                 case "l":
                                     this.serveurDonjon.afficherEtreVivantPiece(personnage);
@@ -267,7 +270,7 @@ public class Client {
             while ( this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant) ) {
                 this.interpreterCommande();
             }
-            this.seDeconnecter(1);
+            this.seDeconnecter(true);
         } catch ( IOException e ) {
             e.printStackTrace();
         }
