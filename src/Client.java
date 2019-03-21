@@ -23,6 +23,7 @@ public class Client {
     private ServeurDonjon serveurDonjon;
     private ServeurDiscussion serveurDiscussion;
     private ServeurCombat serveurCombat;
+    private ServeurPersistance serveurPersistance;
     private BufferedReader bufferedReader;
 
 
@@ -34,6 +35,7 @@ public class Client {
             this.serveurDonjon = (ServeurDonjon) Naming.lookup("//localhost/ServeurDonjon");
             this.serveurDiscussion = (ServeurDiscussion) Naming.lookup("//localhost/ServeurDiscussion");
             this.serveurCombat = (ServeurCombat) Naming.lookup("//localhost/ServeurCombat");
+            this.serveurPersistance = (ServeurPersistance) Naming.lookup("//localhost/ServeurPersistance");
             this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -47,35 +49,47 @@ public class Client {
      */
     private void seConnecter(String nomPersonnage) {
         try {
-            this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
+            this.personnage = this.serveurPersistance.recuperePersonnage(nomPersonnage);
+            if ( this.personnage == null ) {
+                this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
+            } else {
+                this.personnage = this.serveurDonjon.seConnecter(this.personnage);
+                System.out.println("Vous venez de récupérer votre personnage.");
+            }
 
             ServeurNotification serveurNotification = new ServeurNotificationImpl();
             this.serveurDonjon.enregistrerNotification(this.personnage, serveurNotification);
+
+            this.sauvegarderPersonnage();
 
             System.out.println("Le personnage " + this.personnage.getNom() + " vient de se connecter.");
             this.seDeplacer("");
         } catch ( Exception e ) {
             e.printStackTrace();
-            this.seDeconnecter(-1);
+            this.seDeconnecter(false);
         }
     }
 
     /**
      * Permet de se déconnecter sur les différents serveur de jeu.
-     * @param codeDeSortie correspond au code du processus renvoyé
+     * @param etreSupprimer True si le personnage doit être supprimer du serveur de persistance,
+     *                      False non.
      */
-    private void seDeconnecter(int codeDeSortie) {
-        if ( codeDeSortie == 0 ) {
-            try {
-                this.serveurDonjon.deconnecter(this.personnage);
-                this.serveurDonjon = null;
-                this.serveurDiscussion = null;
-                exit(codeDeSortie);
-            } catch ( Exception e ) {
-                e.printStackTrace();
+    private void seDeconnecter(boolean etreSupprimer) {
+        try {
+            if ( etreSupprimer ) {
+                this.serveurPersistance.supprimerPersonnage(this.personnage.getNom());
+            } else {
+                this.sauvegarderPersonnage();
             }
-        } else {
-            exit(codeDeSortie);
+            this.serveurDonjon.deconnecter(this.personnage);
+            this.serveurDonjon = null;
+            this.serveurDiscussion = null;
+            this.serveurCombat = null;
+            this.serveurPersistance = null;
+            exit(0);
+        } catch ( Exception e ) {
+            e.printStackTrace();
         }
     }
 
@@ -86,6 +100,7 @@ public class Client {
     private void seDeplacer(String direction) {
         try {
             this.personnage = this.serveurDonjon.seDeplacer(this.personnage, direction, this.serveurCombat);
+            this.sauvegarderPersonnage();
         } catch ( Exception e ) {
             e.printStackTrace();
         }
@@ -158,6 +173,7 @@ public class Client {
                     if ( etreVivantAttaque != null ) {
                         this.serveurCombat.lancerCombat(this.personnage, etreVivantAttaque);
                     }
+                    this.sauvegarderPersonnage();
                 } else {
                     System.out.println("Il n'y a pas d\'être de ce nom dans la pièce.");
                 }
@@ -166,6 +182,17 @@ public class Client {
             }
         } else {
             System.out.println("Vous ne pouvez pas vous attaquer vous-même.");
+        }
+    }
+
+    /**
+     * Permet de sauvegarder le personnage courant.
+     */
+    private void sauvegarderPersonnage() {
+        try {
+            this.serveurPersistance.sauvegarderPersonnage(this.personnage);
+        } catch ( Exception e ) {
+            e.printStackTrace();
         }
     }
 
@@ -190,7 +217,7 @@ public class Client {
                                     break;
                                 case "exit": case "quitter":
                                     System.out.println("Déconnexion.");
-                                    this.seDeconnecter(0);
+                                    this.seDeconnecter(false);
                                     break;
                                 case "l":
                                     this.serveurDonjon.afficherEtreVivantPiece(personnage);
@@ -243,7 +270,7 @@ public class Client {
             while ( this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant) ) {
                 this.interpreterCommande();
             }
-            this.seDeconnecter(1);
+            this.seDeconnecter(true);
         } catch ( IOException e ) {
             e.printStackTrace();
         }
