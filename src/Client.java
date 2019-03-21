@@ -176,7 +176,7 @@ public class Client {
      */
     private void interpreterCommande() {
         try {
-            if (bufferedReader.ready()) {
+            if ( bufferedReader.ready() ) {
                 String texte = this.bufferedReader.readLine();
                 if ( texte != null ) {
                     if ( !this.serveurCombat.estEnCombat(this.personnage) ) {
