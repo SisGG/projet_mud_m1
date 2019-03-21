@@ -198,9 +198,6 @@ public class BDFile implements BaseDeDonnees {
                         hasNext = false;
                     }
                 }
-
-                reader.close();
-                writer.close();
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
