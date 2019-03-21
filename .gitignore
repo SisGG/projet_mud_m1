@@ -1,3 +1,6 @@
 .idea/*
 .gitignore
 *.iml
+docs/diagramme_classe/
+docs/diagramme_sequence/
+out/
