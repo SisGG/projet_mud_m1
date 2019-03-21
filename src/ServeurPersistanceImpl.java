@@ -18,12 +18,12 @@ public class ServeurPersistanceImpl extends UnicastRemoteObject implements Serve
 
     private HashMap<String,Personnage> baseDeDonnees;
 
-    public ServeurPersistanceImpl() throws RemoteException {
+    ServeurPersistanceImpl() throws RemoteException {
         super();
         this.baseDeDonnees = new HashMap<>();
     }
 
-    public void sauvegarderPersonnage(Personnage personnage) throws RemoteException {
+    public void sauvegarderPersonnage(Personnage personnage) {
         if ( !this.baseDeDonnees.containsKey(personnage.getNom()) ) {
             this.baseDeDonnees.put(personnage.getNom(), personnage);
         } else {
@@ -31,16 +31,14 @@ public class ServeurPersistanceImpl extends UnicastRemoteObject implements Serve
         }
     }
 
-    public Personnage recuperePersonnage(String nomPersonnage) throws RemoteException {
+    public Personnage recuperePersonnage(String nomPersonnage) {
         if ( this.baseDeDonnees.containsKey(nomPersonnage) ) {
             return this.baseDeDonnees.get(nomPersonnage);
         }
         return null;
     }
 
-    public void supprimerPersonnage(Personnage personnage) throws RemoteException {
-        if ( this.baseDeDonnees.containsKey(personnage.getNom()) ) {
-            this.baseDeDonnees.remove(personnage.getNom());
-        }
+    public void supprimerPersonnage(Personnage personnage) {
+        this.baseDeDonnees.remove(personnage.getNom());
     }
 }
