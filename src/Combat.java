@@ -47,6 +47,7 @@ class Combat implements Serializable {
     /**
      * Fait perdre à un des deux participants un point de vie de façon aléatoire.
      * Notifie les participants du déroulement du combat.
+     * @return Renvoie l'être vivant toujours en vie si un des deux être vivant est mort, renvoie null sinon.
      */
     private EtreVivant effectuerTour() {
         int ciblePerdant1PDV = new Random().nextInt(2);
