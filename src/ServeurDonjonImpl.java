@@ -123,12 +123,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
     public void afficherEtreVivantPiece(Personnage personnage) {
         String notification = "Êtres dans la pièce: ";
         for (EtreVivant etreVivantCourant : this.donjon.getEtreVivantMemePiece(personnage.getPieceActuelle())) {
-            if (!etreVivantCourant.equals(personnage)) {
-                notification = notification.concat("[" + etreVivantCourant.getNom() + "|" + etreVivantCourant.getPointDeVie() + "pdv] ");
-            }
-        }
-        if (notification.equals("Êtres dans la pièce: ")) {
-            notification = "Il n'y a pas d'autres êtres dans la pièce.";
+            notification = notification.concat("[" + etreVivantCourant.getNom() + "|" + etreVivantCourant.getPointDeVie() + "pdv] ");
         }
         try {
             personnage.getServeurNotification().notifier(notification);

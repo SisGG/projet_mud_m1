@@ -257,7 +257,7 @@ public class Client {
         System.out.println("\nEntrer \'N\', \'E\', \'S\' ou \'O\' pour "
                 + "vous déplacer, \'\"\' pour communiquer, \'exit\'" +
                 " pour vous déconnecter, \'L\' pour afficher les êtres et \'C\' pour les combats dans la pièce," +
-                " \'attaque\' pour attaquer un être ou \'help\' pour revoir les commandes.\n");
+                " \'attaque\' pour attaquer un être ou \'help\' pour revoir les commandes.");
     }
 
     /**

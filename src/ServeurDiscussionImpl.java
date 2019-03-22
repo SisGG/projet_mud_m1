@@ -15,13 +15,10 @@ import java.rmi.server.UnicastRemoteObject;
  *****************************************************************************/
 public class ServeurDiscussionImpl extends UnicastRemoteObject implements ServeurDiscussion {
 
-    private static long serialVersionUID = 0L;
-
     private Donjon donjon;
 
     /**
      * Constructeur de la classe ServeurDiscussionImpl.
-     *
      * @param donjon Base de données Donjon pour le serveur.
      * @throws RemoteException Exception déclenchée si ServeurDiscussionImpl ne crée pas l'objet.
      */
@@ -32,7 +29,6 @@ public class ServeurDiscussionImpl extends UnicastRemoteObject implements Serveu
 
     /**
      * Envoyer un message à un personnage disponible dans listePersonnage qui se trouve aussi dans la même pièce.
-     *
      * @param personnage personnage qui envoie le message.
      * @param message    chaine de caractère à envoyer.
      */
