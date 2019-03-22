@@ -62,7 +62,8 @@ public class Client {
 
             this.sauvegarderPersonnage();
 
-            System.out.println("Le personnage " + this.personnage.getNom() + " vient de se connecter.");
+            System.out.println("Le personnage [" + this.personnage.getNom() + "|"+
+                    this.personnage.getPointDeVie()+"pdv] vient de se connecter.");
             this.seDeplacer("");
         } catch ( Exception e ) {
             e.printStackTrace();

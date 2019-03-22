@@ -1,5 +1,6 @@
 - Diagramme de cas final
 - Coder v4
+- Commentaires final
 - Diagramme de classe v4 + v5
 
 - Diagramme de classe complet pour la fin

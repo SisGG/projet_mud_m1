@@ -37,18 +37,21 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
     }
 
     /**
-     * Démarre un serveur donjon en lui attribuant un nom spécifique.
+     * Démarre plusieurs serveurs donjon en fonction de la taille
+     * du donjon et en leur attribuant un nom spécifique.
      */
     private void lancerServeurDonjon() {
         try {
-            ServeurDonjon serveurDonjon = new ServeurDonjonImpl(this.donjon);
-            Naming.rebind("ServeurDonjon", serveurDonjon);
-            System.out.println("Le serveur donjon est démarré.");
+            for (int i = 0; i< tailleDonjon; i++) {
+                Naming.rebind("ServeurDonjon"+i+1, new ServeurDonjonImpl(this.donjon));
+                System.out.println("Le serveur donjon n°"+i+1+" est démarré.");
+            }
         } catch ( Exception e ) {
             e.printStackTrace();
             System.exit(-1);
         }
     }
+
     /**
      * Démarre un serveur discussion en lui attribuant un nom spécifique.
      */
