@@ -1,4 +1,5 @@
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /******************************************************************************
  * file     : src/ServeurSysteme.java
@@ -13,5 +14,16 @@ import java.rmi.Remote;
  *                                    (CC BY)
  *****************************************************************************/
 
-    interface ServeurSysteme extends Remote {
+public interface ServeurSysteme extends Remote {
+
+    String getNomServeurDonjon() throws RemoteException;
+
+    String getNomServeurDiscussion() throws RemoteException;
+
+    String getNomServeurCombat() throws RemoteException;
+
+    String getNomServeurPersistance() throws RemoteException;
+
+    int getTailleDonjon() throws RemoteException;
+
 }

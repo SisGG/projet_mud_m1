@@ -18,22 +18,24 @@ import java.rmi.server.UnicastRemoteObject;
 public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSysteme {
 
     private static final int tailleDonjon = 5;
-    private Donjon donjon;
+    private static final String nomServeurSysteme = "ServeurSysteme";
+    private static final String nomServeurDonjon = "ServeurDonjon";
+    private static final String nomServeurDiscussion = "ServeurDiscussion";
+    private static final String nomServeurCombat = "ServeurCombat";
+    private static final String nomServeurPersistance = "ServeurPersistance";
     private static final BaseDeDonnees baseDeDonnees = new BDFile("DataBase.data");
+    private Donjon donjon;
 
     /**
      * Constructeur de la classe ServeurSystemeImpl.
+     *
      * @param donjon Base de données d'un donjon commun à tous les serveurs.
      */
     private ServeurSystemeImpl(Donjon donjon) throws RemoteException {
         super();
         this.donjon = donjon;
-        try {
-            LocateRegistry.createRegistry(1099);
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+        LocateRegistry.createRegistry(1099);
+        System.out.println("Le serveur système est démarré.");
     }
 
     /**
@@ -42,11 +44,11 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
      */
     private void lancerServeurDonjon() {
         try {
-            for (int i = 0; i< tailleDonjon; i++) {
-                Naming.rebind("ServeurDonjon"+i+1, new ServeurDonjonImpl(this.donjon));
-                System.out.println("Le serveur donjon n°"+i+1+" est démarré.");
+            for (int i = 0; i < tailleDonjon; i++) {
+                Naming.rebind(nomServeurDonjon + i, new ServeurDonjonImpl(this.donjon));
+                System.out.println("Le serveur donjon n°" + i + " est démarré.");
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -57,10 +59,9 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
      */
     private void lancerServeurDiscussion() {
         try {
-            ServeurDiscussion serveurDiscussion = new ServeurDiscussionImpl(this.donjon);
-            Naming.rebind("ServeurDiscussion", serveurDiscussion);
+            Naming.rebind(nomServeurDiscussion, new ServeurDiscussionImpl(this.donjon));
             System.out.println("Le serveur discussion est démarré.");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -71,10 +72,9 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
      */
     private void lancerServeurCombat() {
         try {
-            ServeurCombat serveurCombat = new ServeurCombatImpl(this.donjon);
-            Naming.rebind("ServeurCombat", serveurCombat);
+            Naming.rebind(nomServeurCombat, new ServeurCombatImpl(this.donjon));
             System.out.println("Le serveur combat est démarré.");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -85,24 +85,44 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
      */
     private void lancerServeurPersistance() {
         try {
-            ServeurPersistance serveurPersistance = new ServeurPersistanceImpl(baseDeDonnees);
-            Naming.rebind("ServeurPersistance", serveurPersistance);
+            Naming.rebind(nomServeurPersistance, new ServeurPersistanceImpl(baseDeDonnees));
             System.out.println("Le serveur persistance est démarré.");
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
     }
 
+    public String getNomServeurDonjon() {
+        return nomServeurDonjon;
+    }
+
+    public String getNomServeurDiscussion() {
+        return nomServeurDiscussion;
+    }
+
+    public String getNomServeurCombat() {
+        return nomServeurCombat;
+    }
+
+    public String getNomServeurPersistance() {
+        return nomServeurPersistance;
+    }
+
+    public int getTailleDonjon() {
+        return tailleDonjon;
+    }
+
     public static void main(String[] args) {
         Donjon donjon = new Donjon(tailleDonjon);
         try {
-            ServeurSystemeImpl systeme = new ServeurSystemeImpl(donjon);
-            systeme.lancerServeurDonjon();
-            systeme.lancerServeurDiscussion();
-            systeme.lancerServeurCombat();
-            systeme.lancerServeurPersistance();
-        } catch ( Exception e ) {
+            ServeurSystemeImpl serveurSysteme = new ServeurSystemeImpl(donjon);
+            Naming.rebind(nomServeurSysteme, serveurSysteme);
+            serveurSysteme.lancerServeurDonjon();
+            serveurSysteme.lancerServeurDiscussion();
+            serveurSysteme.lancerServeurCombat();
+            serveurSysteme.lancerServeurPersistance();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

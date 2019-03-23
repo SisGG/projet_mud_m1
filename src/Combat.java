@@ -83,6 +83,7 @@ class Combat implements Serializable {
                 e.printStackTrace();
             }
             this.choixCombat(etreVivantAttaquant, etreVivantAttaque);
+            this.choixCombat(etreVivantAttaque, etreVivantAttaquant);
         } else {
             this.combatEnCours = false;
         }
@@ -121,7 +122,7 @@ class Combat implements Serializable {
                 e.printStackTrace();
             }
         }
-        if(etreTueur instanceof Personnage) {
+        if ( etreTueur instanceof Personnage) {
             try {
                 ((Personnage) etreTueur).getServeurNotification().notifier(
                         "Fin du combat, vous gagnez un pdv. Vous avez " +etreTueur.getPointDeVie()+" pdv.");

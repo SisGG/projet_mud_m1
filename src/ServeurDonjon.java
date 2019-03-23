@@ -19,7 +19,9 @@ public interface ServeurDonjon extends Remote {
 
     Personnage seConnecter(Personnage personnage) throws RemoteException;
 
-    Personnage seDeplacer(Personnage personnage, String direction, ServeurCombat serveurCombat) throws RemoteException;
+    Personnage seDeplacer(Personnage personnage, String direction) throws RemoteException;
+
+    void entrerNouvellePiece(Personnage personnage, String direction, ServeurCombat serveurCombat) throws RemoteException;
 
     void afficherEtreVivantPiece(Personnage personnage) throws RemoteException;
 

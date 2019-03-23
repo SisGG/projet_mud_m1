@@ -19,6 +19,7 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
 
     /**
      * Constructeur de la classe ServeurNotificationImpl.
+     *
      * @throws RemoteException Exception déclenchée si ServeurNotificationImpl ne crée pas l'objet.
      */
     ServeurNotificationImpl() throws RemoteException {
@@ -27,6 +28,7 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
 
     /**
      * Envoie une chaine de caractère au Client.
+     *
      * @param notication Chaine de caractère à envoyer au client.
      */
     public void notifier(String notication) {
@@ -35,6 +37,7 @@ public class ServeurNotificationImpl extends UnicastRemoteObject implements Serv
 
     /**
      * Demande au Client de saisir une chaine de caractère.
+     *
      * @return Renvoie la chaine de caractère saisi par le Client.
      */
     public String demanderAction() {

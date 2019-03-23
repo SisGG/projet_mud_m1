@@ -103,7 +103,7 @@ public class Donjon {
      *
      * @return la pièce suivante
      */
-    Piece getPiece(Piece piece, String direction) {
+    Piece getPieceSuivante(Piece piece, String direction) {
         int coordonneeX = piece.getCoordonneeX();
         int coordonneeY = piece.getCoordonneeY();
         switch (direction) {
