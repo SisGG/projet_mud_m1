@@ -24,14 +24,26 @@ public class ServeurPersistanceImpl extends UnicastRemoteObject implements Serve
     }
 
     public void sauvegarderPersonnage(Personnage personnage) {
+        long time = System.currentTimeMillis();
         this.baseDeDonnees.put(personnage);
+        this.showTime("Temps de sauvegarde", time);
     }
 
     public Personnage recuperePersonnage(String nomPersonnage) {
-        return this.baseDeDonnees.get(nomPersonnage);
+        Personnage personnage;
+        long time = System.currentTimeMillis();
+        personnage = this.baseDeDonnees.get(nomPersonnage);
+        this.showTime("Temps de récupération", time);
+        return personnage;
     }
 
     public void supprimerPersonnage(String nomPersonnage) {
+        long time = System.currentTimeMillis();
         this.baseDeDonnees.remove(nomPersonnage);
+        this.showTime("Temps de suppression", time);
+    }
+
+    private void showTime(String message, long time) {
+        System.out.println(message + " : " + (System.currentTimeMillis() - time) + " ms");
     }
 }

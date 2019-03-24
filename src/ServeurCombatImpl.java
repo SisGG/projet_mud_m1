@@ -59,10 +59,10 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
         this.donjon.ajouterCombat(combat);
         EtreVivant gagnant = combat.lancerCombat();
         if ( gagnant != null ) {
-            if ( combat.getEtreVivantAttaquant().getPointDeVie() == 0
+            if ( combat.getEtreVivantAttaquant().getPointDeVieActuel() == 0
                  && combat.getEtreVivantAttaque().equals(gagnant) ) {
                 this.afficherMessageVainqueur(combat.getEtreVivantAttaque(), combat.getEtreVivantAttaquant());
-            } else if ( combat.getEtreVivantAttaque().getPointDeVie() == 0
+            } else if ( combat.getEtreVivantAttaque().getPointDeVieActuel() == 0
                         && combat.getEtreVivantAttaquant().equals(gagnant) ) {
                 this.afficherMessageVainqueur(combat.getEtreVivantAttaquant(), combat.getEtreVivantAttaque());
             }
@@ -87,8 +87,8 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
      * @param attaque EtreVivant attaqué
      */
     private void afficherMessageCombat(EtreVivant attaquant, EtreVivant attaque) {
-        String messageAttaque ="[" + attaquant.getNom() +  " - " + attaquant.getPointDeVie() + " pdv]"
-                + " attaque [" + attaque.getNom() + " - " + attaque.getPointDeVie() + " pdv].";
+        String messageAttaque ="[" + attaquant.getNom() +  " - " + attaquant.getPointDeVieActuel() + " pdv]"
+                + " attaque [" + attaque.getNom() + " - " + attaque.getPointDeVieActuel() + " pdv].";
         this.donjon.prevenirJoueurMemePiece(attaquant, messageAttaque);
         if ( attaquant instanceof Personnage ) {
             try {
@@ -123,7 +123,7 @@ public class ServeurCombatImpl extends UnicastRemoteObject implements ServeurCom
                     try {
                         ((Personnage) etreVivant).getServeurNotification().notifier(
                                 "Il n'y a plus de combat en cours dans la pièce, tous les êtres regagnent leurs pdv maximum."
-                                        + " Vous avez "+etreVivant.getPointDeVie() + " pdv.");
+                                        + " Vous avez "+etreVivant.getPointDeVieActuel() + " pdv.");
                     } catch ( Exception e ) {
                         e.printStackTrace();
                     }

@@ -51,7 +51,7 @@ class Combat implements Serializable {
     private EtreVivant effectuerTour() {
         int ciblePerdant1PDV = new Random().nextInt(2);
 
-        if ( this.etreVivantAttaquant.getPointDeVie() != 0 && this.etreVivantAttaque.getPointDeVie() != 0 ) {
+        if ( this.etreVivantAttaquant.getPointDeVieActuel() != 0 && this.etreVivantAttaque.getPointDeVieActuel() != 0 ) {
 
             if ( ciblePerdant1PDV == 0 ) {
                 this.etreVivantAttaquant.perdrePointDeVie();
@@ -64,12 +64,12 @@ class Combat implements Serializable {
                 this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaque);
             }
 
-            if ( this.etreVivantAttaquant.getPointDeVie() == 0 ) {
+            if ( this.etreVivantAttaquant.getPointDeVieActuel() == 0 ) {
                 this.etreVivantAttaque.augmenterPointDeVie();
                 this.afficherMessageMort(this.etreVivantAttaquant, this.etreVivantAttaque);
                 this.combatEnCours = false;
                 return etreVivantAttaque;
-            } else if ( this.etreVivantAttaque.getPointDeVie() == 0 ) {
+            } else if ( this.etreVivantAttaque.getPointDeVieActuel() == 0 ) {
                 this.etreVivantAttaquant.augmenterPointDeVie();
                 this.afficherMessageMort(this.etreVivantAttaque, this.etreVivantAttaquant);
                 this.combatEnCours = false;
@@ -99,8 +99,8 @@ class Combat implements Serializable {
             if ( etreNotifie instanceof Personnage ) {
                 ((Personnage) etreNotifie).getServeurNotification().notifier(blesseur.getNom()
                         + " attaque. "+blesse.getNom() + " perd 1 pdv. [" + etreVivantAttaquant.getNom() + ": "
-                        + etreVivantAttaquant.getPointDeVie() + " pdv] - [" + etreVivantAttaque.getNom() + ": "
-                        + etreVivantAttaque.getPointDeVie() + " pdv]");
+                        + etreVivantAttaquant.getPointDeVieActuel() + " pdv] - [" + etreVivantAttaque.getNom() + ": "
+                        + etreVivantAttaque.getPointDeVieActuel() + " pdv]");
             }
         } catch ( RemoteException e ) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ class Combat implements Serializable {
         if(etreTueur instanceof Personnage) {
             try {
                 ((Personnage) etreTueur).getServeurNotification().notifier(
-                        "Fin du combat, vous gagnez un pdv. Vous avez " +etreTueur.getPointDeVie()+" pdv.");
+                        "Fin du combat, vous gagnez un pdv. Vous avez " +etreTueur.getPointDeVieActuel()+" pdv.");
             } catch ( RemoteException e ) {
                 e.printStackTrace();
             }
@@ -157,11 +157,11 @@ class Combat implements Serializable {
         try {
             if ( fuyant instanceof Personnage ) {
                 ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui devant "
-                        + fuye.getNom() + ". Il vous reste " + fuyant.getPointDeVie() + " point de vie.");
+                        + fuye.getNom() + ". Il vous reste " + fuyant.getPointDeVieActuel() + " point de vie.");
             }
             if ( fuye instanceof Personnage ) {
                 ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom()
-                        + " a fui devant vous. Il vous reste " + fuye.getPointDeVie() + " point de vie.");
+                        + " a fui devant vous. Il vous reste " + fuye.getPointDeVieActuel() + " point de vie.");
             }
         } catch ( RemoteException e ) {
             e.printStackTrace();

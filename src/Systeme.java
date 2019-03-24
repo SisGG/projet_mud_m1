@@ -17,7 +17,8 @@ public class Systeme {
 
     private static final int tailleDonjon = 5;
     private Donjon donjon;
-    private static final BaseDeDonnees baseDeDonnees = new BDFile("DataBase.data");
+    // private static final BaseDeDonnees baseDeDonnees = new BDFileObject("DataBaseObjet.data");
+    private static final BaseDeDonnees baseDeDonnees = new BDFileString("DataBaseString.data");
 
     /**
      * Constructeur de la classe Systeme.
