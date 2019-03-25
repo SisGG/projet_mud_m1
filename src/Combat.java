@@ -22,9 +22,10 @@ class Combat implements Serializable {
 
     /**
      * Constructeur de la classe Combat.
-     * @param donjon Donjon dans lequel se passe le combat.
+     *
+     * @param donjon              Donjon dans lequel se passe le combat.
      * @param etreVivantAttaquant etreVivant impliqué dans le combat.
-     * @param etreVivantAttaque Monstre impliqué dans le combat.
+     * @param etreVivantAttaque   Monstre impliqué dans le combat.
      */
     Combat(Donjon donjon, EtreVivant etreVivantAttaquant, EtreVivant etreVivantAttaque) {
         this.etreVivantAttaquant = donjon.recupereEtreVivant(etreVivantAttaquant.getNom());
@@ -34,11 +35,12 @@ class Combat implements Serializable {
 
     /**
      * Lance le combat et donne le choix au etreVivantAttaquant de continuer ou fuir.
+     *
      * @return l'être vivant gagnant du combat
      */
     EtreVivant lancerCombat() {
         EtreVivant gagnant = null;
-        while ( this.combatEnCours ) {
+        while (this.combatEnCours) {
             gagnant = this.effectuerTour();
         }
         return gagnant;
@@ -47,30 +49,31 @@ class Combat implements Serializable {
     /**
      * Fait perdre à un des deux participants un point de vie de façon aléatoire.
      * Notifie les participants du déroulement du combat.
+     *
      * @return Renvoie l'être vivant toujours en vie si un des deux être vivant est mort, renvoie null sinon.
      */
     private EtreVivant effectuerTour() {
         int ciblePerdant1PDV = new Random().nextInt(2);
 
-        if ( this.etreVivantAttaquant.getPointDeVieActuel() != 0 && this.etreVivantAttaque.getPointDeVieActuel() != 0 ) {
+        if (this.etreVivantAttaquant.getPointDeVieActuel() != 0 && this.etreVivantAttaque.getPointDeVieActuel() != 0) {
 
-            if ( ciblePerdant1PDV == 0 ) {
+            if (ciblePerdant1PDV == 0) {
                 this.etreVivantAttaquant.perdrePointDeVie();
                 this.afficherMessageBlessure(etreVivantAttaquant, etreVivantAttaque, etreVivantAttaquant);
                 this.afficherMessageBlessure(etreVivantAttaquant, etreVivantAttaque, etreVivantAttaque);
 
-            } else if ( ciblePerdant1PDV == 1 ) {
+            } else if (ciblePerdant1PDV == 1) {
                 this.etreVivantAttaque.perdrePointDeVie();
                 this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaquant);
                 this.afficherMessageBlessure(etreVivantAttaque, etreVivantAttaquant, etreVivantAttaque);
             }
 
-            if ( this.etreVivantAttaquant.getPointDeVieActuel() == 0 ) {
+            if (this.etreVivantAttaquant.getPointDeVieActuel() == 0) {
                 this.etreVivantAttaque.augmenterPointDeVie();
                 this.afficherMessageMort(this.etreVivantAttaquant, this.etreVivantAttaque);
                 this.combatEnCours = false;
                 return etreVivantAttaque;
-            } else if ( this.etreVivantAttaque.getPointDeVieActuel() == 0 ) {
+            } else if (this.etreVivantAttaque.getPointDeVieActuel() == 0) {
                 this.etreVivantAttaquant.augmenterPointDeVie();
                 this.afficherMessageMort(this.etreVivantAttaque, this.etreVivantAttaquant);
                 this.combatEnCours = false;
@@ -79,7 +82,7 @@ class Combat implements Serializable {
 
             try {
                 Thread.sleep(1000);
-            } catch ( InterruptedException e ) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             this.choixCombat(etreVivantAttaquant, etreVivantAttaque);
@@ -92,40 +95,42 @@ class Combat implements Serializable {
 
     /**
      * Notifie le personnage du déroulement d'un tour du combat dans lequel il est impliqué
-     * @param blesse EtreVivant blessé dans ce tour
-     * @param blesseur EtreVivant blessant dans ce tour
+     *
+     * @param blesse      EtreVivant blessé dans ce tour
+     * @param blesseur    EtreVivant blessant dans ce tour
      * @param etreNotifie l'EtreVivant à notifier à condition qu'il soit un personnage
      */
     private void afficherMessageBlessure(EtreVivant blesse, EtreVivant blesseur, EtreVivant etreNotifie) {
         try {
-            if ( etreNotifie instanceof Personnage ) {
+            if (etreNotifie instanceof Personnage) {
                 ((Personnage) etreNotifie).getServeurNotification().notifier(blesseur.getNom()
-                        + " attaque. "+blesse.getNom() + " perd 1 pdv. "
+                        + " attaque. " + blesse.getNom() + " perd 1 pdv. "
                         + etreVivantAttaquant + " - " + etreVivantAttaque);
             }
-        } catch ( RemoteException e ) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Affiche la mort d'un EtreVivant
-     * @param etreMort EtreVivant mort
+     *
+     * @param etreMort  EtreVivant mort
      * @param etreTueur EtreVivant Tueur
      */
     private void afficherMessageMort(EtreVivant etreMort, EtreVivant etreTueur) {
-        if ( etreMort instanceof Personnage ) {
+        if (etreMort instanceof Personnage) {
             try {
                 ((Personnage) etreMort).getServeurNotification().notifier("Vous mourez... bye bye.");
-            } catch ( RemoteException e ) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
-        if ( etreTueur instanceof Personnage) {
+        if (etreTueur instanceof Personnage) {
             try {
                 ((Personnage) etreTueur).getServeurNotification().notifier(
                         "Fin du combat, vous gagnez un pdv. Vous avez " + etreTueur.getPointDeVieActuel() + " pdv.");
-            } catch ( RemoteException e ) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
@@ -133,16 +138,17 @@ class Combat implements Serializable {
 
     /**
      * Donne le choix à un personnage de choisir entre fuir et continuer un combat, en tappant entrée, le personnage fui
+     *
      * @param fuyant personnage fuyant
-     * @param fuye EtreVivant auquel le fuyant veut fuir
+     * @param fuye   EtreVivant auquel le fuyant veut fuir
      */
     private void choixCombat(EtreVivant fuyant, EtreVivant fuye) {
-        if ( fuyant instanceof Personnage ) {
+        if (fuyant instanceof Personnage) {
             try {
-                if ( ((Personnage) fuyant).getServeurNotification().demanderAction().equals("") ) {
+                if (((Personnage) fuyant).getServeurNotification().demanderAction().equals("")) {
                     this.fuirCombat(fuyant, fuye);
                 }
-            } catch ( RemoteException e ) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
@@ -150,20 +156,21 @@ class Combat implements Serializable {
 
     /**
      * Notifie le personnage fuyé quand l'adversaire fuit le combat
+     *
      * @param fuyant personnage ayant fui
-     * @param fuye personnage auquel le fuyant veut fuir
+     * @param fuye   personnage auquel le fuyant veut fuir
      */
     void fuirCombat(EtreVivant fuyant, EtreVivant fuye) {
         try {
-            if ( fuyant instanceof Personnage ) {
+            if (fuyant instanceof Personnage) {
                 ((Personnage) fuyant).getServeurNotification().notifier("Vous avez fui devant "
                         + fuye.getNom() + ". Il vous reste " + fuyant.getPointDeVieActuel() + " point de vie.");
             }
-            if ( fuye instanceof Personnage ) {
+            if (fuye instanceof Personnage) {
                 ((Personnage) fuye).getServeurNotification().notifier(fuyant.getNom()
                         + " a fui devant vous. Il vous reste " + fuye.getPointDeVieActuel() + " point de vie.");
             }
-        } catch ( RemoteException e ) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
         this.combatEnCours = false;

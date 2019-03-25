@@ -1,7 +1,7 @@
 import java.io.*;
 
 /******************************************************************************
- * file     : src/BDFileObjet.java
+ * file     : src/BDFichierObjet.java
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
@@ -12,33 +12,34 @@ import java.io.*;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class BDFileObjet implements BaseDeDonnees {
+public class BDFichierObjet implements BaseDeDonnees {
 
     private static final String extensionTmp = ".tmp";
     private String nomFichier;
 
     /**
-     * Constructeur de la classe BDFileObjet.
+     * Constructeur de la classe BDFichierObjet.
+     *
      * @param nomFichier Nom du fichier à sauvegarder.
      */
-    BDFileObjet(String nomFichier) {
+    BDFichierObjet(String nomFichier) {
         this.nomFichier = nomFichier;
         try {
             new FileInputStream(this.nomFichier);
-        } catch ( FileNotFoundException f ) {
+        } catch (FileNotFoundException f) {
             try {
                 new FileOutputStream(this.nomFichier);
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
     /**
-     * @see BaseDeDonnees
      * @param personnage Personnage à sauvegarder.
+     * @see BaseDeDonnees
      */
-    public synchronized void put(Personnage personnage) {
+    public synchronized void ajout(Personnage personnage) {
         ObjectOutputStream ecriture = null;
         ObjectInputStream lecture = null;
         boolean personnageEcrit = false;
@@ -50,53 +51,53 @@ public class BDFileObjet implements BaseDeDonnees {
                 try {
                     lecture = new ObjectInputStream(new BufferedInputStream(
                             new FileInputStream(this.nomFichier)));
-                } catch ( EOFException eof ) {
+                } catch (EOFException eof) {
                     ecriture = new ObjectOutputStream(new BufferedOutputStream(
                             new FileOutputStream(this.nomFichier)));
                     ecriture.writeObject(personnage);
                     ecriture.close();
                     return;
                 }
-                this.copyFileInTmp();
+                this.copierFichierDansTmp();
                 try {
                     lecture = new ObjectInputStream(new BufferedInputStream(
                             new FileInputStream(this.nomFichier + extensionTmp)));
-                } catch ( EOFException e ) {
+                } catch (EOFException e) {
                     return;
                 }
                 ecriture = new ObjectOutputStream(new BufferedOutputStream(
                         new FileOutputStream(this.nomFichier)));
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     try {
                         personnageCourant = (Personnage) lecture.readObject();
-                        if ( personnageCourant.getNom().equals(personnage.getNom()) ) {
+                        if (personnageCourant.getNom().equals(personnage.getNom())) {
                             ecriture.writeObject(personnage);
                             personnageEcrit = true;
                         } else {
                             ecriture.writeObject(personnageCourant);
                         }
-                    } catch ( EOFException e ) {
+                    } catch (EOFException e) {
                         suivant = false;
                     }
                 }
-                if ( !personnageEcrit ) {
+                if (!personnageEcrit) {
                     ecriture.writeObject(personnage);
                 }
 
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
-            this.closeStream(lecture, ecriture);
+            this.fermerDescripteur(lecture, ecriture);
         }
     }
 
     /**
-     * @see BaseDeDonnees
      * @param nomPersonnage Nom du personnage à supprimer.
+     * @see BaseDeDonnees
      */
-    public synchronized void remove(String nomPersonnage) {
+    public synchronized void supprime(String nomPersonnage) {
         ObjectOutputStream ecriture = null;
         ObjectInputStream lecture = null;
         boolean suivant;
@@ -104,37 +105,37 @@ public class BDFileObjet implements BaseDeDonnees {
 
         try {
             try {
-                this.copyFileInTmp();
+                this.copierFichierDansTmp();
                 lecture = new ObjectInputStream(new BufferedInputStream(
                         new FileInputStream(this.nomFichier + extensionTmp)));
 
                 ecriture = new ObjectOutputStream(new BufferedOutputStream(
                         new FileOutputStream(this.nomFichier)));
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     try {
                         personnageCourant = (Personnage) lecture.readObject();
-                        if (!personnageCourant.getNom().equals(nomPersonnage) ) {
+                        if (!personnageCourant.getNom().equals(nomPersonnage)) {
                             ecriture.writeObject(personnageCourant);
                         }
-                    } catch ( EOFException eof ) {
+                    } catch (EOFException eof) {
                         suivant = false;
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
-            this.closeStream(lecture, ecriture);
+            this.fermerDescripteur(lecture, ecriture);
         }
     }
 
     /**
-     * @see BaseDeDonnees
      * @param nomPersonnage Nom du personnage à récupérer.
      * @return Renvoie le personnage ou null s'il n'existe pas.
+     * @see BaseDeDonnees
      */
-    public Personnage get(String nomPersonnage) {
+    public Personnage recupere(String nomPersonnage) {
         ObjectInputStream ecriture = null;
         boolean suivant;
         Personnage personnage = null;
@@ -146,28 +147,28 @@ public class BDFileObjet implements BaseDeDonnees {
                 try {
                     ecriture = new ObjectInputStream(new BufferedInputStream(
                             new FileInputStream(this.nomFichier)));
-                } catch ( EOFException eof ) {
+                } catch (EOFException eof) {
                     suivant = false;
                 }
-                while ( suivant ) {
+                while (suivant) {
                     try {
                         personnageCourant = (Personnage) ecriture.readObject();
                         if (personnageCourant.getNom().equals(nomPersonnage)) {
                             personnage = personnageCourant;
                             suivant = false;
                         }
-                    } catch ( EOFException e ) {
+                    } catch (EOFException e) {
                         suivant = false;
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
-            if ( ecriture != null ) {
+            if (ecriture != null) {
                 try {
                     ecriture.close();
-                } catch ( Exception e ) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -178,7 +179,7 @@ public class BDFileObjet implements BaseDeDonnees {
     /**
      * Permet de copier le fichier de données dans un fichier temporaire.
      */
-    private void copyFileInTmp() {
+    private void copierFichierDansTmp() {
         ObjectInputStream lecture = null;
         ObjectOutputStream ecriture = null;
         boolean suivant;
@@ -188,13 +189,13 @@ public class BDFileObjet implements BaseDeDonnees {
                 try {
                     lecture = new ObjectInputStream(new BufferedInputStream(
                             new FileInputStream(this.nomFichier)));
-                } catch ( EOFException eof ) {
+                } catch (EOFException eof) {
                     return;
                 }
                 ecriture = new ObjectOutputStream(new BufferedOutputStream(
                         new FileOutputStream(this.nomFichier + extensionTmp)));
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     try {
                         personnageCourant = (Personnage) lecture.readObject();
                         ecriture.writeObject(personnageCourant);
@@ -202,28 +203,29 @@ public class BDFileObjet implements BaseDeDonnees {
                         suivant = false;
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
-            this.closeStream(lecture, ecriture);
+            this.fermerDescripteur(lecture, ecriture);
         }
     }
 
     /**
      * Permet de fermer des descripteur de flux.
-     * @param lecture Descripteur de flux en lecture.
+     *
+     * @param lecture  Descripteur de flux en lecture.
      * @param ecriture Descripteur de flux en écriture.
      */
-    private void closeStream(ObjectInputStream lecture, ObjectOutputStream ecriture) {
+    private void fermerDescripteur(ObjectInputStream lecture, ObjectOutputStream ecriture) {
         try {
-            if ( lecture != null ) {
+            if (lecture != null) {
                 lecture.close();
             }
-            if ( ecriture != null ) {
+            if (ecriture != null) {
                 ecriture.close();
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -24,27 +24,27 @@ public class BDHashMap implements BaseDeDonnees {
     }
 
     /**
-     * @see BaseDeDonnees
      * @param personnage Personnage à sauvegarder.
+     * @see BaseDeDonnees
      */
-    public void put(Personnage personnage) {
+    public void ajout(Personnage personnage) {
         this.baseDeDonnees.put(personnage.getNom(), personnage);
     }
 
     /**
-     * @see BaseDeDonnees
      * @param nomPersonnage Nom du personnage à supprimer.
+     * @see BaseDeDonnees
      */
-    public void remove(String nomPersonnage) {
+    public void supprime(String nomPersonnage) {
         this.baseDeDonnees.remove(nomPersonnage);
     }
 
     /**
-     * @see BaseDeDonnees
      * @param nomPersonnage Nom du personnage à récupérer.
      * @return Renvoie le personnage ou null s'il n'existe pas.
+     * @see BaseDeDonnees
      */
-    public Personnage get(String nomPersonnage) {
+    public Personnage recupere(String nomPersonnage) {
         return this.baseDeDonnees.get(nomPersonnage);
     }
 }

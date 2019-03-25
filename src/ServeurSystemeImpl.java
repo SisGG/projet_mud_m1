@@ -23,7 +23,7 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
     private static final String nomServeurDiscussion = "ServeurDiscussion";
     private static final String nomServeurCombat = "ServeurCombat";
     private static final String nomServeurPersistance = "ServeurPersistance";
-    private static final BaseDeDonnees baseDeDonnees = new BDFileObjet("DataBase.data");
+    private static final BaseDeDonnees baseDeDonnees = new BDFichierObjet("DataBase.data");
     private Donjon donjon;
 
     /**
@@ -36,6 +36,20 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
         this.donjon = donjon;
         LocateRegistry.createRegistry(1099);
         System.out.println("Le serveur système est démarré.");
+    }
+
+    public static void main(String[] args) {
+        Donjon donjon = new Donjon(tailleDonjon);
+        try {
+            ServeurSystemeImpl serveurSysteme = new ServeurSystemeImpl(donjon);
+            Naming.rebind(nomServeurSysteme, serveurSysteme);
+            serveurSysteme.lancerServeurDonjon();
+            serveurSysteme.lancerServeurDiscussion();
+            serveurSysteme.lancerServeurCombat();
+            serveurSysteme.lancerServeurPersistance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -111,19 +125,5 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
 
     public int getTailleDonjon() {
         return tailleDonjon;
-    }
-
-    public static void main(String[] args) {
-        Donjon donjon = new Donjon(tailleDonjon);
-        try {
-            ServeurSystemeImpl serveurSysteme = new ServeurSystemeImpl(donjon);
-            Naming.rebind(nomServeurSysteme, serveurSysteme);
-            serveurSysteme.lancerServeurDonjon();
-            serveurSysteme.lancerServeurDiscussion();
-            serveurSysteme.lancerServeurCombat();
-            serveurSysteme.lancerServeurPersistance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

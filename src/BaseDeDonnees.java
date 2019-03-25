@@ -15,21 +15,24 @@ public interface BaseDeDonnees {
     /**
      * Sauvegarde un personnage en base de donnée.
      * Le personnage est remplacer s'il existe déjà dans la base de données.
+     *
      * @param personnage Personnage à enregistrer en base de données.
      */
-    void put(Personnage personnage);
+    void ajout(Personnage personnage);
 
     /**
      * Supprime un personnage dont le nom de personnage corresponds au nom de personnage passé en paramètre.
+     *
      * @param nomPersonnage Chaine de caractère du personnage à supprimer dans la base de données.
      */
-    void remove(String nomPersonnage);
+    void supprime(String nomPersonnage);
 
     /**
      * Récupère le personnage dont le nom de personnage est passé en paramètre.
+     *
      * @param nomPersonnage Chaine de caractère du personnage à supprimer dans la base de données.
      * @return Renvoie un personnage ou null s'il n'existe pas dans la base de données.
      */
-    Personnage get(String nomPersonnage);
+    Personnage recupere(String nomPersonnage);
 
 }

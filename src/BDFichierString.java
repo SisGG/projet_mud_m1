@@ -6,34 +6,35 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /******************************************************************************
- * file     : src/BDFileObjet.java
+ * file     : src/BDFichierString.java
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
- * @version : 3.0
+ * @version : 4.0
  * location : UPSSITECH - University Paul Sabatier
- * date     : 18 Mars 2019
+ * date     : 25 Mars 2019
  * licence  :              This work is licensed under a
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class BDFileString implements BaseDeDonnees {
+public class BDFichierString implements BaseDeDonnees {
 
     private Path source;
     private Path sourceTmp;
     private boolean working;
 
     /**
-     * Constructeur de la classe BDFileObjet.
+     * Constructeur de la classe BDFichierObjet.
+     *
      * @param nomFichier Nom du fichier à sauvegarder.
      */
-    BDFileString(String nomFichier) {
+    BDFichierString(String nomFichier) {
         this.source = Paths.get(nomFichier);
         this.sourceTmp = Paths.get(nomFichier + ".tmp");
-        if ( !Files.exists(this.source) ) {
+        if (!Files.exists(this.source)) {
             try {
                 Files.createFile(this.source);
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -42,6 +43,7 @@ public class BDFileString implements BaseDeDonnees {
 
     /**
      * Transforme un personnage en chaine de caractère définit décrivant le personnage.
+     *
      * @param personnage Personnage à transformer.
      * @return Renvoie une chaine de caractère dans un format définit.
      */
@@ -58,13 +60,14 @@ public class BDFileString implements BaseDeDonnees {
 
     /**
      * Transforme une chaine de caractère en un personnage.
+     *
      * @param textePersnnage Chaine de caractère dans un format définit.
      * @return Renvoie le personnage crée.
      */
     private Personnage string2Personnage(String textePersnnage) {
         Personnage personnage;
         String[] tableauTextePersonnage = textePersnnage.split(" ");
-        if ( tableauTextePersonnage.length != 4 ) {
+        if (tableauTextePersonnage.length != 4) {
             return null;
         }
         personnage = new Personnage(tableauTextePersonnage[0]);
@@ -78,10 +81,10 @@ public class BDFileString implements BaseDeDonnees {
     }
 
     /**
-     * @see BaseDeDonnees
      * @param personnage Personnage à sauvegarder.
+     * @see BaseDeDonnees
      */
-    public synchronized void put(Personnage personnage) {
+    public synchronized void ajout(Personnage personnage) {
         BufferedReader lecture = null;
         BufferedWriter ecriture = null;
         boolean suivant, personnageEcrit = false;
@@ -98,9 +101,9 @@ public class BDFileString implements BaseDeDonnees {
                 lecture = Files.newBufferedReader(this.sourceTmp, StandardCharsets.UTF_8);
                 ecriture = Files.newBufferedWriter(this.source, StandardCharsets.UTF_8);
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     ligne = lecture.readLine();
-                    if ( ligne == null ) {
+                    if (ligne == null) {
                         suivant = false;
                     } else {
                         if (ligne.split(" ")[0].equals(textPersonnage.split(" ")[0])) {
@@ -112,11 +115,11 @@ public class BDFileString implements BaseDeDonnees {
                         }
                     }
                 }
-                if ( !personnageEcrit ) {
+                if (!personnageEcrit) {
                     ecriture.write(textPersonnage);
                 }
 
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
@@ -127,10 +130,10 @@ public class BDFileString implements BaseDeDonnees {
     }
 
     /**
-     * @see BaseDeDonnees
      * @param nomPersonnage Nom du personnage à supprimer.
+     * @see BaseDeDonnees
      */
-    public synchronized void remove(String nomPersonnage) {
+    public synchronized void supprime(String nomPersonnage) {
         BufferedReader lecture = null;
         BufferedWriter ecriture = null;
         boolean suivant;
@@ -146,18 +149,18 @@ public class BDFileString implements BaseDeDonnees {
                 lecture = Files.newBufferedReader(this.sourceTmp, StandardCharsets.UTF_8);
                 ecriture = Files.newBufferedWriter(this.source, StandardCharsets.UTF_8);
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     ligne = lecture.readLine();
                     if (ligne == null) {
                         suivant = false;
                     } else {
-                        if ( !ligne.split(" ")[0].equals(nomPersonnage) ) {
+                        if (!ligne.split(" ")[0].equals(nomPersonnage)) {
                             ecriture.write(ligne);
                             ecriture.newLine();
                         }
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
@@ -168,11 +171,11 @@ public class BDFileString implements BaseDeDonnees {
     }
 
     /**
-     * @see BaseDeDonnees
      * @param nomPersonnage Nom du personnage à récupérer.
      * @return Renvoie le personnage ou null s'il n'existe pas.
+     * @see BaseDeDonnees
      */
-    public Personnage get(String nomPersonnage) {
+    public Personnage recupere(String nomPersonnage) {
         BufferedReader reader = null;
         boolean suivant;
         String ligne;
@@ -183,18 +186,18 @@ public class BDFileString implements BaseDeDonnees {
 
                 reader = Files.newBufferedReader(this.source, StandardCharsets.UTF_8);
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     ligne = reader.readLine();
-                    if ( ligne == null ) {
+                    if (ligne == null) {
                         suivant = false;
                     } else {
-                        if ( ligne.split(" ")[0].equals(nomPersonnage) ) {
+                        if (ligne.split(" ")[0].equals(nomPersonnage)) {
                             personnage = this.string2Personnage(ligne);
                             suivant = false;
                         }
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
@@ -217,16 +220,16 @@ public class BDFileString implements BaseDeDonnees {
                 lecture = Files.newBufferedReader(this.source, StandardCharsets.UTF_8);
                 ecriture = Files.newBufferedWriter(this.sourceTmp, StandardCharsets.UTF_8);
                 suivant = true;
-                while ( suivant ) {
+                while (suivant) {
                     ligne = lecture.readLine();
-                    if ( ligne == null ) {
+                    if (ligne == null) {
                         suivant = false;
                     } else {
                         ecriture.write(ligne);
                         ecriture.newLine();
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } finally {
@@ -236,7 +239,7 @@ public class BDFileString implements BaseDeDonnees {
     }
 
     private void testWorking() {
-        while ( this.working ) {
+        while (this.working) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -247,21 +250,22 @@ public class BDFileString implements BaseDeDonnees {
 
     /**
      * Permet de fermer des descripteur de flux.
-     * @param lecture Descripteur de flux en lecture.
+     *
+     * @param lecture  Descripteur de flux en lecture.
      * @param ecriture Descripteur de flux en écriture.
      */
     private void closeStream(BufferedReader lecture, BufferedWriter ecriture) {
-        if ( lecture != null ) {
+        if (lecture != null) {
             try {
                 lecture.close();
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if ( ecriture != null ) {
+        if (ecriture != null) {
             try {
                 ecriture.close();
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

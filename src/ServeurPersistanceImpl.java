@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 
 /******************************************************************************
  * file     : src/ServeurPersistanceImpl.java
@@ -16,8 +15,8 @@ import java.util.HashMap;
  *****************************************************************************/
 public class ServeurPersistanceImpl extends UnicastRemoteObject implements ServeurPersistance {
 
-    private BaseDeDonnees baseDeDonnees;
     private static final boolean debugTime = true;
+    private BaseDeDonnees baseDeDonnees;
 
     ServeurPersistanceImpl(BaseDeDonnees baseDeDonnees) throws RemoteException {
         super();
@@ -26,26 +25,26 @@ public class ServeurPersistanceImpl extends UnicastRemoteObject implements Serve
 
     public void sauvegarderPersonnage(Personnage personnage) {
         long time = System.currentTimeMillis();
-        this.baseDeDonnees.put(personnage);
+        this.baseDeDonnees.ajout(personnage);
         this.showTime("Temps de sauvegarde", time);
     }
 
     public Personnage recuperePersonnage(String nomPersonnage) {
         Personnage personnage;
         long time = System.currentTimeMillis();
-        personnage = this.baseDeDonnees.get(nomPersonnage);
+        personnage = this.baseDeDonnees.recupere(nomPersonnage);
         this.showTime("Temps de récupération", time);
         return personnage;
     }
 
     public void supprimerPersonnage(String nomPersonnage) {
         long time = System.currentTimeMillis();
-        this.baseDeDonnees.remove(nomPersonnage);
+        this.baseDeDonnees.supprime(nomPersonnage);
         this.showTime("Temps de suppression", time);
     }
 
     private void showTime(String message, long time) {
-        if ( debugTime ) {
+        if (debugTime) {
             System.out.println(message + " : " + (System.currentTimeMillis() - time) + " ms");
         }
     }
