@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /******************************************************************************
- * file     : src/BDFileObject.java
+ * file     : src/BDFileObjet.java
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
@@ -23,9 +23,13 @@ public class BDFileString implements BaseDeDonnees {
     private Path sourceTmp;
     private boolean working;
 
-    BDFileString(String nomFichierBd) {
-        this.source = Paths.get(nomFichierBd);
-        this.sourceTmp = Paths.get(nomFichierBd+".tmp");
+    /**
+     * Constructeur de la classe BDFileObjet.
+     * @param nomFichier Nom du fichier à sauvegarder.
+     */
+    BDFileString(String nomFichier) {
+        this.source = Paths.get(nomFichier);
+        this.sourceTmp = Paths.get(nomFichier + ".tmp");
         if ( !Files.exists(this.source) ) {
             try {
                 Files.createFile(this.source);
@@ -36,6 +40,11 @@ public class BDFileString implements BaseDeDonnees {
         this.working = false;
     }
 
+    /**
+     * Transforme un personnage en chaine de caractère définit décrivant le personnage.
+     * @param personnage Personnage à transformer.
+     * @return Renvoie une chaine de caractère dans un format définit.
+     */
     private String personnage2String(Personnage personnage) {
         String texte;
         Piece piece = personnage.getPieceActuelle();
@@ -47,6 +56,11 @@ public class BDFileString implements BaseDeDonnees {
         return texte;
     }
 
+    /**
+     * Transforme une chaine de caractère en un personnage.
+     * @param textePersnnage Chaine de caractère dans un format définit.
+     * @return Renvoie le personnage crée.
+     */
     private Personnage string2Personnage(String textePersnnage) {
         Personnage personnage;
         String[] tableauTextePersonnage = textePersnnage.split(" ");
@@ -63,6 +77,10 @@ public class BDFileString implements BaseDeDonnees {
         return personnage;
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param personnage Personnage à sauvegarder.
+     */
     public synchronized void put(Personnage personnage) {
         BufferedWriter writer = null;
         BufferedReader reader = null;
@@ -108,6 +126,10 @@ public class BDFileString implements BaseDeDonnees {
         this.working = false;
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param nomPersonnage Nom du personnage à supprimer.
+     */
     public synchronized void remove(String nomPersonnage) {
         BufferedWriter writer = null;
         BufferedReader reader = null;
@@ -145,6 +167,11 @@ public class BDFileString implements BaseDeDonnees {
         this.working = false;
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param nomPersonnage Nom du personnage à récupérer.
+     * @return Renvoie le personnage ou null s'il n'existe pas.
+     */
     public Personnage get(String nomPersonnage) {
         Personnage personnage = null;
         BufferedReader reader = null;
@@ -176,6 +203,9 @@ public class BDFileString implements BaseDeDonnees {
         return personnage;
     }
 
+    /**
+     * Permet de copier le fichier de données dans un fichier temporaire.
+     */
     private void copyFileInTmp() {
         BufferedWriter writer = null;
         BufferedReader reader = null;
@@ -214,6 +244,11 @@ public class BDFileString implements BaseDeDonnees {
         }
     }
 
+    /**
+     * Permet de fermer des descripteur de flux.
+     * @param reader Descripteur de flux en lecture.
+     * @param writer Descripteur de flux en écriture.
+     */
     private void closeStream(BufferedReader reader, BufferedWriter writer) {
         if ( reader != null ) {
             try {
@@ -229,21 +264,6 @@ public class BDFileString implements BaseDeDonnees {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void main(String[] args) {
-        BDFileString bd = new BDFileString("fileTest.data");
-        Piece piece = new Piece(0,0);
-        Personnage personnage = new Personnage("Thomas");
-        personnage.setPieceActuelle(piece);
-        //bd.put(personnage);
-        //bd.put(new Personnage("Nicolas"));
-        //bd.put(new Personnage("Thomas"));
-        //bd.put(new Personnage("Julien"));
-        //bd.put(new Personnage("Camille"));
-
-        System.out.println("Personnage trouver : " + bd.get("Adrien").getPointDeVieMax());
-        bd.remove("Thomas");
     }
 
 }

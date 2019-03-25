@@ -16,18 +16,34 @@ public class BDHashMap implements BaseDeDonnees {
 
     private HashMap<String, Personnage> baseDeDonnees;
 
+    /**
+     * Constructeur de la classe BDHashMap.
+     */
     BDHashMap() {
         this.baseDeDonnees = new HashMap<>();
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param personnage Personnage à sauvegarder.
+     */
     public void put(Personnage personnage) {
         this.baseDeDonnees.put(personnage.getNom(), personnage);
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param nomPersonnage Nom du personnage à supprimer.
+     */
     public void remove(String nomPersonnage) {
         this.baseDeDonnees.remove(nomPersonnage);
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param nomPersonnage Nom du personnage à récupérer.
+     * @return Renvoie le personnage ou null s'il n'existe pas.
+     */
     public Personnage get(String nomPersonnage) {
         return this.baseDeDonnees.get(nomPersonnage);
     }

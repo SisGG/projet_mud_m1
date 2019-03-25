@@ -1,7 +1,7 @@
 import java.io.*;
 
 /******************************************************************************
- * file     : src/BDFileObject.java
+ * file     : src/BDFileObjet.java
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
@@ -12,12 +12,16 @@ import java.io.*;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class BDFileObject implements BaseDeDonnees {
+public class BDFileObjet implements BaseDeDonnees {
 
     private static final String extensionTmp = ".tmp";
     private String nomFichier;
 
-    BDFileObject(String nomFichier) {
+    /**
+     * Constructeur de la classe BDFileObjet.
+     * @param nomFichier Nom du fichier à sauvegarder.
+     */
+    BDFileObjet(String nomFichier) {
         this.nomFichier = nomFichier;
         try {
             new FileInputStream(this.nomFichier);
@@ -30,6 +34,10 @@ public class BDFileObject implements BaseDeDonnees {
         }
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param personnage Personnage à sauvegarder.
+     */
     public synchronized void put(Personnage personnage) {
         boolean personnageWrited = false;
         boolean hasNext;
@@ -50,19 +58,10 @@ public class BDFileObject implements BaseDeDonnees {
                     return;
                 }
 
-                // Si le fichier de données existe et est disponible
-                // Il faut copier son contenu dans un fichier temporaire.
-                this.copyFileInTmp();
-
-                // Maintenant on va copier le contenu du fichier temporaire dans le fichier de données
                 try {
                     reader = new ObjectInputStream(new BufferedInputStream(
                             new FileInputStream(this.nomFichier + extensionTmp)));
                 } catch ( EOFException e ) {
-                    // Erreur de EOF ou autre
-                    // Si le fichier temporaire est supprimer entre temps
-                    // alors qu'on viens juste de le créer avant
-                    // Il y a une erreur
                     return;
                 }
                 writer = new ObjectOutputStream(new BufferedOutputStream(
@@ -93,6 +92,10 @@ public class BDFileObject implements BaseDeDonnees {
         }
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param nomPersonnage Nom du personnage à supprimer.
+     */
     public synchronized void remove(String nomPersonnage) {
         ObjectOutputStream writer = null;
         ObjectInputStream reader = null;
@@ -131,6 +134,11 @@ public class BDFileObject implements BaseDeDonnees {
         }
     }
 
+    /**
+     * @see BaseDeDonnees
+     * @param nomPersonnage Nom du personnage à récupérer.
+     * @return Renvoie le personnage ou null s'il n'existe pas.
+     */
     public Personnage get(String nomPersonnage) {
         ObjectInputStream reader = null;
         boolean hasNext;
@@ -172,6 +180,9 @@ public class BDFileObject implements BaseDeDonnees {
         return personnage;
     }
 
+    /**
+     * Permet de copier le fichier de données dans un fichier temporaire.
+     */
     private void copyFileInTmp() {
         ObjectInputStream reader = null;
         ObjectOutputStream writer = null;
@@ -204,6 +215,11 @@ public class BDFileObject implements BaseDeDonnees {
         }
     }
 
+    /**
+     * Permet de fermer des descripteur de flux.
+     * @param ois Descripteur de flux en lecture.
+     * @param oos Descripteur de flux en écriture.
+     */
     private void closeStream(ObjectInputStream ois, ObjectOutputStream oos) {
         try {
             if ( ois != null ) {
@@ -215,19 +231,6 @@ public class BDFileObject implements BaseDeDonnees {
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        BDFileObject bd = new BDFileObject("fileTest.data");
-        //bd.put(new Personnage("Thomas"));
-        //bd.put(new Personnage("Nicolas"));
-        //bd.put(new Personnage("Thomas"));
-        //bd.put(new Personnage("Julien"));
-        //bd.put(new Personnage("Camille"));
-
-        //System.out.println("Personnage trouver : " + bd.get("Thomas"));
-        bd.remove("Thomas");
-
     }
 
 }
