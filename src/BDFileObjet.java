@@ -57,7 +57,7 @@ public class BDFileObjet implements BaseDeDonnees {
                     ecriture.close();
                     return;
                 }
-
+                this.copyFileInTmp();
                 try {
                     lecture = new ObjectInputStream(new BufferedInputStream(
                             new FileInputStream(this.nomFichier + extensionTmp)));
