@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class ServeurPersistanceImpl extends UnicastRemoteObject implements ServeurPersistance {
 
     private BaseDeDonnees baseDeDonnees;
-    private static final boolean debugTime = false;
+    private static final boolean debugTime = true;
 
     ServeurPersistanceImpl(BaseDeDonnees baseDeDonnees) throws RemoteException {
         super();
