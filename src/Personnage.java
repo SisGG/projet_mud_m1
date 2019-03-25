@@ -40,12 +40,4 @@ public class Personnage extends EtreVivant {
         this.serveurNotification = serveurNotification;
     }
 
-    /**
-     * Renvoie une chaine de caractère représentant le Personnage
-     *
-     * @return Renvoie une chaine de caractère représentant le Personnage.
-     */
-    public String toString() {
-        return "Personnage[" + this.nomEtreVivant + "]";
-    }
 }

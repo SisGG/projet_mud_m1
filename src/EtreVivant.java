@@ -16,8 +16,8 @@ abstract class EtreVivant implements Serializable {
 
     String nomEtreVivant;
     private Piece pieceActuelle;
-    private int pointDeVieMax;
     private int pointDeVieActuel;
+    private int pointDeVieMax;
 
     /**
      * Constructeur de la classe EtreVivant.
@@ -87,12 +87,32 @@ abstract class EtreVivant implements Serializable {
     }
 
     /**
+     * Définir le nombre de point de vie actuelle de l'EtreVivant.
+     * @param pointDeVieActuel Point de vie à définir.
+     */
+    void setPointDeVieActuel(int pointDeVieActuel) {this.pointDeVieActuel = pointDeVieActuel;}
+
+    /**
+     * Définir le nombre de point de vie maximum de l'EtreVivant.
+     * @param pointDeVieMax Point de vie à définir.
+     */
+    void setPointDeVieMax(int pointDeVieMax) {this.pointDeVieMax = pointDeVieMax;}
+
+    /**
      * Récupère les points de vies actuels de l'EtreVivant.
      *
      * @return Renvoie les points de vie actuels de l'EtreVivant?
      */
-    int getPointDeVie() {
+    int getPointDeVieActuel() {
         return pointDeVieActuel;
+    }
+
+    /**
+     * Récupère les points de vies maximum de l'EtreVivant.
+     * @return Renvoie les points de vie actuels de l'EtreVivant?
+     */
+    int getPointDeVieMax() {
+        return pointDeVieMax;
     }
 
     /**
@@ -112,6 +132,15 @@ abstract class EtreVivant implements Serializable {
      */
     boolean equals(EtreVivant etreVivant) {
         return this.nomEtreVivant.equals(etreVivant.getNom());
+    }
+
+    /**
+     * Renvoie une chaine de caractère représentant le Personnage
+     *
+     * @return Renvoie une chaine de caractère représentant le Personnage.
+     */
+    public String toString() {
+        return "[" + this.nomEtreVivant + "|" + this.pointDeVieActuel + "pdv]";
     }
 
 }

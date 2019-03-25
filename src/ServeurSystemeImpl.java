@@ -23,7 +23,7 @@ public class ServeurSystemeImpl extends UnicastRemoteObject implements ServeurSy
     private static final String nomServeurDiscussion = "ServeurDiscussion";
     private static final String nomServeurCombat = "ServeurCombat";
     private static final String nomServeurPersistance = "ServeurPersistance";
-    private static final BaseDeDonnees baseDeDonnees = new BDFile("DataBase.data");
+    private static final BaseDeDonnees baseDeDonnees = new BDFileObject("DataBase.data");
     private Donjon donjon;
 
     /**

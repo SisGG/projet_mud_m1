@@ -1,7 +1,7 @@
 import java.io.*;
 
 /******************************************************************************
- * file     : src/BDFile.java
+ * file     : src/BDFileObject.java
  * @author  : OLIVIER Thomas
  *            BOURAKADI Reda
  *            LAPEYRADE Sylvain
@@ -12,12 +12,12 @@ import java.io.*;
  *              Creative Commons Attribution 4.0 International License.
  *                                    (CC BY)
  *****************************************************************************/
-public class BDFile implements BaseDeDonnees {
+public class BDFileObject implements BaseDeDonnees {
 
     private static final String extensionTmp = ".tmp";
     private String nomFichier;
 
-    BDFile(String nomFichier) {
+    BDFileObject(String nomFichier) {
         this.nomFichier = nomFichier;
         try {
             new FileInputStream(this.nomFichier);
@@ -218,7 +218,7 @@ public class BDFile implements BaseDeDonnees {
     }
 
     public static void main(String[] args) {
-        BDFile bd = new BDFile("fileTest.data");
+        BDFileObject bd = new BDFileObject("fileTest.data");
         //bd.put(new Personnage("Thomas"));
         //bd.put(new Personnage("Nicolas"));
         //bd.put(new Personnage("Thomas"));

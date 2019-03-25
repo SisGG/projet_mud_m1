@@ -51,13 +51,12 @@ public class Client {
 
     /**
      * Permet de se connecter sur les différents serveur de jeu en créant un nouveau joueur.
-     *
      * @param nomPersonnage Nom du personnage créer.
      */
     private void seConnecter(String nomPersonnage) {
         try {
             this.personnage = this.serveurPersistance.recuperePersonnage(nomPersonnage);
-            if (this.personnage == null) {
+            if ( this.personnage == null ) {
                 this.personnage = this.serveurDonjon.seConnecter(nomPersonnage);
             } else {
                 this.personnage = this.serveurDonjon.seConnecter(this.personnage);
@@ -67,12 +66,11 @@ public class Client {
             ServeurNotification serveurNotification = new ServeurNotificationImpl();
             this.serveurDonjon.enregistrerNotification(this.personnage, serveurNotification);
 
-            this.sauvegarderPersonnage();
-
-            System.out.println("Le personnage [" + this.personnage.getNom() + "|" +
-                    this.personnage.getPointDeVie() + "pdv] vient de se connecter.");
+            System.out.println("Le personnage " + personnage + " vient de se connecter.");
             this.seDeplacer("");
-        } catch (Exception e) {
+
+            this.sauvegarderPersonnage();
+        } catch ( Exception e ) {
             e.printStackTrace();
             this.seDeconnecter(false);
         }
@@ -80,13 +78,12 @@ public class Client {
 
     /**
      * Permet de se déconnecter sur les différents serveur de jeu.
-     *
      * @param etreSupprimer True si le personnage doit être supprimer du serveur de persistance,
      *                      False non.
      */
     private void seDeconnecter(boolean etreSupprimer) {
         try {
-            if (etreSupprimer) {
+            if ( etreSupprimer ) {
                 this.serveurPersistance.supprimerPersonnage(this.personnage.getNom());
             } else {
                 this.sauvegarderPersonnage();
@@ -97,14 +94,13 @@ public class Client {
             this.serveurCombat = null;
             this.serveurPersistance = null;
             exit(0);
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
 
     /**
      * Permet de déplacer son personnage dans une direction.
-     *
      * @param direction Chaine de caractère désignant la direction de déplacement.
      */
     private void seDeplacer(String direction) {
@@ -114,32 +110,28 @@ public class Client {
             if (this.personnage.getPieceActuelle() != pieceAvantDeplacemenet) {
                 this.serveurDonjon = (ServeurDonjon) Naming.lookup(this.serveurSysteme.getNomServeurDonjon()
                         + this.personnage.getPieceActuelle().getCoordonneeX());
-                System.out.println("Vous arrivez dans le serveur de donjon: " + this.serveurSysteme.getNomServeurDonjon()
-                        + this.personnage.getPieceActuelle().getCoordonneeX());
                 this.serveurDonjon.entrerNouvellePiece(this.personnage, direction, this.serveurCombat);
                 this.sauvegarderPersonnage();
             }
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
 
     /**
      * Envoie un message de discution à tout les joueurs présent dans la même pièce.
-     *
      * @param message Chaine de caractère du message à envoyer.
      */
     private void discuter(String message) {
         try {
             this.serveurDiscussion.discuter(this.personnage, message.substring(1));
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
 
     /**
      * Vérifie si le nom d'un personnage est présent en jeu.
-     *
      * @param nomPersonnage Nom du personnage à vérifier.
      * @return True si le personnage existe, False sinon.
      */
@@ -154,7 +146,7 @@ public class Client {
                 }
             }
             this.serveurDonjon = (ServeurDonjon) Naming.lookup(this.serveurSysteme.getNomServeurDonjon() + 0);
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
         return false;
@@ -166,18 +158,18 @@ public class Client {
      */
     private void connecterPersonnage() {
         String nomPersonnage = null;
-        while (nomPersonnage == null) {
+        while ( nomPersonnage == null ) {
             System.out.print("Entrer votre nom de personnage : ");
             try {
                 nomPersonnage = this.bufferedReader.readLine();
-                if (nomPersonnage.equals("")) {
+                if ( nomPersonnage.equals("") ) {
                     System.out.println("Ce nom n'est pas valide.");
                     nomPersonnage = null;
-                } else if (this.existeNomPersonnage(nomPersonnage)) {
+                } else if ( this.existeNomPersonnage(nomPersonnage) ) {
                     System.out.println("Ce nom existe déjà.");
                     nomPersonnage = null;
                 }
-            } catch (IOException e) {
+            } catch ( IOException e ) {
                 e.printStackTrace();
                 exit(-10);
             }
@@ -187,25 +179,24 @@ public class Client {
 
     /**
      * Permet à un personnage d'attaquer un être vivant à partir de son nom
-     *
      * @param nomCible nom de l'être vivant à attaquer
      */
     private void attaquer(String nomCible) {
-        if (!nomCible.equals(this.personnage.getNom())) {
+        if ( !nomCible.equals(this.personnage.getNom()) ) {
             try {
-                if (this.serveurDonjon.existeNomEtreVivant(nomCible)) {
+                if ( this.serveurDonjon.existeNomEtreVivant(nomCible) ) {
                     EtreVivant etreVivantAttaque = this.serveurDonjon.getMonstre(nomCible);
-                    if (etreVivantAttaque == null) {
+                    if ( etreVivantAttaque == null ) {
                         etreVivantAttaque = this.serveurDonjon.getPersonnage(nomCible);
                     }
-                    if (etreVivantAttaque != null) {
+                    if ( etreVivantAttaque != null ) {
                         this.serveurCombat.lancerCombat(this.personnage, etreVivantAttaque);
                     }
                     this.sauvegarderPersonnage();
                 } else {
                     System.out.println("Il n'y a pas d\'être de ce nom dans la pièce.");
                 }
-            } catch (Exception e) {
+            } catch ( Exception e ) {
                 e.printStackTrace();
             }
         } else {
@@ -219,7 +210,7 @@ public class Client {
     private void sauvegarderPersonnage() {
         try {
             this.serveurPersistance.sauvegarderPersonnage(this.personnage);
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -233,13 +224,13 @@ public class Client {
         try {
             if (bufferedReader.ready()) {
                 String texte = this.bufferedReader.readLine();
-                if (texte != null) {
-                    if (!this.serveurCombat.estEnCombat(this.personnage)) {
-                        if (texte.length() > 1 && texte.substring(0, 1).equals("\"")) {
+                if ( texte != null ) {
+                    if ( !this.serveurCombat.estEnCombat(this.personnage) ) {
+                        if ( texte.length() > 1 && texte.substring(0, 1).equals("\"") ) {
                             this.discuter(texte);
                         } else {
                             String[] commandes = texte.split(" ");
-                            switch (commandes[0].toLowerCase()) {
+                            switch ( commandes[0].toLowerCase() ) {
                                 case "n":
                                 case "e":
                                 case "s":
@@ -273,7 +264,7 @@ public class Client {
                                     break;
                             }
                         }
-                    } else if (texte.equals("")) {
+                    } else if ( texte.equals("") ) {
                         this.serveurCombat.fuirCombat(this.personnage);
                     }
                 }
@@ -299,11 +290,11 @@ public class Client {
     private void jouer() {
         this.afficherCommande();
         try {
-            while (this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant)) {
+            while ( this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant) ) {
                 this.interpreterCommande();
             }
             this.seDeconnecter(true);
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             e.printStackTrace();
         }
     }
