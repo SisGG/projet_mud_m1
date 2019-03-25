@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class ServeurPersistanceImpl extends UnicastRemoteObject implements ServeurPersistance {
 
     private BaseDeDonnees baseDeDonnees;
+    private static final boolean debugTime = false;
 
     ServeurPersistanceImpl(BaseDeDonnees baseDeDonnees) throws RemoteException {
         super();
@@ -44,6 +45,8 @@ public class ServeurPersistanceImpl extends UnicastRemoteObject implements Serve
     }
 
     private void showTime(String message, long time) {
-        System.out.println(message + " : " + (System.currentTimeMillis() - time) + " ms");
+        if ( debugTime ) {
+            System.out.println(message + " : " + (System.currentTimeMillis() - time) + " ms");
+        }
     }
 }
