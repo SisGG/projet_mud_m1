@@ -199,7 +199,7 @@ public class ServeurDonjonImpl extends UnicastRemoteObject implements ServeurDon
      */
     public Personnage getPersonnage(String nomPersonnage) {
         EtreVivant etreVivant = this.donjon.recupereEtreVivant(nomPersonnage);
-        if (etreVivant.getClass().equals(Personnage.class)) {
+            if (etreVivant.getClass().equals(Personnage.class)) {
             return (Personnage) etreVivant;
         }
         return null;

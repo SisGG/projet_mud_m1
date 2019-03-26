@@ -297,6 +297,7 @@ public class Client {
         this.afficherCommande();
         try {
             while (this.serveurDonjon.existeNomEtreVivant(this.personnage.nomEtreVivant)) {
+                this.personnage = this.serveurDonjon.getPersonnage(this.personnage.nomEtreVivant);
                 this.interpreterCommande();
             }
             this.seDeconnecter(true);

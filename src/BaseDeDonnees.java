@@ -36,3 +36,4 @@ public interface BaseDeDonnees {
     Personnage recupere(String nomPersonnage);
 
 }
+

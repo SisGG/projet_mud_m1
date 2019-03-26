@@ -15,7 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
  *****************************************************************************/
 public class ServeurPersistanceImpl extends UnicastRemoteObject implements ServeurPersistance {
 
-    private static final boolean debugTime = true;
+    private static final boolean debugTime = false;
     private BaseDeDonnees baseDeDonnees;
 
     ServeurPersistanceImpl(BaseDeDonnees baseDeDonnees) throws RemoteException {
